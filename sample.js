@@ -1,7 +1,11 @@
-http = require("http");
-PORT = 8124;
+var http = require("http");
+var PORT = 8124;
 
-http.createServer((request, response) => {
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end("Hello World!\n");
-  }).listen(PORT);
+var server = http.createServer();
+server.on("request", onRequest);
+server.listen(port, hostaddr, startServerAlert);
+
+function onRequest(req, res) {
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  res.end("Hello, World!\n");
+}
