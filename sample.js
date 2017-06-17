@@ -10,7 +10,7 @@ server.listen(port, startServerAlert);
 function onRequest(req, res) {
     fs.readFile("index.html", "UTF-8", function(err, data) {
         res.writeHead(200, { "Content-Type": "text/plain" });
-        res.write("Hello, World!\n");
+        res.write(data);
         res.end();
     });
 }
