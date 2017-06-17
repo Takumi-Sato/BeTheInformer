@@ -1,5 +1,5 @@
 var http = require("http");
-var port = process.env.PORT;
+var port = process.env.PORT || 5000;
 
 var server = http.createServer();
 server.on("request", onRequest);
