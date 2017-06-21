@@ -5,9 +5,12 @@
   "scripts": {
     "start": "sample.js"
   },
-
   "engine": {
     "node": "v7.10.x",
     "npm": "4.2.x"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "mysql": "^2.13.0"
   }
 }

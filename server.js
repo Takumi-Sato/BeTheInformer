@@ -5,7 +5,9 @@ var fs = require("fs");
 var port = process.env.PORT || 5000;
 
 var app = express.createServer();
-server.on("request", onRequest);
+app.get("/", function(req, res) {
+  res.sendfile("index.html");
+});
 server.listen(port, startServerAlert);
 
 function onRequest(req, res) {
