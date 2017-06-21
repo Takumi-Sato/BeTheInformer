@@ -1,4 +1,5 @@
-# BeTheInformer
+﻿# BeTheInformer
 人をゾンビにするゲームをつくっています
 あばばばば
 ロドドドドドド
+ahohohohohohohohoh
