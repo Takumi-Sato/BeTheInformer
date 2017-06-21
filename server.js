@@ -1,20 +1,15 @@
-var http = require("http");
+var express = require("express");
 // FileStream.  fs.readFile(filePath, encode, callback) でファイルの読み込み.
-var fs = require("fs");
 var port = process.env.PORT || 5000;
 
-var server = http.createServer();
-server.on("request", onRequest);
-server.listen(port, startServerAlert);
+var app = express();
 
-function onRequest(req, res) {
-    fs.readFile("index.html", "UTF-8", function(err, data) {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        res.end();
-    });
-}
+app.set("port", port);
+app.use(express.static(__dirname + '/public'));
 
-function startServerAlert() {
-    console.log('Server running at http: ${port}/');
-}
+app.get('/', function(req, res) {
+  res.sendfile("index.html");
+});
+app.listen(app.get("port"), function () { 
+  console.log("Node app is running at localhost:" + app.get('port'));
+});
