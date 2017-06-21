@@ -8,7 +8,7 @@ var app = express.createServer();
 app.get("/", function(req, res) {
   res.sendfile("index.html");
 });
-app.listen(port, startServerAlert);
+app.listen(port);
 
 function onRequest(req, res) {
     fs.readFile("index.html", "UTF-8", function(err, data) {
