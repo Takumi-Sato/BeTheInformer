@@ -39,20 +39,24 @@
       function Attack_List(res) { 
         //console.log(res.attack);
         var data = res.attack;
-
-        for (var i=0; i<data.length;i++){
-          var number = data[i];
-          var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
-          
-          //dom.find(".number").text(number);
+        if(data.length == 0){
+          var dom = $("<option class='number'>近くに密告者はいません</option>");
           $(".attack_list").append(dom);
+        }else{
+          for (var i=0; i<data.length;i++){
+            var number = data[i];
+            var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
+            
+            //dom.find(".number").text(number);
+            $(".attack_list").append(dom);
+          }
         }
       }
 
       function Zonbi_List(res) { 
         //console.log(res.attack);
         var data = res.zonbi;
-
+        
         for (var i=0; i<data.length;i++){
           var x = data[i].x;
           var y = data[i].y;
