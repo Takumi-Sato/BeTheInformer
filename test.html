@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>密告中テスト</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+    <h1>密告中テスト</h1>
+    <h2>サーバから送られたデータを受け取って並べてみます</h2>
+    <script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    function receive(){
+        $.ajax({
+          url: "",
+          type: "post",
+          dataType: "text",
+          success: function(res){
+            Attack_List(res);
+          },
+          error: function(res){
+            console.log("ERROR");
+          }
+        });
+      }
+
+      function Attack_List() {
+          
+      }
+    </script>
+</body>
+</html>
