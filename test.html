@@ -9,28 +9,31 @@
 <body>
     <h1>密告中テスト</h1>
     <h2>サーバから送られたデータを受け取って並べてみます</h2>
-    <ul class="attack_list"></ul>
+    <select class="attack_list"></select>
 
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
-  
+
     <script type="text/javascript">
-    function receive(){
+    //function receive(){
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         $.ajax({
           url: "http://192.168.17.136:8887/test.json",
-          type: "post",
+          //type: "post",
           dataType: "json",
           success: function(res){
+            console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
             //Attack_List(res);
             console.log(res.attack);
             var data = res.attack;
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
             for (var i=0; i<data.length;i++){
-              var dom = $("<li><span class='number'></span></li>");
+              //var dom = $("<option class='number'></option>");
               var number = data[i];
+              var dom = $("<option class='number'>" + number + "</option>");
           
               dom.find(".number").text(number);
               $(".attack_list").append(dom);
@@ -40,7 +43,8 @@
             console.log("ERROR");
           }
         });
-    }/*
+    //}
+    /*
       Attack_List(test.json);
       function Attack_List(res) { 
         //console.log(res.attack);
