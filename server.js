@@ -11,7 +11,7 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
   console.log('Connected to postgres! Getting schemas...');
 
   client
-    .query('SELECT * FROM Player;')
+    .query('SELECT * FROM PlayerTest;')
     .on('row', function(row) {
       console.log(JSON.stringify(row));
     });
