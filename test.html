@@ -9,25 +9,51 @@
 <body>
     <h1>密告中テスト</h1>
     <h2>サーバから送られたデータを受け取って並べてみます</h2>
-    <script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <ul class="attack_list"></ul>
+
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+  
     <script type="text/javascript">
     function receive(){
         $.ajax({
-          url: "",
+          url: "http://192.168.17.136:8887/test.json",
           type: "post",
-          dataType: "text",
+          dataType: "json",
           success: function(res){
-            Attack_List(res);
+            //Attack_List(res);
+            console.log(res.attack);
+            var data = res.attack;
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+            for (var i=0; i<data.length;i++){
+              var dom = $("<li><span class='number'></span></li>");
+              var number = data[i];
+          
+              dom.find(".number").text(number);
+              $(".attack_list").append(dom);
+            }
           },
           error: function(res){
             console.log("ERROR");
           }
         });
-      }
+    }/*
+      Attack_List(test.json);
+      function Attack_List(res) { 
+        //console.log(res.attack);
+        var data = res.attack;
 
-      function Attack_List() {
+        for (var i=0; i<data.length;i++){
+          var dom = $("<li><span class='number'></span></li>");
+          var number = data[i];
           
-      }
+          dom.find(".number").text(number);
+          $(".attack_list").append(dom);
+        }
+      }*/
     </script>
 </body>
 </html>
