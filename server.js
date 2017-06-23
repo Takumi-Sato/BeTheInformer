@@ -2,7 +2,10 @@ var express = require("express");
 // FileStream.  fs.readFile(filePath, encode, callback) でファイルの読み込み.
 var port = process.env.PORT || 5000;
 
+var router = express.Router();
+
 var app = express();
+
 
 var pg = require('pg');
 pg.defaults.ssl = true;
