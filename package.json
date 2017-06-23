@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "sample.js"
+    "start": "server.js"
   },
-
   "engine": {
     "node": "v7.10.x",
     "npm": "4.2.x"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "mysql": "^2.13.0"
   }
 }

@@ -1,9 +1,10 @@
 var http = require("http");
+var express = require("express");
 // FileStream.  fs.readFile(filePath, encode, callback) でファイルの読み込み.
 var fs = require("fs");
 var port = process.env.PORT || 5000;
 
-var server = http.createServer();
+var app = express.createServer();
 server.on("request", onRequest);
 server.listen(port, startServerAlert);
 
