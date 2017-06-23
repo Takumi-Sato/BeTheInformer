@@ -8,8 +8,10 @@
 </head>
 <body>
     <h1>密告中テスト</h1>
-    <h2>サーバから送られたデータを受け取って並べてみます</h2>
+    <h2>JSONからデータを受け取って並べてみます</h2>
     <select class="attack_list"></select>
+
+    <ul class="zonbi_pos"></ul>
 
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -26,6 +28,7 @@
           success: function(res){
             //console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
             Attack_List(res);
+            Zonbi_List(res);
           },
           error: function(res){
             console.log("ERROR");
@@ -39,10 +42,25 @@
 
         for (var i=0; i<data.length;i++){
           var number = data[i];
-          var dom = $("<option class='number'>" + number + "</option>");
+          var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
           
-          dom.find(".number").text(number);
+          //dom.find(".number").text(number);
           $(".attack_list").append(dom);
+        }
+      }
+
+      function Zonbi_List(res) { 
+        //console.log(res.attack);
+        var data = res.zonbi;
+
+        for (var i=0; i<data.length;i++){
+          var x = data[i].x;
+          var y = data[i].y;
+          var dom = $("<li>ゾンビの位置"+ i +":(<span class='x' value="+ x +">" + x + ", </span><span class='y' value="+ y +">" + y + "</span>)</li>");
+          
+          //dom.find(".name").text(name).next(".comment").text();
+          //dom.find(".number").text(number);
+          $(".zonbi_pos").append(dom);
         }
       }
     </script>
