@@ -1,8 +1,12 @@
 var express = require("express");
 // FileStream.  fs.readFile(filePath, encode, callback) でファイルの読み込み.
 var port = process.env.PORT || 5000;
+var router = express.Router();
 
 var app = express();
+
+var returnToClient = require("./routes/returnToClient");
+app.use("/returnToClient", returnToClient);
 
 var pg = require('pg');
 pg.defaults.ssl = true;
@@ -28,3 +32,4 @@ app.listen(app.get("port"), function () {
   console.log("Node app is running at localhost:" + app.get('port'));
 });
 
+module.exports = router;
