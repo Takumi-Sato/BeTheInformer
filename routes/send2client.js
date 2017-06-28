@@ -6,4 +6,4 @@ router.get('/', function(req, res) {
   res.end('hello world');
 });
 
-module.export = router;
+//module.export = router;
