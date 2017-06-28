@@ -17,10 +17,14 @@ app.get('/', function(req, res) {
         if (err) throw err;
         console.log('Connected to postgres! Getting schemas...');
 
+        var jsonSend = {"attack":[], "zonbi":[]};
         client
             .query('SELECT * FROM PlayerTest;')
             .on('row', function(row) {
                 console.log(JSON.stringify(row));
+                jsonSend.attack.add('{"ID":"' + row.id + '"}');
+                jsonSend.zonbi.add('{"x":"' + row.x + '", "y":"'+ row.y +'"}');
+                console.log(jsonSend);
             });
     });
 
