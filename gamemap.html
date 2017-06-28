@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Betheinformar - Gamemap</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+      #map {
+        width: 80vw;
+        height: 80vh;
+        margin: 0 auto;
+      }
+  </style>
+</head>
+
+<body>
+  <p>密告中</p>
+  <div id="map"></div>
+  <ul class="zonbi_pos"></ul>
+
+  <script
+src="https://code.jquery.com/jquery-2.2.4.min.js"
+integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+crossorigin="anonymous"></script>
+
+  <script>
+  var zonbi = new Array();
+  function initMap() {
+
+    // 緯度・経度を変数に格納
+    var mapLatLng = new google.maps.LatLng(36.110248, 140.100419);
+    // マップオプションを変数に格納
+    var mapOptions = {
+        zoom : 18,
+        center : mapLatLng  // 中心は現在地の緯度・経度
+    };
+    // マップオブジェクト作成
+    map = new google.maps.Map(
+        document.getElementById("map"), // マップを表示する要素
+        mapOptions         // マップオプション
+    );
+    /*
+    var uluru = {lat: 35.658611, lng: 139.745556};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 5,
+      center: uluru
+    });
+    /*
+    var marker = new google.maps.Marker({
+      position: uluru,
+      map: map
+    });*/
+  }
+
+  function markPos(pos_data){
+      for(var arrCount = 0; arrCount < pos_data.zonbi.length; arrCount++){
+          var pos = new google.maps.LatLng(pos_data.zonbi[arrCount].x, pos_data.zonbi[arrCount].y);
+          //var name = pos_data.students[arrCount].name;
+        //   var icon = new google.maps.MarkerImage('zonbi_icon.png',
+        //    new google.maps.Size(45,51),
+        //    new google.maps.Point(0,0),
+        //    new google.maps.Point(19,51)
+        //   );
+           var marker = new google.maps.Marker({
+               position: pos,
+               map: map,
+               title: 'zonbies',
+               icon: 'zonbi_icon.png'
+           });
+           zonbi.push(marker);
+           marker.setMap(map);
+          /*var _i = new google.maps.InfoWindow({
+              map: map,
+              disableAutoPan: true,
+              position: pos,
+              icon: icon
+          });
+          */
+
+      }
+  }
+
+  $.ajax({
+    url: "http://192.168.17.132:8887/test.json",
+    //type: "post",
+    dataType: "json",
+    success: function(res){
+      //console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+      //Attack_List(res);
+      Zonbi_List(res);
+      markPos(res);
+    },
+    error: function(res){
+      console.log("ERROR");
+    }
+  });
+
+  function Zonbi_List(res) {
+    //console.log(res.attack);
+    var data = res.zonbi;
+
+    for (var i=0; i<data.length;i++){
+      var x = data[i].x;
+      var y = data[i].y;
+      var dom = $("<li>ゾンビの位置"+ i +":(<span class='x' value="+ x +">" + x + ", </span><span class='y' value="+ y +">" + y + "</span>)</li>");
+
+      //dom.find(".name").text(name).next(".comment").text();
+      //dom.find(".number").text(number);
+      $(".zonbi_pos").append(dom);
+    }
+  }
+
+  console.log(zonbi);
+  </script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72IdkdOeooLJk&callback=initMap">
+  </script>
+</body>
+</html>
