@@ -25,6 +25,7 @@ app.get('/', function(req, res) {
                 jsonSend.attack.push({ ID : row.id });
                 jsonSend.zonbi.push({ x : row.x , y : row.y });
                 console.log(JSON.stringify(jsonSend));
+                res.end(jsonSend);
             });
     });
 
