@@ -22,8 +22,8 @@ app.get('/', function(req, res) {
             .query('SELECT * FROM PlayerTest;')
             .on('row', function(row) {
                 console.log(JSON.stringify(row));
-                jsonSend.attack.add('{"ID":"' + row.id + '"}');
-                jsonSend.zonbi.add('{"x":"' + row.x + '", "y":"'+ row.y +'"}');
+                jsonSend.attack.push('{"ID":"' + row.id + '"}');
+                jsonSend.zonbi.push('{"x":"' + row.x + '", "y":"'+ row.y +'"}');
                 console.log(JSON.stringify(jsonSend));
             });
     });
