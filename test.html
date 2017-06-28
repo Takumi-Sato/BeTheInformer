@@ -9,9 +9,16 @@
 <body>
     <h1>密告中テスト</h1>
     <h2>JSONからデータを受け取って並べてみます</h2>
+    <div class="my_name"></div>
     <select class="attack_list"></select>
-
     <ul class="zonbi_pos"></ul>
+
+    <h2>受け取ったデータをJSONにします</h2>
+    <form class="mikkoku">
+      <p>名前：<input type="text" name="mikkoku_name" class="mikkoku_name" size="25"></p>
+      <p>選択：<select name="mikkoku_id" class="attack_list"></select></p>
+    </form>
+    <button class="submit" value="送信">密告！</button>
 
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -20,52 +27,66 @@
 
     <script type="text/javascript">
     //function receive(){
-      //console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         $.ajax({
           url: "http://192.168.17.136:8887/test.json",
           //type: "post",
           dataType: "json",
           success: function(res){
-            //console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-            Attack_List(res);
-            Zonbi_List(res);
+            Display(res);
           },
           error: function(res){
             console.log("ERROR");
           }
         });
     //}
-    
-      function Attack_List(res) { 
-        //console.log(res.attack);
-        var data = res.attack;
-        if(data.length == 0){
+      function Display(res) {
+        var data_a = res.attack;
+        var data_z = res.zonbi;
+        var data_n = res.My_name;
+        /*ユーザー名の表示*/
+        var dom = $("<p>密告者: " + data_n + " さん</p>");
+        $(".my_name").append(dom);
+        /*密告リストの表示*/
+        if(data_a.length == 0){
           var dom = $("<option class='number'>近くに密告者はいません</option>");
           $(".attack_list").append(dom);
         }else{
-          for (var i=0; i<data.length;i++){
-            var number = data[i];
+          for (var i=0; i<data_a.length;i++){
+            var number = data_a[i];
             var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
-            
-            //dom.find(".number").text(number);
             $(".attack_list").append(dom);
           }
         }
-      }
-
-      function Zonbi_List(res) { 
-        //console.log(res.attack);
-        var data = res.zonbi;
-        
-        for (var i=0; i<data.length;i++){
-          var x = data[i].x;
-          var y = data[i].y;
+        /*近くにいるゾンビの座標の表示*/
+        for (var i=0; i<data_z.length;i++){
+          var x = data_z[i].x;
+          var y = data_z[i].y;
           var dom = $("<li>ゾンビの位置"+ i +":(<span class='x' value="+ x +">" + x + ", </span><span class='y' value="+ y +">" + y + "</span>)</li>");
-          
-          //dom.find(".name").text(name).next(".comment").text();
-          //dom.find(".number").text(number);
           $(".zonbi_pos").append(dom);
         }
+      }
+
+      
+      $(".submit").on("click", doSubmit);
+      function doSubmit () {
+        var data = $('form').serializeArray();
+        console.log(parseJson(data));
+        /*data = parseJson(data);
+      $.ajax({
+        type:          'post',
+        dataType:      'json',
+        contentType:   'application/json',
+        scriptCharset: 'utf-8',
+        data:          JSON.stringify(data)
+      })*/
+      }
+      var parseJson = function(data) {
+        var returnJson = {};
+        for (idx = 0; idx < data.length; idx++) {
+          returnJson[data[idx].name] = data[idx].value
+        }
+        //console.log(idx);
+        return returnJson;
       }
     </script>
 </body>
