@@ -35,7 +35,7 @@ app.post('/', function(req, res) {
 
     //res.sendfile("index.html");
 });
-app.listen(app.get("port"), function() {
+app.listen(app.post("port"), function() {
     console.log("Node app is running at localhost:" + app.get('port'));
 });
 
