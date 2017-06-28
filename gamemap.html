@@ -61,14 +61,15 @@ crossorigin="anonymous"></script>
         //    new google.maps.Point(0,0),
         //    new google.maps.Point(19,51)
         //   );
-           var marker = new google.maps.Marker({
+
+           var marker = {
                position: pos,
                map: map,
                title: 'zonbies',
                icon: 'zonbi_icon.png'
-           });
+           };
            zonbi.push(marker);
-           marker.setMap(map);
+           //marker.setMap(map);
           /*var _i = new google.maps.InfoWindow({
               map: map,
               disableAutoPan: true,
@@ -78,6 +79,7 @@ crossorigin="anonymous"></script>
           */
 
       }
+      displaymap(zonbi);
   }
 
   $.ajax({
@@ -110,7 +112,15 @@ crossorigin="anonymous"></script>
     }
   }
 
-  console.log(zonbi);
+  function displaymap(res) {
+    $.each(res, function(i, marker) {
+      console.log(marker);
+      var addmarker = new google.maps.Marker(marker);
+    });
+
+  }
+
+  //console.log(zonbi);
   </script>
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72IdkdOeooLJk&callback=initMap">
