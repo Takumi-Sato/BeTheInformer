@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
                 console.log(JSON.stringify(row));
                 jsonSend.attack.add('{"ID":"' + row.id + '"}');
                 jsonSend.zonbi.add('{"x":"' + row.x + '", "y":"'+ row.y +'"}');
-                console.log(jsonSend);
+                console.log(JSON.stringify(jsonSend));
             });
     });
 
