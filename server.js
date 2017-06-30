@@ -59,7 +59,7 @@ function onRequestPost(req, res) {
 }
 
 
-function processFucntion(req, res, data) {
+function processFunction(req, res, data) {
     switch (req.url) {
         case "/sendJson":
             processSendJson(req, res, data);
