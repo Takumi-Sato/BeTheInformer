@@ -40,7 +40,7 @@ app.listen(app.post("port"), function() {
 });
 
 
-app.on("request", onRequestPost);
+//app.on("request", onRequestPost);
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
