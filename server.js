@@ -73,7 +73,7 @@ function processFunction(req, res, data) {
 function processReceiveJson(req, res, data) {
   pg.connect(process.env.DATABASE_URL, function(err, client) {
     if(err) throw err;
-    var json = {"attack":[], "zonbi":[]};
+    var json = {"My_name" : "myName", "attack":[], "zonbi":[]};
     client
       .query("SELECT * FROM PlayerTest;")
       .on("row", function(row) {
