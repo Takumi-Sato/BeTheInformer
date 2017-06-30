@@ -34,7 +34,8 @@ app.get('/', function(req, res) {
 });
 
 app.get("/receiveJson", function (req, res) {
-    processFunction(req, res);
+    var data = null;
+    processFunction(req, res, data);
 })
 
 
