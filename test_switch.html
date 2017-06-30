@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div id="runaway"><img src="02.png"></div>
+    <div id="zonbi"><img src="01.png"></div>
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+    $.ajax({
+        url: "http://192.168.17.136:8887/test_switch.json",
+        dataType: "json",
+        success: function(res){
+            console.log(res.status);
+            Switch_page(res);
+        },
+        error: function(res){
+        console.log("ERROR");
+        }
+    });
+    function Switch_page(res){
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
+        var data = res.status;
+        if(data == "alive") {
+            console.log("yyyyyyyyyy");
+            document.getElementById("runaway").style.display = "block";           
+            document.getElementById("zonbi").style.display = "none";
+        }else if(data == "dead") {
+            console.log("nnnnnnnnnnnn");
+            document.getElementById("runaway").style.display = "none";
+            document.getElementById("zonbi").style.display = "block";
+        }
+    }
+    </script>
+</body>
+</html>
