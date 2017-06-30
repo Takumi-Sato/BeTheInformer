@@ -33,9 +33,8 @@ app.get('/', function(req, res) {
     res.sendfile("index.html");
 });
 
-app.get("/receiveJson", function (req, res) {
-    var data = null;
-    processFunction(req, res, data);
+app.post("/receiveJson", function (req, res) {
+  onRequestPost(req, res);
 })
 
 

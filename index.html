@@ -8,5 +8,30 @@
 <body>
   <p>密告中</p>
   <p>密告中2</p>
+
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+    //function receive(){
+        $.ajax({
+          url: "/receiveJson",
+          type: "post",
+          dataType: "json",
+          success: function(res){
+            Display(res);
+          },
+          error: function(res){
+            console.log("ERROR");
+          }
+        });
+    //}
+
+        function Display(res) {
+          console.log(res);
+        }
+    </script>
 </body>
 </html>
