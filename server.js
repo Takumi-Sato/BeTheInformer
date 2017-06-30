@@ -33,6 +33,10 @@ app.get('/', function(req, res) {
     res.sendfile("index.html");
 });
 
+app.post("/receiveJson", function (req, res, data) {
+    processFunction(req, res, data);
+})
+
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
