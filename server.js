@@ -78,7 +78,7 @@ function processReceiveJson(req, res, data) {
       .query("SELECT * FROM PlayerTest;")
       .on("row", function(row) {
         //console.log(JSON.stringify(row));
-        json.attack.push({ ID : row.id });
+        json.attack.push( row.id );
         json.zonbi.push({ x : row.x, y : row.y });
         //console.log(JSON.stringify(json));
       })
