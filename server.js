@@ -17,8 +17,6 @@ app.get('/', function(req, res) {
         if (err) throw err;
         console.log('Connected to postgres! Getting schemas...');
 
-        res.contentType("application/json");
-
         var jsonSend = {"attack":[], "zonbi":[]};
         client
             .query('SELECT * FROM PlayerTest;')
@@ -27,41 +25,14 @@ app.get('/', function(req, res) {
                 jsonSend.attack.push({ ID : row.id });
                 jsonSend.zonbi.push({ x : row.x , y : row.y });
                 console.log(JSON.stringify(jsonSend));
-            })
-            .on('end', function() {
-                res.send(JSON.stringify(jsonSend));
+                res.end(jsonSend);
             });
     });
 
-    //res.sendfile("index.html");
+    res.sendfile("index.html");
 });
-app.listen(app.post("port"), function() {
+app.listen(app.get("port"), function() {
     console.log("Node app is running at localhost:" + app.get('port'));
 });
-
-
-//app.on("request", onRequestPost);
-
-//POSTメソッドのハンドラ
-function onRequestPost(req, res) {
-    if (req.method !== "POST") return;
-    var data = "";
-    //読み込み中
-    req.on("readable", function() {  // 三コメ: まだ readableStream に readabl なものがあれば
-        var d = req.read();
-        if (d != null) data += d;  // 三コメ: data に連結する
-    });
-    //読み込み完了
-    req.on("end", function() {  // 三コメ: end というイベントがあるのは仕様
-        processFunction(req, res, data);
-        console.log(data);
-    });
-    //なんかエラー
-    req.on("error", function() {  // 三コメ: error というイベントがあるのも仕様
-        console.log("Error" + data);
-    });
-}
-
-
 
 //module.export = router;
