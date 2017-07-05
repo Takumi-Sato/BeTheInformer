@@ -109,7 +109,7 @@ function processSendJson(req, res, data) {
       })
       .on("end", function() {
         res.writeHead(200, {"Content-Type": "text/html"});
-        if(jsonRes === {}) {
+        if(JSON.stringify(jsonRes) === "{}") {
           //#TODO: 密告失敗時の処理
           console.log("Inform failed.");
           console.log(JSON.stringify(jsonRes));
