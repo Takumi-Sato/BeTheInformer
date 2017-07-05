@@ -35,7 +35,11 @@ app.get('/', function(req, res) {
 
 app.post("/receiveJson", function (req, res) {
   onRequestPost(req, res);
-})
+});
+
+app.post("/sendJson", function (req, res) {
+  onRequestPost(req, res);
+});
 
 
 //POSTメソッドのハンドラ
@@ -85,6 +89,33 @@ function processReceiveJson(req, res, data) {
       .on("end", function() {
         console.log(JSON.stringify(json));
         res.end(JSON.stringify(json));
+      });
+  });
+}
+
+function processSendJson(req, res, data) {
+  // data := stringify された json
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
+    if(err) throw err;
+    var json = JSON.parse(data);
+    var informedId = json.mikkoku_id;
+    var informedName = json.mikkoku_name;
+    var jsonRes = {};
+    client
+      .query("SELECT * FROM playertest WHERE trim(both from id)=:informedId and trim(both from name)=:informedName;")
+      .on("row", function(row) {
+        jsonRes.push(row);
+      })
+      .on("end", function() {
+        res.writeHead(200, {"Content-Type": "text/html"});
+        if(jsonRes === {}) {
+          //#TODO: 密告失敗時の処理
+          res.end("Inform Failed.");
+        }
+        else{
+          //#TODO: 密告成功時の処理
+          res.end("Inform Succeeded. Congraturations.");
+        }
       });
   });
 }
