@@ -99,15 +99,14 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72Idk
         //    new google.maps.Point(0,0),
         //    new google.maps.Point(19,51)
         //   );
-
-           var marker = {
+           var marker = new google.maps.Marker({
                position: pos,
                map: map,
                title: 'zonbies',
                icon: 'zonbi_icon.png'
-           };
+           });
            zonbi.push(marker);
-           //marker.setMap(map);
+           marker.setMap(map);
           /*var _i = new google.maps.InfoWindow({
               map: map,
               disableAutoPan: true,
@@ -117,11 +116,13 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72Idk
           */
 
       }
+
       displaymap(nowmap,zonbi);
+
   }
 
   $.ajax({
-    url: "http://192.168.17.118:8887/test.json",
+    url: "http://192.168.17.118:8887/test_use_json.json",
     //type: "post",
     dataType: "json",
     success: function(res){

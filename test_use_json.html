@@ -14,7 +14,7 @@
     <ul class="zonbi_pos"></ul>
 
     <h2>受け取ったデータをJSONにします</h2>
-    <form class="mikkoku">
+    <form class="mikkoku" method="get">
       <p>名前：<input type="text" name="mikkoku_name" class="mikkoku_name" size="25"></p>
       <p>選択：<select name="mikkoku_id" class="attack_list"></select></p>
     </form>
@@ -28,7 +28,7 @@
     <script type="text/javascript">
     //function receive(){
         $.ajax({
-          url: "http://192.168.17.136:8887/test.json",
+          url: "http://192.168.17.136:8887/test_use_json.json",
           //type: "post",
           dataType: "json",
           success: function(res){

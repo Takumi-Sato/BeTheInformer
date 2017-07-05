@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BeTheInformer</title>
+    <meta charset="UTF-8">
+    <title>密告中テスト</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
-
 <body>
-  <p>密告中</p>
-  <p>密告中2</p>
+    <h1>密告中テスト</h1>
+    <h2>JSONからデータを受け取って並べてみます</h2>
+    <div class="my_name"></div>
+    <select class="attack_list"></select>
+    <ul class="zonbi_pos"></ul>
+
+    <h2>受け取ったデータをJSONにします</h2>
+    <form class="mikkoku">
+      <p>名前：<input type="text" name="mikkoku_name" class="mikkoku_name" size="25"></p>
+      <p>選択：<select name="mikkoku_id" class="attack_list"></select></p>
+    </form>
+    <button class="submit" value="送信">密告！</button>
+
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+    //function receive(){
+        $.ajax({
+          url: "https://be-the-informer.herokuapp.com/receiveJson",
+          type: "POST",
+          dataType: "json",
+          success: function(res){
+            Display(res);
+          },
+          error: function(res){
+            console.log("ERROR");
+          }
+        });
+    //}
+      function Display(res) {
+        console.log(res);
+        var data_a = res.attack;
+        var data_z = res.zonbi;
+        var data_n = res.My_name;
+        /*ユーザー名の表示*/
+        var dom = $("<p>密告者: " + data_n + " さん</p>");
+        $(".my_name").append(dom);
+        /*密告リストの表示*/
+        if(data_a.length == 0){
+          var dom = $("<option class='number'>近くに密告者はいません</option>");
+          $(".attack_list").append(dom);
+        }else{
+          for (var i=0; i<data_a.length;i++){
+            var number = data_a[i];
+            var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
+            $(".attack_list").append(dom);
+          }
+        }
+        /*近くにいるゾンビの座標の表示*/
+        for (var i=0; i<data_z.length;i++){
+          var x = data_z[i].x;
+          var y = data_z[i].y;
+          var dom = $("<li>ゾンビの位置"+ i +":(<span class='x' value="+ x +">" + x + ", </span><span class='y' value="+ y +">" + y + "</span>)</li>");
+          $(".zonbi_pos").append(dom);
+        }
+      }
+
+      
+      $(".submit").on("click", doSubmit);
+      function doSubmit () {
+        var data = $('form').serializeArray();
+        console.log(parseJson(data));
+        data = parseJson(data);
+        $.ajax({
+          url: "https://be-the-informer.herokuapp.com/sendJson",
+          type:          'post',
+          dataType:      'json',
+          contentType:   'application/json',
+          scriptCharset: 'utf-8',
+          data:          JSON.stringify(data)
+        })
+      }
+      var parseJson = function(data) {
+        var returnJson = {};
+        for (idx = 0; idx < data.length; idx++) {
+          returnJson[data[idx].name] = data[idx].value
+        }
+        //console.log(idx);
+        return returnJson;
+      }
+    </script>
 </body>
 </html>
