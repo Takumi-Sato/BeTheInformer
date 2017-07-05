@@ -100,7 +100,7 @@ function processSendJson(req, res, data) {
     var json = JSON.parse(data);
     var informedId = json.mikkoku_id;
     var informedName = json.mikkoku_name;
-    var jsonRes = {};
+    var jsonRes = {"res":[]};
     var q = "SELECT * FROM playertest WHERE id=" + informedId + " and name='" + informedName + "';";
     client
       .query(q)
@@ -109,7 +109,7 @@ function processSendJson(req, res, data) {
       })
       .on("end", function() {
         res.writeHead(200, {"Content-Type": "text/html"});
-        if(JSON.stringify(jsonRes) === "{}") {
+        if(JSON.stringify(jsonRes) === '{"res":[]}') {
           //#TODO: 密告失敗時の処理
           console.log("Inform failed.");
           console.log(JSON.stringify(jsonRes));
