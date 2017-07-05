@@ -13,23 +13,6 @@ pg.defaults.ssl = true;
 app.set("port", port);
 
 app.get('/', function(req, res) {
-  /*
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
-        console.log('Connected to postgres! Getting schemas...');
-
-        var jsonSend = { "attack": [], "zonbi": [] };
-        client
-            .query('SELECT * FROM PlayerTest;')
-            .on('row', function(row) {
-                console.log(JSON.stringify(row));
-                jsonSend.attack.push({ ID: row.id });
-                jsonSend.zonbi.push({ x: row.x, y: row.y });
-                console.log(JSON.stringify(jsonSend));
-                res.end(JSON.stringify(jsonSend));
-            });
-    });
-  */
     res.sendfile("index.html");
 });
 
