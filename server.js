@@ -105,7 +105,7 @@ function processSendJson(req, res, data) {
     client
       .query(q)
       .on("row", function(row) {
-        jsonRes.push(row);
+        jsonRes.res.push(row);
       })
       .on("end", function() {
         res.writeHead(200, {"Content-Type": "text/html"});
