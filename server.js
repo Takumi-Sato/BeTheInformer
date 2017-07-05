@@ -101,8 +101,9 @@ function processSendJson(req, res, data) {
     var informedId = json.mikkoku_id;
     var informedName = json.mikkoku_name;
     var jsonRes = {};
+    var q = "SELECT * FROM playertest WHERE id=" + informedId + "and name=" + informedName + ";";
     client
-      .query("SELECT * FROM playertest WHERE trim(both from id)=:informedId and trim(both from name)=:informedName;")
+      .query(q)
       .on("row", function(row) {
         jsonRes.push(row);
       })
