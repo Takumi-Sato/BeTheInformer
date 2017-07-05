@@ -101,7 +101,7 @@ function processSendJson(req, res, data) {
     var informedId = json.mikkoku_id;
     var informedName = json.mikkoku_name;
     var jsonRes = {};
-    var q = "SELECT * FROM playertest WHERE id=" + informedId + "and name=" + informedName + ";";
+    var q = "SELECT * FROM playertest WHERE id=" + informedId + " and name='" + informedName + "';";
     client
       .query(q)
       .on("row", function(row) {
