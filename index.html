@@ -72,14 +72,15 @@
       function doSubmit () {
         var data = $('form').serializeArray();
         console.log(parseJson(data));
-        /*data = parseJson(data);
-      $.ajax({
-        type:          'post',
-        dataType:      'json',
-        contentType:   'application/json',
-        scriptCharset: 'utf-8',
-        data:          JSON.stringify(data)
-      })*/
+        data = parseJson(data);
+        $.ajax({
+          url: "https://be-the-informer.herokuapp.com/sendJson",
+          type:          'post',
+          dataType:      'json',
+          contentType:   'application/json',
+          scriptCharset: 'utf-8',
+          data:          JSON.stringify(data)
+        })
       }
       var parseJson = function(data) {
         var returnJson = {};
