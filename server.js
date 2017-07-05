@@ -112,6 +112,7 @@ function processSendJson(req, res, data) {
         if(jsonRes === {}) {
           //#TODO: 密告失敗時の処理
           console.log("Inform failed.");
+          console.log(jsonRes);
           res.end("Inform Failed.");
         }
         else{
