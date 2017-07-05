@@ -118,6 +118,7 @@ function processSendJson(req, res, data) {
         else{
           //#TODO: 密告成功時の処理
           console.log("inform success.");
+          console.log(JSON.stringify(jsonRes));
           res.end("Inform Succeeded. Congraturations.");
         }
       });
