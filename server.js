@@ -111,10 +111,12 @@ function processSendJson(req, res, data) {
         res.writeHead(200, {"Content-Type": "text/html"});
         if(jsonRes === {}) {
           //#TODO: 密告失敗時の処理
+          console.log("Inform failed.");
           res.end("Inform Failed.");
         }
         else{
           //#TODO: 密告成功時の処理
+          console.log("inform success.");
           res.end("Inform Succeeded. Congraturations.");
         }
       });
