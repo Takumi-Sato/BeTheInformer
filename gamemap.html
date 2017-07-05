@@ -22,9 +22,47 @@
 src="https://code.jquery.com/jquery-2.2.4.min.js"
 integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
 crossorigin="anonymous"></script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72IdkdOeooLJk&callback=initMap">
+</script>
 
   <script>
+
+
+  if ("geolocation" in navigator){
+    navigator.geolocation.watchPosition(success, errorCallback);
+    function success(position) {
+      var lati = position.coords.latitude;
+      var long = position.coords.longitude;
+      console.log(lati);
+      console.log(long);
+      var name = "aaa";
+      SendPosition(lati,long,name);
+    }
+
+    function errorCallback(error){
+      console.log("位置情報の取得に失敗しました。");
+    }
+
+
+  }else{
+
+  }
+  function SendPosition(lati, long, name){
+    var data = {"name":name, "x": lati, "y":long }
+    /*
+    var data = {};
+    data.name = namae;
+    data.x = lati;
+    data.y = long;
+    */
+    //json_send = JSON(data);
+    console.log(data);
+
+  }
+
   var zonbi = new Array();
+  var nowmap = new Array();
   function initMap() {
 
     // 緯度・経度を変数に格納
@@ -79,15 +117,15 @@ crossorigin="anonymous"></script>
           */
 
       }
-      displaymap(zonbi);
+      displaymap(nowmap,zonbi);
   }
 
   $.ajax({
-    url: "http://192.168.17.132:8887/test.json",
+    url: "http://192.168.17.118:8887/test.json",
     //type: "post",
     dataType: "json",
     success: function(res){
-      //console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+      //ffconsole.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
       //Attack_List(res);
       Zonbi_List(res);
       markPos(res);
@@ -96,6 +134,7 @@ crossorigin="anonymous"></script>
       console.log("ERROR");
     }
   });
+
 
   function Zonbi_List(res) {
     //console.log(res.attack);
@@ -112,9 +151,18 @@ crossorigin="anonymous"></script>
     }
   }
 
-  function displaymap(res) {
+  function displaymap(now,res) {
+    console.log(now, now.length);
+    if (now.length != 0){
+      console.log("check", now);
+      $.each(now, function(i, marker) {
+        console.log(marker);
+        marker.setMap(null);
+      });
+    }
     $.each(res, function(i, marker) {
       console.log(marker);
+      now.push(marker);
       var addmarker = new google.maps.Marker(marker);
     });
 
@@ -122,8 +170,10 @@ crossorigin="anonymous"></script>
 
   //console.log(zonbi);
   </script>
+<!--
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72IdkdOeooLJk&callback=initMap">
-  </script>
+</script>
+-->
 </body>
 </html>
