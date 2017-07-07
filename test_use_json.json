@@ -1,3 +1,7 @@
-{"My_name":"Harahe",
-"attack":[130, 323, 124, 434, 325, 658],
-"zonbi":[{"x":12.145734,"y":11.100918},{"x":36.110278,"y":140.100532}]}
+{"is_dead": false,
+"secret_numbers":[130, 323, 124, 434, 325, 658],
+"zonbies":[{"x":12.145734,"y":11.100918},{"x":36.110278,"y":140.100532}],
+"number_of_inform":2,
+"zonbi_points":0,
+"survivors":["hoge1","hoge2","hage1"]
+}

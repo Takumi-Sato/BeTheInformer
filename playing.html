@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Betheinformar - Gamemap</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+      #map {
+        width: 80vw;
+        height: 80vh;
+        margin: 0 auto;
+      }
+  </style>
+</head>
+
+<body>
+  <p>密告中</p>
+  <div id="map"></div>
+  <div class="attack_viewlist"></div>
+  <div class="informed">
+    <form class="mikkoku">
+      <p>名前：<select name="mikkoku_name" class="mikkoku_name"></select></p>
+      <p>選択：<select name="mikkoku_id" class="attack_list"></select></p>
+    </form>
+    <button class="submit" value="送信">密告！</button>
+  </div>
+  <script
+src="https://code.jquery.com/jquery-2.2.4.min.js"
+integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+crossorigin="anonymous"></script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72IdkdOeooLJk&callback=initMap">
+</script>
+
+<script src="gaming.js"></script>
+</body>
+</html>
