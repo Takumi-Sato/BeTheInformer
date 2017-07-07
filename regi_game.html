@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>密告中！</title>
+</head>
+<body>
+    <!-- ゲームタイトルロゴ -->
+    <div class="logo"><h1><img src="02.png"></h1></div>
+    <!--  -->
+    <form class="mikkoku" method="get">
+        <p>ユーザー名：<input type="text" class="user_name" size="25"></p>
+        <p>グループ名：<input type="text" class="group_name" size="25"></p>
+        <p>人数：<select class="number_of_member">
+            <option value="3">3人</option>
+            
+        </select></p>
+        <p>時間：<select class="game_time"></select></p>
+    </form>
+    <button class="submit">登録</button>
+    <!-- トップページへのリンク -->
+    <a href="BeTheInformer.html">トップに戻る</a>
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(".submit").on("click", doSubmit);
+      function doSubmit () {
+        var data = $('form').serializeArray();
+        console.log(parseJson(data));
+        /*data = parseJson(data);
+      $.ajax({
+        type:          'post',
+        dataType:      'json',
+        contentType:   'application/json',
+        scriptCharset: 'utf-8',
+        data:          JSON.stringify(data)
+      })*/
+      }
+  </script>
+</body>
+</html>

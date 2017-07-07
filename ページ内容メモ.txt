@@ -1,0 +1,6 @@
+BeTheInformer.html	トップページ
+regi_game.html		ゲームホストによる登録ページ
+wait_host.html		ホストの待ち画面(参加ユーザー一覧が見れる)
+
+join_group.html		ゲストによるグループ選択画面
+wait_guest.html		ゲストの待ち画面
