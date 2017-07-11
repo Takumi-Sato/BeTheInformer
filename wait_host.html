@@ -9,14 +9,63 @@
 <body>
     <!-- ゲームタイトルロゴ -->
     <div class="logo"><h1><img src="02.png"></h1></div>
-    <!-- トップページへのリンク -->
-    <a href="BeTheInformer.html">トップに戻る</a>
+
+    <h1>参加者リスト</h1>
+    <ul class="group_menber"></ul>
+    <!-- 値(group_id)の受け取り方がわからない -->
+    <!--<button class="submit" name="group_id" value="1235" onclick="location.href='playng.html'">スタート</button>-->
+    <button class="submit">スタート</button>
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
+    $.ajax({
+        url: "http://192.168.2.103:8887/test_wait_host.json",
+    //type: "post",
+        dataType: "json",
+        success: function(res){
+            Display(res);
+        },
+        error: function(res){
+        console.log("ERROR");
+        }
+    });
     
+    function Display(res) {
+        var data = res.user_names;
+        console.log(data);
+        /*参加者の表示*/
+        if(data.length == 0){
+          var dom = $("<li>参加者を待っています</li>");
+          $(".group_menber").append(dom);
+        }else{
+          for (var i=0; i<data.length;i++){
+            var menber = data[i];
+            var dom = $("<li>" + menber + "</li>");
+            $(".group_menber").append(dom);
+          }
+        }
+      }
+
+       $(".submit").on("click", doSubmit);
+      function doSubmit () {
+        console.log(parseJson());
+        /*data = parseJson(data);
+      $.ajax({
+        type:          'post',
+        dataType:      'json',
+        contentType:   'application/json',
+        scriptCharset: 'utf-8',
+        data:          JSON.stringify(data)
+      })*/
+      }
+
+      /* ボタンを押したタイミングでgroup_idをjsonにして投げられない */
+      var parseJson = function() {
+        var JSONdata;
+        return returnJson;
+      }
   </script>
 </body>
 </html>

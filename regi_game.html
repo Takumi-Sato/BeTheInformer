@@ -11,17 +11,23 @@
     <div class="logo"><h1><img src="02.png"></h1></div>
     <!--  -->
     <form class="mikkoku" method="get">
-        <p>ユーザー名：<input type="text" class="user_name" size="25"></p>
-        <p>グループ名：<input type="text" class="group_name" size="25"></p>
-        <p>人数：<select class="number_of_member">
-            <option value="3">3人</option>
-            
+        <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
+        <p>グループ名：<input type="text" class="group_name" name="group_name" size="25"></p>
+        <p>人数：<select class="number_of_members" name="number_of_members"></select></p>
+        <p>時間：<select class="game_time" name="game_time">
+          <option value="30">30分</option>
+          <option value="45">45分</option>
+          <option value="60">60分</option>
+          <option value="90">90分</option>
+          <option value="120">120分</option>
         </select></p>
-        <p>時間：<select class="game_time"></select></p>
     </form>
-    <button class="submit">登録</button>
+    <button class="submit" onclick="location.href='wait_host.html'">登録</button>
+
     <!-- トップページへのリンク -->
     <a href="BeTheInformer.html">トップに戻る</a>
+
+
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -39,6 +45,21 @@
         scriptCharset: 'utf-8',
         data:          JSON.stringify(data)
       })*/
+      }
+      var parseJson = function(data) {
+        var returnJson = {};
+        for (idx = 0; idx < data.length; idx++) {
+          returnJson[data[idx].name] = data[idx].value
+        }
+        //console.log(idx);
+        return returnJson;
+      }
+
+      /* 人数の選択肢のためのループ */
+      for (var i = 3; i <= 30; i++) {
+          //console.log(i);
+          var dom = $("<option value=" + i + ">" +i+ "人</option>");
+          $(".number_of_members").append(dom);
       }
   </script>
 </body>
