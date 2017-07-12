@@ -13,7 +13,7 @@ pg.defaults.ssl = true;
 app.set("port", port);
 
 app.get('/', function(req, res) {
-    res.sendfile("index.html");
+    res.sendfile("BeTheInformer.html");
 });
 
 app.post("/receiveJson", function(req, res) {
