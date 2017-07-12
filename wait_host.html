@@ -73,19 +73,19 @@
       function doSubmit () {
         console.log(parseJson());
         /*data = parseJson(data);
-      $.ajax({
-        type:          'post',
-        dataType:      'json',
-        contentType:   'application/json',
-        scriptCharset: 'utf-8',
-        data:          JSON.stringify(data)
-      })*/
+        $.ajax({
+          type:          'post',
+          dataType:      'json',
+          contentType:   'application/json',
+          scriptCharset: 'utf-8',
+          data:          JSON.stringify(data)
+        })*/
       }
 
-      /* ボタンを押したタイミングでgroup_idをjsonにして投げられない */
       var parseJson = function() {
         var JSONdata = {"group_id":""};
-        JSONdata.group_id = 1234;
+        var group = localStorage.group_name;
+        JSONdata.group_id = group;
         return JSONdata;
       }
   </script>

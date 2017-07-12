@@ -26,16 +26,46 @@
     <h1>開始まち</h1>
     <div class="message"></div>
     <p>他の参加者を待っています…</p>
+    <button class="submit">参加グループを変更する</button>
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
+    
+    /* 名前の表示 */
     var name = localStorage.user_name;
-    //console.log(localStorage.user_name);
-    //console.log(name);
     var dom = $("<p>" + name + "さん</p>");
     $(".message").append(dom);
+
+　　/* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
+    $(".submit").on("click", doSubmit);
+      function doSubmit () {
+        //console.log(formCheck());
+        var res = confirm("本当に変更しますか？");
+        if( res == true ) {
+        // OKなら移動
+            console.log(parseJson());
+            window.location.href = "join_group.html";
+            /*data = parseJson(data);
+          $.ajax({
+            type:          'post',
+            dataType:      'json',
+            contentType:   'application/json',
+            scriptCharset: 'utf-8',
+            data:          JSON.stringify(data)
+          })*/
+        }
+      }
+
+      var parseJson = function() {
+        var JSONdata = {"group_name":"", "user_name":""};
+        var name = localStorage.user_name;
+        var group = localStorage.group_name;
+        JSONdata.group_name = group;
+        JSONdata.user_name = name;
+        return JSONdata;
+      }
   </script>
 </body>
 </html>
