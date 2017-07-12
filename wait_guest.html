@@ -24,12 +24,18 @@
     <div class="logo"><h1><img src="01.png"></h1></div>
     
     <h1>開始まち</h1>
+    <div class="message"></div>
     <p>他の参加者を待っています…</p>
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
+    var name = localStorage.user_name;
+    //console.log(localStorage.user_name);
+    //console.log(name);
+    var dom = $("<p>" + name + "さん</p>");
+    $(".message").append(dom);
   </script>
 </body>
 </html>

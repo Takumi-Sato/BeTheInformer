@@ -24,10 +24,14 @@
     <div class="logo"><h1><img src="01.png"></h1></div>
     
     <h1>参加グループ選択</h1>
-    <form class="choose_group" method="get">
+    <form class="choose_group" name="join" method="get">
         <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
     </form>
-    <button class="submit" onclick="location.href='wait_guest.html'">参加する</button>
+    <!--<button class="submit" onclick="location.href='wait_guest.html'">参加する</button>-->
+    <button class="submit">参加する</button>
+
+    <!-- トップページへのリンク -->
+    <a href="BeTheInformer.html">トップに戻る</a>
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -35,7 +39,7 @@
   <script type="text/javascript">
     
     $.ajax({
-        url: "http://192.168.2.103:8887/test_join_group.json",
+        url: "http://192.168.17.136:8887/test_join_group.json",
     //type: "post",
         dataType: "json",
         success: function(res){
@@ -65,18 +69,43 @@
 
       $(".submit").on("click", doSubmit);
       function doSubmit () {
-        var data = $('form').serializeArray();
-        console.log(parseJson(data));
-        /*data = parseJson(data);
-      $.ajax({
-        type:          'post',
-        dataType:      'json',
-        contentType:   'application/json',
-        scriptCharset: 'utf-8',
-        data:          JSON.stringify(data)
-      })*/
+        //console.log(formCheck());
+        if(formCheck() == 1) {
+           window.alert("入力が足りていません。");
+        } else {
+          var user_name = document.forms.join.user_name.value;
+          localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
+          //console.log(localStorage.user_name);
+          var data = $('form').serializeArray();
+          console.log(parseJson(data));
+          location.href = "wait_guest.html";
+          /*data = parseJson(data);
+        $.ajax({
+          type:          'post',
+          dataType:      'json',
+          contentType:   'application/json',
+          scriptCharset: 'utf-8',
+          data:          JSON.stringify(data)
+        })*/
+        }
       }
-      
+
+      function formCheck() {
+        var flag = 1;
+        /* グループ選択されていないとき */
+        for(i=0;i<document.forms.join.group_name.length;i++) {
+          if(document.forms.join.group_name[i].checked) {
+            flag = 0;
+            break;
+          }
+        }
+        /* ユーザー名が登録されていないとき */
+        if(document.forms.join.user_name.value == ""){
+          flag = 1;
+        }
+        return flag;
+      }
+
       var parseJson = function(data) {
         var returnJson = {};
         for (idx = 0; idx < data.length; idx++) {

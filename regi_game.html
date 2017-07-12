@@ -23,7 +23,7 @@
     <!-- ゲームタイトルロゴ -->
     <div class="logo"><h1><img src="02.png"></h1></div>
     <!--  -->
-    <form class="mikkoku" method="get">
+    <form class="regi" name="regi" method="get">
         <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
         <p>グループ名：<input type="text" class="group_name" name="group_name" size="25"></p>
         <p>人数：<select class="number_of_members" name="number_of_members"></select></p>
@@ -35,7 +35,9 @@
           <option value="120">120分</option>
         </select></p>
     </form>
-    <button class="submit" onclick="location.href='wait_host.html'">登録</button>
+    <!--<p>今のところボタンでページ遷移しないようにしています</p>-->
+    <!--<button class="submit">登録</button>-->
+    <button class="submit">登録</button>
 
     <!-- トップページへのリンク -->
     <a href="BeTheInformer.html">トップに戻る</a>
@@ -48,17 +50,42 @@
   <script type="text/javascript">
     $(".submit").on("click", doSubmit);
       function doSubmit () {
-        var data = $('form').serializeArray();
-        console.log(parseJson(data));
-        /*data = parseJson(data);
-      $.ajax({
-        type:          'post',
-        dataType:      'json',
-        contentType:   'application/json',
-        scriptCharset: 'utf-8',
-        data:          JSON.stringify(data)
-      })*/
+        if(formCheck() == 1) {
+           window.alert("入力が足りていません。");
+        } else {
+          var user_name = document.forms.regi.user_name.value;
+          var group_name = document.forms.regi.group_name.value;
+          localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
+          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)
+          //console.log(localStorage.user_name);
+          //console.log(localStorage.group_name);
+          var data = $('form').serializeArray();
+          console.log(parseJson(data));
+          location.href="wait_host.html";
+          /*data = parseJson(data);
+        $.ajax({
+          type:          'post',
+          dataType:      'json',
+          contentType:   'application/json',
+          scriptCharset: 'utf-8',
+          data:          JSON.stringify(data)
+        })*/
+        }
       }
+
+      function formCheck() {
+        var flag = 0;
+        /* ユーザー名が入力されていないとき */
+        if(document.forms.regi.user_name.value == ""){
+          flag = 1;
+        }
+        /* グループ名が入力されていないとき */
+        if(document.forms.regi.group_name.value == ""){
+          flag = 1;
+        }
+        return flag;
+      }
+
       var parseJson = function(data) {
         var returnJson = {};
         for (idx = 0; idx < data.length; idx++) {
