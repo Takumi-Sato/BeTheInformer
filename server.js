@@ -24,6 +24,10 @@ app.get('/playing.html', function(req, res) {
   res.sendfile("playing.html");
 })
 
+app.get('/gaming.js', function(req, res) {
+  res.sendfile("gaming.js");
+})
+
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
 });
