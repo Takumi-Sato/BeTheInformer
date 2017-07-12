@@ -1,19 +1,22 @@
 
-/*
-var data_n =  localStorage.username;
+//localStorage.username = "kai";
+var data_n =  localStorage.user_name;
 var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
-*/
-console.log("yhaaaa");
+
 
 if ("geolocation" in navigator){
-  navigator.geolocation.watchPosition(success, errorCallback);
+  function getPosition(){
+  navigator.geolocation.getCurrentPosition(success, errorCallback);
+  setTimeout(getPosition, 5000);
+}
+getPosition();
   function success(position) {
     var lati = position.coords.latitude;
     var long = position.coords.longitude;
     console.log(lati);
     console.log(long);
-    var name = "aaa";
+    var name = data_n;
     SendPosition(lati,long,name);
   }
 
@@ -34,6 +37,7 @@ function SendPosition(lati, long, name){
 
 var zonbi = new Array();
 var nowmap = new Array();
+var map;
 function initMap() {
 
   // 緯度・経度を変数に格納
@@ -53,7 +57,7 @@ function initMap() {
 
 function markPos(pos_data){
     for(var arrCount = 0; arrCount < pos_data.zonbies.length; arrCount++){
-        var pos = new google.maps.LatLng(pos_data.zonbiez[arrCount].x, pos_data.zonbi[arrCount].y);
+        var pos = new google.maps.LatLng(pos_data.zonbies[arrCount].x, pos_data.zonbies[arrCount].y);
         //var name = pos_data.students[arrCount].name;
       //   var icon = new google.maps.MarkerImage('zonbi_icon.png',
       //    new google.maps.Size(45,51),
@@ -76,8 +80,10 @@ function markPos(pos_data){
 
 }
 
+
+
 $.ajax({
-  url: "http://192.168.17.118:8887/test_use_json.json",
+  url: "http://192.168.17.122:8887/test_use_json.json",
   //type: "post",
   dataType: "json",
   success: function(res){
@@ -93,9 +99,10 @@ $.ajax({
 });
 
 
+
 function Zonbi_List(res) {
   //console.log(res.attack);
-  var data = res.zonbi;
+  var data = res.zonbies;
 
   for (var i=0; i<data.length;i++){
     var x = data[i].x;
@@ -126,7 +133,8 @@ function displaymap(now,res) {
 }
 
 function Display(res) {
-  var data_a = res.attack;
+  var data_a = res.secret_numbers;
+  var data_s = res.survivors
   //var data_z = res.zonbi;
 
   //var dom = $("<p>密告者: " + data_n + " さん</p>");
@@ -140,7 +148,48 @@ function Display(res) {
       var number = data_a[i];
       var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
       $(".attack_list").append(dom);
+      var dom2 = $("<li>" + number + "</li>");
+      $(".targets").append(dom2);
     }
+
   }
 
+  if(data_s.length == 0){
+    var dom = $("<li>生存者はいません</li>");
+    $(".mikkoku_name").append(dom);
+  }else{
+    for (var i=0; i<data_s.length;i++){
+      var survivor = data_s[i];
+      var dom = $("<option class='target_user_name' value=" + survivor + ">" + survivor + "</option>");
+      $(".mikkoku_name").append(dom);
+    }
+
+  }
+  var dom3 = $("<p>密告成功数:" + res.number_of_inform + "</p>");
+  $(".hitpoints").append(dom3);
+  var dom4 = $("<p>ゾンビポイント:" + res.zonbi_points + "</p>");
+  $(".hitpoints").append(dom4);
+}
+
+$(".submit").on("click", doSubmit);
+function doSubmit () {
+  var data = $('form').serializeArray();
+  console.log(parseJson(data));
+  /*data = parseJson(data);
+$.ajax({
+  type:          'post',
+  dataType:      'json',
+  contentType:   'application/json',
+  scriptCharset: 'utf-8',
+  data:          JSON.stringify(data)
+})*/
+}
+var parseJson = function(data) {
+  var returnJson = {};
+  for (idx = 0; idx < data.length; idx++) {
+    returnJson[data[idx].name] = data[idx].value
+  }
+  //console.log(idx);
+  returnJson["my_user_name"] = data_n;
+  return returnJson;
 }
