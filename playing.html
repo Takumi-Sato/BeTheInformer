@@ -15,8 +15,11 @@
 
 <body>
   <p>密告中</p>
+  <div class="my_name"></div>
   <div id="map"></div>
-  <div class="attack_viewlist"></div>
+  <div class="hitpoints"></div>
+  <div class="zonbipoints"></div>
+  <div class="attack_viewlist"><ul class="targets"></ul></div>
   <div class="informed">
     <form class="mikkoku">
       <p>名前：<select name="mikkoku_name" class="mikkoku_name"></select></p>
@@ -28,10 +31,11 @@
 src="https://code.jquery.com/jquery-2.2.4.min.js"
 integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
 crossorigin="anonymous"></script>
+<script src="gaming.js"></script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHwoa1yLqaf1Y6jxpqiH72IdkdOeooLJk&callback=initMap">
 </script>
 
-<script src="gaming.js"></script>
+
 </body>
 </html>
