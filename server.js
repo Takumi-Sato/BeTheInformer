@@ -16,6 +16,10 @@ app.get('/', function(req, res) {
     res.sendfile("BeTheInformer.html");
 });
 
+app.get('/regi_game.html', function(req, res) {
+  res.sendfile("regi_game.html");
+})
+
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
 });
