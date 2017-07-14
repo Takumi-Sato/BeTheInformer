@@ -17,15 +17,19 @@ app.get('/', function(req, res) {
 });
 
 app.get('/regi_game.html', function(req, res) {
-  res.sendfile("regi_game.html");
+    res.sendfile("regi_game.html");
 })
 
 app.get('/playing.html', function(req, res) {
-  res.sendfile("playing.html");
+    res.sendfile("playing.html");
+})
+
+app.get("/BeTheInformer.html", function(req, res) {
+    res.sendfile("BeTheInformer.html");
 })
 
 app.get('/gaming.js', function(req, res) {
-  res.sendfile("gaming.js");
+    res.sendfile("gaming.js");
 })
 
 app.post("/receiveJson", function(req, res) {
@@ -39,6 +43,10 @@ app.post("/sendJson", function(req, res) {
 app.post("/regNewGroup", function(req, res) {
     onRequestPost(req, res);
 });
+
+app.post("/updateUserInfo", function(req, res) {
+    onRequestPost(req, res);
+})
 
 
 //POSTメソッドのハンドラ
@@ -72,6 +80,11 @@ function processFunction(req, res, data) {
             break;
         case "/regNewGroup":
             regNewGroup(req, res, data);
+            break;
+        case "/updateUserInfo":
+            updateUserInfo(req, res, data);
+            break;
+        default:
             break;
     }
 }
@@ -179,6 +192,7 @@ function regUser(req, res, data) {
 
         var sec_num = Math.floor(Math.random() * 900) + 100;
         var flg = true;
+
         while (flg) {
             flg = false;
             sec_num = Math.floor(Math.random() * 900) + 100;
@@ -193,10 +207,7 @@ function regUser(req, res, data) {
 
         client
             .query(qRegUser)
-            .on("row", function(row) {})
             .on("end", function() {});
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(jsonRes));
     });
 }
 
@@ -226,25 +237,104 @@ function getMemberList(req, res, data) {
 /// ゲーム開始
 // input: グループ名
 function gameStart(req, res, data) {
-      pg.connect(process.env.DATABASE_URL, function(err, client) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
-        var q = "UPDATE groups SET game_state='play' game_start_time='"+ getNow() +"';";
+        var json = JSON.parse(data);
+        var q = "UPDATE groups SET game_state='play' game_start_time='" + getNow() + "' WHERE name=" + json.group_name + ";";
+
+        client
+            .query(q)
+            .on("end", function() {})
+    });
+}
+
+// 現在時刻をtimestamp形式で取得します.
+function getNow() {
+    var D = new Date();
+    return D.getYear() + "-" + D.getMonth() + "-" + D.getDay() + " " + D.getHour() + ":" + D.getMinute() + ":" + D.getSecond();
+}
+
+// ゲーム中のユーザー位置情報更新
+// input: user_name, lat, lng
+// return: secret_numbers, zombies, status, number_of_imform, zombie_points, suvivors 
+function updateUserInfo(req, res, data) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var json = JSON.parse(data);
+        var jsonRes = { "secret_numbers": [], "zombies": [], "suvivors": [], "status": "", "number_of_imforms": "", "zombie_points": "" };
+        var q = "UPDATE players SET lat='" + json.lat + "' lng='" + json.lng + "' WHERE name='" + json.user_name + "';";
+
+        client
+            .query(q)
+            .on("end", function() {
+                var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + user_name + ";";
+                client.query(qPlayerInfo).on("row", function(row) {
+                    jsonRes.status.replace(row.status);
+                    jsonRes.zombie_points.replace(row.zombie_points);
+                    jsonRes.number_of_imforms.replace(row.number_of_imforms);
+                }).on("end", function() {
+                    var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
+                    var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
+                    client.query(qSecretNumbers).on("row", function() {
+                        jsonRes.secret_numbers.push(row.secret_number);
+                    }).on("end", function() {
+                        var qSuvivors = "SELECT name FROM players WHERE state='alive';";
+                        client.query(qSuvivors).on("row", function() {
+                            jsonRes.suvivors.push(row.name);
+                        }).on("end", function() {
+                            var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
+                            client
+                                .query(qLatLng)
+                                .on("row", function() {
+                                    jsonRes.zombies.push({ "lat": row.lat, "lng": row.lng });
+                                })
+                                .on("end", function() {
+                                    res.writeHead(200, { "Content-Type": "application/json" });
+                                    res.end(JSON.stringify(jsonRes));
+                                });
+                        })
+                    })
+                })
+            });
+    });
+}
+
+// 密告
+// input : my_user_name, target_user_name, target_secret_number
+// return : Success or Fail
+function inform(req, res, data) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var json = JSON.parse(data);
+        var jsonRes = { "is_correct": false };
+        var q = "SELECT * FROM players WHERE name=" + target_user_name + " AND secret_number=" + target_secret_number + ";";
 
         client
             .query(q)
             .on("row", function(row) {
-                jsonRes.groups.push(row.name);
+                jsonRes.is_correct.replace(true);
             })
             .on("end", function() {
-                res.writeHead(200, { "Content-Type": "application/json" });
-                res.end(JSON.stringify(jsonRes));
-            })
+                if (jsonRes.is_correct) {
+                    var qSuccess = "UPDATE players SET state='dead' WHERE name=" + target_user_name + ";";
+                    client
+                        .query(qSuccess)
+                        .on("end", function() {
+                            res.WriteHead(200, { "Content-Type": "application/json" });
+                            res.end(JSON.stringify(jsonRes));
+                        });
+                } else {
+
+                }
+
+            });
     });
 }
 
-function getNow() {
-  var D = new Date();
-  return D.getYear() + "-" + D.getMonth() + "-" + D.getDay() + " " + D.getHour() + ":" +  D.getMinute() + ":" +  D.getSecond();
+// 結果を取得
+// return : ランキング
+function ranking(req, res, data) {
+
 }
 
 app.listen(app.get("port"), function() {
