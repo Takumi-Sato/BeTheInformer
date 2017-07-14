@@ -13,31 +13,31 @@ pg.defaults.ssl = true;
 app.set("port", port);
 
 app.get('/', function(req, res) {
-    res.sendFile("BeTheInformer.html");
+    res.sendfile("BeTheInformer.html");
 });
 
 app.get('/regi_game.html', function(req, res) {
-    res.sendFile("regi_game.html");
+    res.sendfile("regi_game.html");
 });
 
 app.get('/join_group.html', function(req, res) {
-    res.sendFile("join_group.html");
+    res.sendfile("join_group.html");
 });
 
 app.get('/wait_host.html', function(req, res) {
-    res.sendFile("wait_host.html");
+    res.sendfile("wait_host.html");
 });
 
 app.get('/playing.html', function(req, res) {
-    res.sendFile("playing.html");
+    res.sendfile("playing.html");
 });
 
 app.get("/BeTheInformer.html", function(req, res) {
-    res.sendFile("BeTheInformer.html");
+    res.sendfile("BeTheInformer.html");
 });
 
 app.get('/gaming.js', function(req, res) {
-    res.sendFile("gaming.js");
+    res.sendfile("gaming.js");
 });
 
 app.post("/receiveJson", function(req, res) {
