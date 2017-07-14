@@ -269,6 +269,10 @@ function updateUserInfo(req, res, data) {
 
         client
             .query(q)
+            .on("error", function(err) {
+                console.log("QUERY: ERROR");
+                console.log(err);
+            })
             .on("end", function() {
                 console.log("QUERY: UPDATE finish.");
                 var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + json.user_name + ";";
