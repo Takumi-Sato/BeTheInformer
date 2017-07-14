@@ -269,15 +269,16 @@ function updateUserInfo(req, res, data) {
         client
             .query(q)
             .on("end", function() {
+                console.log("QUERY: UPDATE finish.");
                 var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + user_name + ";";
                 client.query(qPlayerInfo)
                     .on("row", function(row) {
-                        console.log("PostgreSQL query");
                         jsonRes.status.replace(row.status);
                         jsonRes.zombie_points.replace(row.zombie_points);
                         jsonRes.number_of_imforms.replace(row.number_of_imforms);
                     })
                     .on("end", function() {
+                        console.log("QUERY: get PlayerInfo finish.");
                         var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
                         var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
                         client
@@ -286,6 +287,7 @@ function updateUserInfo(req, res, data) {
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
                             .on("end", function() {
+                                console.log("QUERY: get SecretNumbers finish.");
                                 var qSuvivors = "SELECT name FROM players WHERE state='alive';";
                                 client
                                     .query(qSuvivors)
@@ -293,6 +295,7 @@ function updateUserInfo(req, res, data) {
                                         jsonRes.suvivors.push(row.name);
                                     })
                                     .on("end", function() {
+                                        console.log("QUERY: get Suvivors finish.");
                                         var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
                                         client
                                             .query(qLatLng)
@@ -300,6 +303,7 @@ function updateUserInfo(req, res, data) {
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
                                             .on("end", function() {
+                                                console.log("QUERY: get LatLng finish.");
                                                 res.writeHead(200, { "Content-Type": "application/json" });
                                                 res.end(JSON.stringify(jsonRes));
                                             });
