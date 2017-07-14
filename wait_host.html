@@ -34,7 +34,7 @@
   <script type="text/javascript">
     $.ajax({
         url: "http://192.168.17.136:8887/test_wait_host.json",
-    //type: "post",
+        //type: "post",
         dataType: "json",
         success: function(res){
             Display(res);
@@ -74,11 +74,15 @@
         console.log(parseJson());
         /*data = parseJson(data);
         $.ajax({
+          url: '',
           type:          'post',
           dataType:      'json',
           contentType:   'application/json',
           scriptCharset: 'utf-8',
-          data:          JSON.stringify(data)
+          data:          JSON.stringify(data),
+          error: function(res){
+              console.log("ERROR");
+          }
         })*/
       }
 
