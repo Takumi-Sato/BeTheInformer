@@ -171,6 +171,7 @@ function regNewGroup(req, res, data) {
                         jsonRes.group_name.replace(row.name);
                     });
                 console.log("get group");
+                console.log(jsonRes);
                 res.end(JSON.stringify(jsonRes));
             });
     });
