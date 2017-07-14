@@ -32,7 +32,7 @@ function SendPosition
 (lati, long, name){
   var data = {"user_name":name, "lng": lati, "lat":long }
   console.log(data);
-/*
+
   $.ajax({
     // url: "/",
     url: "https://be-the-informer.herokuapp.com/updateUserInfo",
@@ -52,7 +52,7 @@ function SendPosition
     }
 
   });
-*/
+
 }
 
 var zonbi = new Array();
@@ -392,7 +392,7 @@ function markPos(pos_data){
 }
 
 
-
+/*
 $.ajax({
   url: "http://192.168.17.122:8887/test_use_json.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
@@ -410,7 +410,7 @@ $.ajax({
   }
 });
 
-
+*/
 
 function Zonbi_List(res) {
   //console.log(res.attack);
