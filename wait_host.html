@@ -36,6 +36,7 @@
   <script type="text/javascript">
     $.ajax({
         url: "http://192.168.17.136:8887/test_wait_host.json",
+        //url: "https://be-the-informer.herokuapp.com/",
         //type: "post",
         dataType: "json",
         success: function(res){
@@ -75,9 +76,11 @@
       function doSubmit () {
         console.log(parseJson());
         location.href="playing.html";
+
+        /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
         /*json = parseJson(data);
         $.ajax({
-          url: '',
+          url: 'https://be-the-informer.herokuapp.com/',
           type:          'post',
           dataType:      'text',
           contentType:   'application/json',

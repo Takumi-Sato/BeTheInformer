@@ -83,9 +83,11 @@
           var data = $('form').serializeArray();
           console.log(parseJson(data));
           location.href = "wait_guest.html";
+
+          /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
           /*json = parseJson(data);
           $.ajax({
-            url: '',
+            url: 'https://be-the-informer.herokuapp.com/',
             type:          'post',
             dataType:      'text',
             contentType:   'application/json',
