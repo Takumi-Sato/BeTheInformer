@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <title>密告中！</title>
     <style>
         @media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
@@ -35,6 +37,7 @@
     /*  */
     $.ajax({
         url: "http://192.168.17.136:8887/test_wait_guest.json",
+        //url: "https://be-the-informer.herokuapp.com/",
         //type: "post",
         dataType: "json",
         success: function(res){
@@ -70,9 +73,11 @@
         // OKなら移動
             console.log(parseJson());
             location.href = "join_group.html";
+
+            /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
             /*json = parseJson(data);
             $.ajax({
-            url: '',
+            url: 'https://be-the-informer.herokuapp.com/',
             type:          'post',
             dataType:      'text',
             contentType:   'application/json',
