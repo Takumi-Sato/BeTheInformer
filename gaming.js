@@ -7,10 +7,10 @@ $(".my_name").append(dom);
 
 if ("geolocation" in navigator){
   function getPosition(){
-  navigator.geolocation.getCurrentPosition(success, errorCallback);
-  setTimeout(getPosition, 5000);
-}
-getPosition();
+    navigator.geolocation.getCurrentPosition(success, errorCallback);
+    setTimeout(getPosition, 5000);
+  }
+  getPosition();
   function success(position) {
     var lati = position.coords.latitude;
     var long = position.coords.longitude;
@@ -23,12 +23,13 @@ getPosition();
   function errorCallback(error){
     console.log("位置情報の取得に失敗しました。");
   }
-
-
-}else{
+}
+else{
 
 }
-function SendPosition(lati, long, name){
+
+function SendPosition
+(lati, long, name){
   var data = {"user_name":name, "lng": lati, "lat":long }
   console.log(data);
 /*
@@ -39,7 +40,7 @@ function SendPosition(lati, long, name){
     //dataType: "json",
     // data: pos,
     data: JSON.stringify(data),
-    dataType: "json",
+    dataType: "text",
     success: function(res){
       console.log("sendPosData: Success");
       markPos(res);

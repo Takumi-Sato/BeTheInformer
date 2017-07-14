@@ -18,19 +18,27 @@ app.get('/', function(req, res) {
 
 app.get('/regi_game.html', function(req, res) {
     res.sendfile("regi_game.html");
-})
+});
+
+app.get('/join_group.html', function(req, res) {
+    res.sendfile("join_group.html");
+});
+
+app.get('/wait_host.html', function(req, res) {
+    res.sendfile("wait_host.html");
+});
 
 app.get('/playing.html', function(req, res) {
     res.sendfile("playing.html");
-})
+});
 
 app.get("/BeTheInformer.html", function(req, res) {
     res.sendfile("BeTheInformer.html");
-})
+});
 
 app.get('/gaming.js', function(req, res) {
     res.sendfile("gaming.js");
-})
+});
 
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
@@ -45,6 +53,10 @@ app.post("/regNewGroup", function(req, res) {
 });
 
 app.post("/updateUserInfo", function(req, res) {
+    onRequestPost(req, res);
+})
+
+app.post("/regNewGroup", function(req, res) {
     onRequestPost(req, res);
 })
 
@@ -83,6 +95,9 @@ function processFunction(req, res, data) {
             break;
         case "/updateUserInfo":
             updateUserInfo(req, res, data);
+            break;
+        case "/regNewGroup":
+            regNewGroup(req, res, data);
             break;
         default:
             break;
@@ -146,17 +161,25 @@ function regNewGroup(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
-        var q = "INSERT INTO groups (name, number_of_members, game_interval_time, game_state) VALUES(" + json.group_name + "," + json.number_of_members + ", " + json.game_time + ", 'wait');";
-        var q_getGroupName = "SELECT name FROM groups WHERE name=" + json.group_name + ");";
+        var q = "INSERT INTO groups (name, number_of_members, game_state) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait');";
+        var q_getGroupName = "SELECT name FROM groups WHERE name='" + json.group_name + "';";
 
         client
             .query(q)
+            .on("error", function() {
+                console.log("Registration of new group FAILED.");
+            })
             .on("end", function() {
                 res.writeHead(200, { "Content-Type": "application/json" });
-                client.query(q_getGroupName).on("row", function(row) {
-                    jsonRes.group_name.replace(row.name);
-                });
+                client.query(q_getGroupName)
+                    .on("error", function() {
+                        console.log("Select new group name FAILED.");
+                    })
+                    .on("row", function(row) {
+                        jsonRes.group_name.replace(row.name);
+                    });
                 console.log("get group");
+                console.log(jsonRes);
                 res.end(JSON.stringify(jsonRes));
             });
     });
@@ -258,43 +281,64 @@ function getNow() {
 // input: user_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_imform, zombie_points, suvivors 
 function updateUserInfo(req, res, data) {
+    console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
-        var jsonRes = { "secret_numbers": [], "zombies": [], "suvivors": [], "status": "", "number_of_imforms": "", "zombie_points": "" };
+        console.log("input: " + json.lat + ", " + json.user_name);
+        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_imforms: "", zombie_points: "" };
         var q = "UPDATE players SET lat='" + json.lat + "' lng='" + json.lng + "' WHERE name='" + json.user_name + "';";
+        console.log("Start QUERY");
 
         client
             .query(q)
+            .on("error", function(err) {
+                console.log("QUERY: ERROR");
+                console.log(err);
+            })
             .on("end", function() {
-                var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + user_name + ";";
-                client.query(qPlayerInfo).on("row", function(row) {
-                    jsonRes.status.replace(row.status);
-                    jsonRes.zombie_points.replace(row.zombie_points);
-                    jsonRes.number_of_imforms.replace(row.number_of_imforms);
-                }).on("end", function() {
-                    var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                    var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
-                    client.query(qSecretNumbers).on("row", function() {
-                        jsonRes.secret_numbers.push(row.secret_number);
-                    }).on("end", function() {
-                        var qSuvivors = "SELECT name FROM players WHERE state='alive';";
-                        client.query(qSuvivors).on("row", function() {
-                            jsonRes.suvivors.push(row.name);
-                        }).on("end", function() {
-                            var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
-                            client
-                                .query(qLatLng)
-                                .on("row", function() {
-                                    jsonRes.zombies.push({ "lat": row.lat, "lng": row.lng });
-                                })
-                                .on("end", function() {
-                                    res.writeHead(200, { "Content-Type": "application/json" });
-                                    res.end(JSON.stringify(jsonRes));
-                                });
-                        })
+                console.log("QUERY: UPDATE finish.");
+                var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + json.user_name + ";";
+                client
+                    .query(qPlayerInfo)
+                    .on("row", function(row) {
+                        jsonRes.status.replace(row.status);
+                        jsonRes.zombie_points.replace(row.zombie_points);
+                        jsonRes.number_of_imforms.replace(row.number_of_imforms);
                     })
-                })
+                    .on("end", function() {
+                        console.log("QUERY: get PlayerInfo finish.");
+                        var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
+                        var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
+                        client
+                            .query(qSecretNumbers)
+                            .on("row", function() {
+                                jsonRes.secret_numbers.push(row.secret_number);
+                            })
+                            .on("end", function() {
+                                console.log("QUERY: get SecretNumbers finish.");
+                                var qSuvivors = "SELECT name FROM players WHERE state='alive';";
+                                client
+                                    .query(qSuvivors)
+                                    .on("row", function() {
+                                        jsonRes.suvivors.push(row.name);
+                                    })
+                                    .on("end", function() {
+                                        console.log("QUERY: get Suvivors finish.");
+                                        var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
+                                        client
+                                            .query(qLatLng)
+                                            .on("row", function() {
+                                                jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
+                                            })
+                                            .on("end", function() {
+                                                console.log("QUERY: get LatLng finish.");
+                                                res.writeHead(200, { "Content-Type": "text/json" });
+                                                res.end(JSON.stringify(jsonRes));
+                                            });
+                                    });
+                            });
+                    });
             });
     });
 }

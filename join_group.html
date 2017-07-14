@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <title>密告中！</title>
     <style>
         @media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
@@ -20,8 +22,8 @@
     </style>
 </head>
 <body>
-    <!-- ゲームタイトルロゴ -->
-    <div class="logo"><h1><img src="01.png"></h1></div>
+    <!-- ゲームタイトルロゴ 
+    <div class="logo"><h1><img src="01.png"></h1></div>-->
     
     <h1>参加グループ選択</h1>
     <form class="choose_group" name="join" method="get">
@@ -40,7 +42,7 @@
     
     $.ajax({
         url: "http://192.168.17.136:8887/test_join_group.json",
-    //type: "post",
+        //type: "post",
         dataType: "json",
         success: function(res){
             Display(res);
@@ -74,18 +76,30 @@
            window.alert("入力が足りていません。");
         } else {
           var user_name = document.forms.join.user_name.value;
+          var group_name = document.forms.join.group_name.value;
           localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
+          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)
           //console.log(localStorage.user_name);
           var data = $('form').serializeArray();
           console.log(parseJson(data));
           location.href = "wait_guest.html";
-          /*data = parseJson(data);
+
+          /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
+          /*json = parseJson(data);
           $.ajax({
+            url: 'https://be-the-informer.herokuapp.com/',
             type:          'post',
-            dataType:      'json',
+            dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(data)
+            data:          JSON.stringify(json),
+            success: function(res){
+              console.log(res);
+              location.href = "wait_guest.html";
+            },
+            error: function(res){
+              console.log("ERROR");
+            }
           })*/
         }
       }
