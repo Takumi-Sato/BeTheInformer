@@ -40,6 +40,7 @@ app.get('/gaming.js', function(req, res) {
     res.sendfile("gaming.js");
 });
 
+/*
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
 });
@@ -47,16 +48,33 @@ app.post("/receiveJson", function(req, res) {
 app.post("/sendJson", function(req, res) {
     onRequestPost(req, res);
 });
-
-app.post("/regNewGroup", function(req, res) {
-    onRequestPost(req, res);
-});
+*/
 
 app.post("/updateUserInfo", function(req, res) {
     onRequestPost(req, res);
 })
 
 app.post("/regNewGroup", function(req, res) {
+    onRequestPost(req, res);
+});
+
+app.post("/getGroupList", function(req, res) {
+    onRequestPost(req, res);
+})
+
+app.post("/regUser", function(req, res) {
+    onRequestPost(req, res);
+})
+
+app.post("/getMemberList", function(req, res) {
+    onRequestPost(req, res);
+})
+
+app.post("/gameStart", function(req, res) {
+    onRequestPost(req, res);
+})
+
+app.post("/inform", function(req, res) {
     onRequestPost(req, res);
 })
 
@@ -96,8 +114,20 @@ function processFunction(req, res, data) {
         case "/updateUserInfo":
             updateUserInfo(req, res, data);
             break;
-        case "/regNewGroup":
-            regNewGroup(req, res, data);
+        case "/getGroupList":
+            getGroupList(req, res, data);
+            break;
+        case "/regUser":
+            regUser(req, res, data);
+            break;
+        case "/getMemberList":
+            getMemberList(req, res, data);
+            break;
+        case "/gameStart":
+            gameStart(req, res, data);
+            break;
+        case "/inform":
+            imform(req, res, data);
             break;
         default:
             break;
