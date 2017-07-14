@@ -32,12 +32,34 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
+    /*  */
+    $.ajax({
+        url: "http://192.168.17.136:8887/test_wait_guest.json",
+        //type: "post",
+        dataType: "json",
+        success: function(res){
+            State(res);
+        },
+        error: function(res){
+        console.log("ERROR");
+        }
+    });
     
     /* 名前などの表示 */
     var name = localStorage.user_name;
     var group = localStorage.group_name;
     var dom = $("<h2> " + name + " さん</h2><p> " + name + " さんは " + group + " グループに参加しています。</p>");
     $(".message").append(dom);
+
+    /* ステータスが変わっていたらゲームを開始する */
+    function State(res) {
+        var data = res.state;
+        console.log(data);
+        /* ステータス(wait/play)をみてplayだったらゲーム画面へ */
+        if(data == "play"){
+            location.href="playing.html";
+        }
+      }
 
 　　/* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
     $(".submit").on("click", doSubmit);
