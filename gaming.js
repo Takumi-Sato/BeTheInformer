@@ -39,7 +39,7 @@ function SendPosition(lati, long, name){
     //dataType: "json",
     // data: pos,
     data: JSON.stringify(data),
-    dataType: "text",
+    dataType: "json",
     success: function(res){
       console.log("sendPosData: Success");
       markPos(res);
