@@ -74,7 +74,9 @@
            window.alert("入力が足りていません。");
         } else {
           var user_name = document.forms.join.user_name.value;
+          var group_name = document.forms.join.group_name.value;
           localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
+          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)
           //console.log(localStorage.user_name);
           var data = $('form').serializeArray();
           console.log(parseJson(data));

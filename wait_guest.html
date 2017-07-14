@@ -59,10 +59,11 @@
       }
 
       var parseJson = function() {
-        var JSONdata = {"group_name":"", "user_name":""};
+        //var JSONdata = {"group_name":"", "user_name":""};
+        var JSONdata = {"user_name":""};
         var name = localStorage.user_name;
-        var group = localStorage.group_name;
-        JSONdata.group_name = group;
+        //var group = localStorage.group_name;
+        //JSONdata.group_name = group;
         JSONdata.user_name = name;
         return JSONdata;
       }
