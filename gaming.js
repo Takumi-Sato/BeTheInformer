@@ -36,6 +36,7 @@ function SendPosition(lati, long, name){
     // url: "/",
     url: "https://be-the-informer.herokuapp.com/updateUserInfo",
     type: "post",
+    contentType: "application/json",
     //dataType: "json",
     // data: pos,
     data: JSON.stringify(data),
@@ -46,6 +47,7 @@ function SendPosition(lati, long, name){
       Display(res);
     },
     error: function(res){
+      console.log(JSON.stringify(data));
       console.log("sendPosData: Error");
       console.log(res);
     }

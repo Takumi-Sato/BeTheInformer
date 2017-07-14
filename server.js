@@ -258,6 +258,7 @@ function getNow() {
 // input: user_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_imform, zombie_points, suvivors 
 function updateUserInfo(req, res, data) {
+    console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
@@ -268,33 +269,42 @@ function updateUserInfo(req, res, data) {
             .query(q)
             .on("end", function() {
                 var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + user_name + ";";
-                client.query(qPlayerInfo).on("row", function(row) {
-                    jsonRes.status.replace(row.status);
-                    jsonRes.zombie_points.replace(row.zombie_points);
-                    jsonRes.number_of_imforms.replace(row.number_of_imforms);
-                }).on("end", function() {
-                    var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                    var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
-                    client.query(qSecretNumbers).on("row", function() {
-                        jsonRes.secret_numbers.push(row.secret_number);
-                    }).on("end", function() {
-                        var qSuvivors = "SELECT name FROM players WHERE state='alive';";
-                        client.query(qSuvivors).on("row", function() {
-                            jsonRes.suvivors.push(row.name);
-                        }).on("end", function() {
-                            var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
-                            client
-                                .query(qLatLng)
-                                .on("row", function() {
-                                    jsonRes.zombies.push({ "lat": row.lat, "lng": row.lng });
-                                })
-                                .on("end", function() {
-                                    res.writeHead(200, { "Content-Type": "application/json" });
-                                    res.end(JSON.stringify(jsonRes));
-                                });
-                        })
+                client.query(qPlayerInfo)
+                    .on("row", function(row) {
+                        console.log("PostgreSQL query");
+                        jsonRes.status.replace(row.status);
+                        jsonRes.zombie_points.replace(row.zombie_points);
+                        jsonRes.number_of_imforms.replace(row.number_of_imforms);
                     })
-                })
+                    .on("end", function() {
+                        var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
+                        var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
+                        client
+                            .query(qSecretNumbers)
+                            .on("row", function() {
+                                jsonRes.secret_numbers.push(row.secret_number);
+                            })
+                            .on("end", function() {
+                                var qSuvivors = "SELECT name FROM players WHERE state='alive';";
+                                client
+                                    .query(qSuvivors)
+                                    .on("row", function() {
+                                        jsonRes.suvivors.push(row.name);
+                                    })
+                                    .on("end", function() {
+                                        var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
+                                        client
+                                            .query(qLatLng)
+                                            .on("row", function() {
+                                                jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
+                                            })
+                                            .on("end", function() {
+                                                res.writeHead(200, { "Content-Type": "application/json" });
+                                                res.end(JSON.stringify(jsonRes));
+                                            });
+                                    })
+                            })
+                    })
             });
     });
 }
