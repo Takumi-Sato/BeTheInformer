@@ -263,15 +263,16 @@ function updateUserInfo(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { "secret_numbers": [], "zombies": [], "suvivors": [], "status": "", "number_of_imforms": "", "zombie_points": "" };
+        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_imforms: "", zombie_points: "" };
         var q = "UPDATE players SET lat='" + json.lat + "' lng='" + json.lng + "' WHERE name='" + json.user_name + "';";
 
         client
             .query(q)
             .on("end", function() {
                 console.log("QUERY: UPDATE finish.");
-                var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + user_name + ";";
-                client.query(qPlayerInfo)
+                var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + json.user_name + ";";
+                client
+                    .query(qPlayerInfo)
                     .on("row", function(row) {
                         jsonRes.status.replace(row.status);
                         jsonRes.zombie_points.replace(row.zombie_points);
@@ -307,9 +308,9 @@ function updateUserInfo(req, res, data) {
                                                 res.writeHead(200, { "Content-Type": "application/json" });
                                                 res.end(JSON.stringify(jsonRes));
                                             });
-                                    })
-                            })
-                    })
+                                    });
+                            });
+                    });
             });
     });
 }
