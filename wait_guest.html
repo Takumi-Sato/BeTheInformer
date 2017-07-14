@@ -20,8 +20,8 @@
     </style>
 </head>
 <body>
-    <!-- ゲームタイトルロゴ -->
-    <div class="logo"><h1><img src="01.png"></h1></div>
+    <!-- ゲームタイトルロゴ 
+    <div class="logo"><h1><img src="01.png"></h1></div>-->
     
     <h1>開始まち</h1>
     <div class="message"></div>
@@ -35,7 +35,7 @@
     /*  */
     $.ajax({
         url: "http://192.168.17.136:8887/test_wait_guest.json",
-        //type: "post",
+        type: "post",
         dataType: "json",
         success: function(res){
             State(res);

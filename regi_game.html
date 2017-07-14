@@ -20,9 +20,11 @@
     </style>
 </head>
 <body>
-    <!-- ゲームタイトルロゴ -->
-    <div class="logo"><h1><img src="02.png"></h1></div>
+    <!-- ゲームタイトルロゴ 
+    <div class="logo"><h1><img src="02.png"></h1></div>-->
     <!--  -->
+
+    <h1>ゲーム情報登録</h1>
     <form class="regi" name="regi" method="get">
         <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
         <p>グループ名：<input type="text" class="group_name" name="group_name" size="25"></p>
@@ -61,21 +63,24 @@
           //console.log(localStorage.group_name);
           var data = $('form').serializeArray();
           console.log(parseJson(data));
-          location.href="wait_host.html";
 
-          /* ！！！！！！！！！！！！！！受信するよ！！！！！！！！！！！！！！ */
-         /* data = parseJson(data);
+          /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
+          var json = parseJson(data);
           $.ajax({
-            url: '',
+            url: 'https://be-the-informer.herokuapp.com/regNewGroup',
             type:          'post',
-            dataType:      'json',
+            dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(data),
+            data:          JSON.stringify(json),
+            success: function(res){
+              console.log(res);
+              location.href = "wait_host.html";
+            },
             error: function(res){
               console.log("ERROR");
             }
-          })*/
+          })
         }
       }
 
