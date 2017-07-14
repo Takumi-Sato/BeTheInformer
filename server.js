@@ -154,15 +154,22 @@ function regNewGroup(req, res, data) {
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
         var q = "INSERT INTO groups (name, number_of_members, game_interval_time, game_state) VALUES(" + json.group_name + "," + json.number_of_members + ", " + json.game_time + ", 'wait');";
-        var q_getGroupName = "SELECT name FROM groups WHERE name=" + json.group_name + ");";
+        var q_getGroupName = "SELECT name FROM groups WHERE name=" + json.group_name + ";";
 
         client
             .query(q)
+            .on("error", function() {
+                console.log("Registration of new group FAILED.");
+            })
             .on("end", function() {
                 res.writeHead(200, { "Content-Type": "application/json" });
-                client.query(q_getGroupName).on("row", function(row) {
+                client.query(q_getGroupName)
+                  .on("error", function() {
+                    console.log("Registration of new group FAILED.");
+                  })
+                  .on("row", function(row) {
                     jsonRes.group_name.replace(row.name);
-                });
+                  });
                 console.log("get group");
                 res.end(JSON.stringify(jsonRes));
             });
