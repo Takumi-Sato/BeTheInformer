@@ -153,7 +153,7 @@ function regNewGroup(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
-        var q = "INSERT INTO groups (name, number_of_members, game_interval_time, game_state) VALUES(" + json.group_name + "," + json.number_of_members + ", " + json.game_time + ", 'wait');";
+        var q = "INSERT INTO groups (name, number_of_members, game_state) VALUES(" + json.group_name + "," + json.number_of_members + ", 'wait');";
         var q_getGroupName = "SELECT name FROM groups WHERE name=" + json.group_name + ";";
 
         client
