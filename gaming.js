@@ -32,7 +32,7 @@ function SendPosition
 (lati, long, name){
   var data = {"user_name":name, "lng": lati, "lat":long }
   console.log(data);
-
+/*
   $.ajax({
     // url: "/",
     url: "https://be-the-informer.herokuapp.com/updateUserInfo",
@@ -52,7 +52,7 @@ function SendPosition
     }
 
   });
-
+*/
 }
 
 var zonbi = new Array();
@@ -65,7 +65,298 @@ function initMap() {
   // マップオプションを変数に格納
   var mapOptions = {
       zoom : 18,
-      center : mapLatLng  // 中心は現在地の緯度・経度
+      center : mapLatLng,  // 中心は現在地の緯度・経度
+      styles: [
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#165c64"
+            },
+            {
+                "saturation": 34
+            },
+            {
+                "lightness": -69
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#b7caaa"
+            },
+            {
+                "saturation": -14
+            },
+            {
+                "lightness": -18
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "all",
+        "stylers": [
+            {
+                "hue": "#cbdac1"
+            },
+            {
+                "saturation": -6
+            },
+            {
+                "lightness": -9
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#8d9b83"
+            },
+            {
+                "saturation": -89
+            },
+            {
+                "lightness": -12
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#d4dad0"
+            },
+            {
+                "saturation": -88
+            },
+            {
+                "lightness": 54
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#bdc5b6"
+            },
+            {
+                "saturation": -89
+            },
+            {
+                "lightness": -3
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#bdc5b6"
+            },
+            {
+                "saturation": -89
+            },
+            {
+                "lightness": -26
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#c17118"
+            },
+            {
+                "saturation": 61
+            },
+            {
+                "lightness": -45
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "all",
+        "stylers": [
+            {
+                "hue": "#8ba975"
+            },
+            {
+                "saturation": -46
+            },
+            {
+                "lightness": -28
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#a43218"
+            },
+            {
+                "saturation": 74
+            },
+            {
+                "lightness": -51
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.province",
+        "elementType": "all",
+        "stylers": [
+            {
+                "hue": "#ffffff"
+            },
+            {
+                "saturation": 0
+            },
+            {
+                "lightness": 100
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.neighborhood",
+        "elementType": "all",
+        "stylers": [
+            {
+                "hue": "#ffffff"
+            },
+            {
+                "saturation": 0
+            },
+            {
+                "lightness": 100
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.locality",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "hue": "#ffffff"
+            },
+            {
+                "saturation": 0
+            },
+            {
+                "lightness": 100
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.land_parcel",
+        "elementType": "all",
+        "stylers": [
+            {
+                "hue": "#ffffff"
+            },
+            {
+                "saturation": 0
+            },
+            {
+                "lightness": 100
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "all",
+        "stylers": [
+            {
+                "hue": "#3a3935"
+            },
+            {
+                "saturation": 5
+            },
+            {
+                "lightness": -57
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "hue": "#cba923"
+            },
+            {
+                "saturation": 50
+            },
+            {
+                "lightness": -46
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    }
+]
+
   };
   // マップオブジェクト作成
   map = new google.maps.Map(
@@ -101,10 +392,10 @@ function markPos(pos_data){
 }
 
 
-/*
+
 $.ajax({
-  //url: "http://192.168.17.122:8887/test_use_json.json",
-  url: "https://be-the-informer.herokuapp.com/test_use_json.json",
+  url: "http://192.168.17.122:8887/test_use_json.json",
+  //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
   //type: "post",
   dataType: "json",
   success: function(res){
@@ -119,7 +410,7 @@ $.ajax({
   }
 });
 
-*/
+
 
 function Zonbi_List(res) {
   //console.log(res.attack);
@@ -196,7 +487,7 @@ function Display(res) {
   var dom3 = $("<p>密告成功数:" + res.number_of_inform + "</p>");
   $(".hitpoints").append(dom3);
   var dom4 = $("<p>ゾンビポイント:" + res.zonbi_points + "</p>");
-  $(".hitpoints").append(dom4);
+  $(".zonbipoints").append(dom4);
 }
 
 $(".submit").on("click", doSubmit);
