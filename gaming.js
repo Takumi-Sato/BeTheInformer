@@ -30,8 +30,27 @@ getPosition();
 }
 function SendPosition(lati, long, name){
   var data = {"user_name":name, "lng": lati, "lat":long }
-
   console.log(data);
+
+  $.ajax({
+    // url: "/",
+    url: "https://be-the-informer.herokuapp.com/updateUserInfo",
+    type: "post",
+    //dataType: "json",
+    // data: pos,
+    data: JSON.stringify(data),
+    dataType: "text",
+    success: function(res){
+      console.log("sendPosData: Success");
+      markPos(res);
+      Display(res);
+    },
+    error: function(res){
+      console.log("sendPosData: Error");
+      console.log(res);
+    }
+
+  });
 
 }
 
@@ -81,9 +100,9 @@ function markPos(pos_data){
 }
 
 
-
+/*
 $.ajax({
-  //url: "http://192.168.17.122:8887/test_use_json.json"
+  //url: "http://192.168.17.122:8887/test_use_json.json",
   url: "https://be-the-informer.herokuapp.com/test_use_json.json",
   //type: "post",
   dataType: "json",
@@ -99,7 +118,7 @@ $.ajax({
   }
 });
 
-
+*/
 
 function Zonbi_List(res) {
   //console.log(res.attack);
@@ -136,6 +155,13 @@ function displaymap(now,res) {
 function Display(res) {
   var data_a = res.secret_numbers;
   var data_s = res.survivors
+  if (res.is_dead == true){
+    $("body").addClass("zonbi")
+    $(".my_name").empty();
+    var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
+    $(".my_name").append(dom);
+
+  }
   //var data_z = res.zonbi;
 
   //var dom = $("<p>密告者: " + data_n + " さん</p>");
