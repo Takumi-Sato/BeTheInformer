@@ -81,13 +81,21 @@
           var data = $('form').serializeArray();
           console.log(parseJson(data));
           location.href = "wait_guest.html";
-          /*data = parseJson(data);
+          /*json = parseJson(data);
           $.ajax({
+            url: '',
             type:          'post',
-            dataType:      'json',
+            dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(data)
+            data:          JSON.stringify(json),
+            success: function(res){
+              console.log(res);
+              location.href = "wait_guest.html";
+            },
+            error: function(res){
+              console.log("ERROR");
+            }
           })*/
         }
       }

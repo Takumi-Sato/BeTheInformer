@@ -35,7 +35,7 @@
     /*  */
     $.ajax({
         url: "http://192.168.17.136:8887/test_wait_guest.json",
-        type: "post",
+        //type: "post",
         dataType: "json",
         success: function(res){
             State(res);
@@ -69,15 +69,19 @@
         if( res == true ) {
         // OKなら移動
             console.log(parseJson());
-            window.location.href = "join_group.html";
-            /*data = parseJson(data);
+            location.href = "join_group.html";
+            /*json = parseJson(data);
             $.ajax({
             url: '',
             type:          'post',
-            dataType:      'json',
+            dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(data),
+            data:          JSON.stringify(json),
+            success: function(res){
+              console.log(res);
+              location.href = "join_group.html";
+            },
             error: function(res){
               console.log("ERROR");
             }
