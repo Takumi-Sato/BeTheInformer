@@ -48,6 +48,10 @@ app.post("/updateUserInfo", function(req, res) {
     onRequestPost(req, res);
 })
 
+app.post("/regNewGroup", function(req, res) {
+  onRequestPost(req, res);
+})
+
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
@@ -83,6 +87,9 @@ function processFunction(req, res, data) {
             break;
         case "/updateUserInfo":
             updateUserInfo(req, res, data);
+            break;
+        case "/regNewGroup":
+            regNewGroup(req, res, data);
             break;
         default:
             break;
