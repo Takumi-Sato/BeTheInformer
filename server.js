@@ -49,7 +49,7 @@ app.post("/updateUserInfo", function(req, res) {
 })
 
 app.post("/regNewGroup", function(req, res) {
-  onRequestPost(req, res);
+    onRequestPost(req, res);
 })
 
 
@@ -164,12 +164,12 @@ function regNewGroup(req, res, data) {
             .on("end", function() {
                 res.writeHead(200, { "Content-Type": "application/json" });
                 client.query(q_getGroupName)
-                  .on("error", function() {
-                    console.log("Registration of new group FAILED.");
-                  })
-                  .on("row", function(row) {
-                    jsonRes.group_name.replace(row.name);
-                  });
+                    .on("error", function() {
+                        console.log("Select new group name FAILED.");
+                    })
+                    .on("row", function(row) {
+                        jsonRes.group_name.replace(row.name);
+                    });
                 console.log("get group");
                 res.end(JSON.stringify(jsonRes));
             });
