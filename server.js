@@ -262,6 +262,7 @@ function updateUserInfo(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
+        console.log("input: " + json.lat + ", " + json.user_name);
         var jsonRes = { "secret_numbers": [], "zombies": [], "suvivors": [], "status": "", "number_of_imforms": "", "zombie_points": "" };
         var q = "UPDATE players SET lat='" + json.lat + "' lng='" + json.lng + "' WHERE name='" + json.user_name + "';";
 
