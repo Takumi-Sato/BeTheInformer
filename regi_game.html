@@ -62,13 +62,19 @@
           var data = $('form').serializeArray();
           console.log(parseJson(data));
           location.href="wait_host.html";
-          /*data = parseJson(data);
+
+          /* ！！！！！！！！！！！！！！受信するよ！！！！！！！！！！！！！！ */
+         /* data = parseJson(data);
           $.ajax({
+            url: '',
             type:          'post',
             dataType:      'json',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(data)
+            data:          JSON.stringify(data),
+            error: function(res){
+              console.log("ERROR");
+            }
           })*/
         }
       }

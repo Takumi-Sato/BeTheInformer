@@ -33,9 +33,10 @@
   crossorigin="anonymous"></script>
   <script type="text/javascript">
     
-    /* 名前の表示 */
+    /* 名前などの表示 */
     var name = localStorage.user_name;
-    var dom = $("<p>" + name + "さん</p>");
+    var group = localStorage.group_name;
+    var dom = $("<h2> " + name + " さん</h2><p> " + name + " さんは " + group + " グループに参加しています。</p>");
     $(".message").append(dom);
 
 　　/* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
@@ -48,12 +49,16 @@
             console.log(parseJson());
             window.location.href = "join_group.html";
             /*data = parseJson(data);
-          $.ajax({
+            $.ajax({
+            url: '',
             type:          'post',
             dataType:      'json',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(data)
+            data:          JSON.stringify(data),
+            error: function(res){
+              console.log("ERROR");
+            }
           })*/
         }
       }
