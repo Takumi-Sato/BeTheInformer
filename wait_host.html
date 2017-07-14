@@ -35,13 +35,8 @@
   crossorigin="anonymous"></script>
   <script type="text/javascript">
     $.ajax({
-<<<<<<< HEAD
-        url: "https://be-the-informer.herokuapp.com/getMemberList",
-        //url: "http://192.168.17.136:8887/test_wait_host.json",
-=======
         url: "http://192.168.17.136:8887/test_wait_host.json",
         //url: "https://be-the-informer.herokuapp.com/",
->>>>>>> 099c4ff9475eefa010f412a382578ba533f29d4b
         //type: "post",
         dataType: "json",
         success: function(res){
@@ -81,7 +76,7 @@
       function doSubmit () {
         console.log(parseJson());
         location.href="playing.html";
-        
+
         /*json = parseJson(data);*/
         $.ajax({
           url: 'https://be-the-informer.herokuapp.com/getMemberList',
