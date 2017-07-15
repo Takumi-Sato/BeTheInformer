@@ -355,7 +355,7 @@ function getGameState(req, res, data){
   var jsonRes = {state:""};
   var json = JSON.parse(data);
 
-  pg.connect(process.evn.DATABASE_URL, function(err, client) {
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
     if(err) throw err;
     var q = "SELECT state FROM groups WHERE group_name='" + json.group_name + "';";
     client
