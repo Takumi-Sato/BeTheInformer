@@ -59,7 +59,7 @@
     $(".member_list").append(dom2);
     
     function Display(res) {
-      console.log("Display(res) [input] : " + JSON.parse(res));
+        console.log("Display(res) [input] : " + JSON.stringify(res));
         var jsonMemberList = JSON.parse(res);
         var data = jsonMemberList.group_members;
         //var data = res.user_names;
