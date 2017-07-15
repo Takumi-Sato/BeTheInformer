@@ -363,7 +363,7 @@ function getGameState(req, res, data){
       .query(q)
       .on("error", function() { console.log("Getting game state FAILED."); } )
       .on("row", function(row) { 
-        console.log("get game state ROW");
+        console.log("get game state ROW : " + row.game_state);
         jsonRes.state.replace(row.game_state);
       } )
       .on("end", function() {
