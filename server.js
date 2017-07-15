@@ -233,7 +233,7 @@ function getGroupList(req, res, data) {
         client
             .query(q)
             .on("row", function(row) {
-                jsonRes.groups.push(row.name);
+                jsonRes.group_names.push(row.name);
             })
             .on("end", function() {
                 console.log(jsonRes);
