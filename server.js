@@ -81,6 +81,9 @@ app.post("/gameStart", function(req, res) {
 app.post("/inform", function(req, res) {
     onRequestPost(req, res);
 })
+app.post("/getGameState", function(req, res) {
+    onRequestPost(req, res);
+})
 
 
 //POSTメソッドのハンドラ
@@ -132,6 +135,9 @@ function processFunction(req, res, data) {
             break;
         case "/inform":
             imform(req, res, data);
+            break;
+        case "/getGameState":
+            getGameState(req, res, data);
             break;
         default:
             break;

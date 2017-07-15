@@ -38,7 +38,7 @@
     var json = {"group_name": localStorage.group_name};
     $.ajax({
         //url: "http://192.168.17.136:8887/test_wait_guest.json",
-        url: "https://be-the-informer.herokuapp.com/",
+        url: "https://be-the-informer.herokuapp.com/getGameState",
         type: "post",
         dataType: "json",
         data: JSON.stringify(json),
