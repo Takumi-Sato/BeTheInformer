@@ -236,6 +236,7 @@ function getGroupList(req, res, data) {
 
         client
             .query(q)
+            .on("error", function(){console.log("Select group names FAILED.")})
             .on("row", function(row) {
                 jsonRes.group_names.push(row.name);
             })
