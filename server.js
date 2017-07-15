@@ -357,7 +357,7 @@ function getGameState(req, res, data){
 
   pg.connect(process.env.DATABASE_URL, function(err, client) {
     if(err) throw err;
-    var q = "SELECT state FROM groups WHERE group_name='" + json.group_name + "';";
+    var q = "SELECT game_state FROM groups WHERE group_name='" + json.group_name + "';";
     client
       .query(q)
       .on("error", function() {console.log("Getting game state FAILED.")})
