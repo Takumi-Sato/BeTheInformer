@@ -361,8 +361,11 @@ function getGameState(req, res, data){
     var q = "SELECT game_state FROM groups WHERE name='" + json.group_name + "';";
     client
       .query(q)
-      .on("error", function() {console.log("Getting game state FAILED.")})
-      .on("row", function(row) {jsonRes.state.replace(row.game_state)})
+      .on("error", function() { console.log("Getting game state FAILED."); } )
+      .on("row", function(row) { 
+        console.log("get game state ROW");
+        jsonRes.state.replace(row.game_state);
+      } )
       .on("end", function() {
         console.log("getGameState end: " + JSON.stringify(jsonRes) );
         res.writeHead(200, {"Content-Type":"application/json"});
