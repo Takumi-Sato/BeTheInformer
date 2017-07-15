@@ -280,6 +280,7 @@ function getMemberList(req, res, data) {
                 jsonRes.group_members.push(row.name);
             })
             .on("end", function() {
+                console.log(jsonRes);
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
             })
