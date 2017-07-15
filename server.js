@@ -363,7 +363,7 @@ function getGameState(req, res, data){
       .on("error", function() {console.log("Getting game state FAILED.")})
       .on("row", function(row) {jsonRes.state.replace(row.state)})
       .on("end", function() {
-        console.log("getGameState end");
+        console.log("getGameState end: " + JSON.stringify(jsonRes) );
         res.writeHead(200, {"Content-Type":"application/json"});
         res.end(JSON.stringify(jsonRes));
       });
