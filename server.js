@@ -203,6 +203,16 @@ function regNewGroup(req, res, data) {
             })
             .on("end", function() {
                 // まずユーザー登録
+                var huga = 0;
+                var hoge = setInterval(function() {    
+                    console.log(huga);    
+                    huga++;
+                    //終了条件
+                    if (huga == 10) {
+                        clearInterval(hoge);
+                        console.log("終わり");
+                    }
+                }, 500);
                 regNewPlayer(json.user_name, json.group_name, sec_num);
 
                 res.writeHead(200, { "Content-Type": "application/json" });
@@ -280,6 +290,7 @@ function regNewPlayer(user_name, group_name, sec_num) {
 
         client
             .query(qRegUser)
+            .on("err", function(err) { console.log(err); })
             .on("end", function() {});
     });
 }
@@ -291,7 +302,7 @@ function getMemberList(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
-        var q = "BEGIN; SELECT name FROM players WHERE group_name='" + json.group_name + "'; COMMIT;";
+        var q = "SELECT name FROM players WHERE group_name='" + json.group_name + "';";
         var jsonRes = { "group_members": [] };
 
         client
