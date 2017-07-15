@@ -236,6 +236,7 @@ function getGroupList(req, res, data) {
                 jsonRes.groups.push(row.name);
             })
             .on("end", function() {
+                console.log(jsonRes);
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
             })
