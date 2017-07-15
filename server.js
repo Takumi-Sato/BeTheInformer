@@ -228,7 +228,7 @@ function getGroupList(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var q = "SELECT name FROM groups;";
-        var jsonRes = { "groups": [] };
+        var jsonRes = { "group_names": [] };
 
         client
             .query(q)
