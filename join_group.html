@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,128 +8,128 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <title>密告中！</title>
     <style>
-    @media screen and (max-width:480px) {
-        /*スマホを480px以下と定義してスマホ対応デザインにする*/
-        #all {
-            width: 80%;
-            font-size: 80%;
+        @media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
+            #all {
+                width: 80%;
+                font-size: 80%;
+            }
         }
-    }
-    
-    @media screen and (min-width:480px) {
-        #all {
-            margin: 0 auto;
+        @media screen and (min-width:480px){
+            #all {
+                margin: 0 auto;
+            }
         }
-    }
     </style>
 </head>
-
 <body>
     <!-- ゲームタイトルロゴ 
     <div class="logo"><h1><img src="01.png"></h1></div>-->
+    
     <h1>参加グループ選択</h1>
     <form class="choose_group" name="join" method="get">
-        <p>ユーザー名：
-            <input type="text" class="user_name" name="user_name" size="25">
-        </p>
+        <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
     </form>
     <!--<button class="submit" onclick="location.href='wait_guest.html'">参加する</button>-->
     <button class="submit">参加する</button>
+
     <!-- トップページへのリンク -->
     <a href="BeTheInformer.html">トップに戻る</a>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    
     $.ajax({
-        url: "http://be-the-informer.herokuapp.com/getGroupList",
+        //url: "http://192.168.17.136:8887/test_join_group.json",
+        url: "https://be-the-informer.herokuapp.com/getGroupList"
         type: "post",
         dataType: "json",
-        success: function(res) {
+        success: function(res){
             console.log(JSON.stringify(res));
             Display(res);
         },
-        error: function(res) {
-            console.log("ERROR");
+        error: function(res){
+        console.log("ERROR");
         }
     });
-
+    
     function Display(res) {
         var data = res.group_names;
         console.log(data);
         /*参加者の表示*/
-        if (data.length == 0) {
-            var dom = $("<p>参加できるグループはありません</p>");
+        if(data.length == 0){
+          var dom = $("<p>参加できるグループはありません</p>");
+          $(".choose_group").append(dom);
+        }else{
+          for (var i=0; i<data.length;i++){
+            var group_name = data[i];
+            var dom = $("<input type='radio' name='group_name' value=" +group_name+ ">" +group_name+ "</input><br/>");
+            console.log(group_name);
             $(".choose_group").append(dom);
-        } else {
-            for (var i = 0; i < data.length; i++) {
-                var group_name = data[i];
-                var dom = $("<input type='radio' name='group_name' value=" + group_name + ">" + group_name + "</input><br/>");
-                console.log(group_name);
-                $(".choose_group").append(dom);
-            }
+          }
         }
-    }
+      }
 
-    $(".submit").on("click", doSubmit);
-
-    function doSubmit() {
+      $(".submit").on("click", doSubmit);
+      function doSubmit () {
         //console.log(formCheck());
-        if (formCheck() == 1) {
-            window.alert("入力が足りていません。");
+        if(formCheck() == 1) {
+           window.alert("入力が足りていません。");
         } else {
-            var user_name = document.forms.join.user_name.value;
-            var group_name = document.forms.join.group_name.value;
-            localStorage.user_name = user_name; //ローカルストレージに保存しておく(ユーザー名)
-            localStorage.group_name = group_name; //ローカルストレージに保存しておく(グループ名)
-            //console.log(localStorage.user_name);
-            var data = $('form').serializeArray();
-            console.log(parseJson(data));
-            location.href = "wait_guest.html";
+          var user_name = document.forms.join.user_name.value;
+          var group_name = document.forms.join.group_name.value;
+          localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
+          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)
+          //console.log(localStorage.user_name);
+          var data = $('form').serializeArray();
+          console.log(parseJson(data));
+          location.href = "wait_guest.html";
 
-            /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
-            /*json = parseJson(data);
-            $.ajax({
-              url: 'https://be-the-informer.herokuapp.com/',
-              type:          'post',
-              dataType:      'text',
-              contentType:   'application/json',
-              scriptCharset: 'utf-8',
-              data:          JSON.stringify(json),
-              success: function(res){
-                console.log(res);
-                location.href = "wait_guest.html";
-              },
-              error: function(res){
-                console.log("ERROR");
-              }
-            })*/
+          /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
+          /*json = parseJson(data);
+          $.ajax({
+            url: 'https://be-the-informer.herokuapp.com/',
+            type:          'post',
+            dataType:      'text',
+            contentType:   'application/json',
+            scriptCharset: 'utf-8',
+            data:          JSON.stringify(json),
+            success: function(res){
+              console.log(res);
+              location.href = "wait_guest.html";
+            },
+            error: function(res){
+              console.log("ERROR");
+            }
+          })*/
         }
-    }
+      }
 
-    function formCheck() {
+      function formCheck() {
         var flag = 1;
         /* グループ選択されていないとき */
-        for (i = 0; i < document.forms.join.group_name.length; i++) {
-            if (document.forms.join.group_name[i].checked) {
-                flag = 0;
-                break;
-            }
+        for(i=0;i<document.forms.join.group_name.length;i++) {
+          if(document.forms.join.group_name[i].checked) {
+            flag = 0;
+            break;
+          }
         }
         /* ユーザー名が登録されていないとき */
-        if (document.forms.join.user_name.value == "") {
-            flag = 1;
+        if(document.forms.join.user_name.value == ""){
+          flag = 1;
         }
         return flag;
-    }
+      }
 
-    var parseJson = function(data) {
+      var parseJson = function(data) {
         var returnJson = {};
         for (idx = 0; idx < data.length; idx++) {
-            returnJson[data[idx].name] = data[idx].value
+          returnJson[data[idx].name] = data[idx].value
         }
         //console.log(idx);
         return returnJson;
-    }
-    </script>
+      }
+  </script>
 </body>
-
 </html>
