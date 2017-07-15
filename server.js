@@ -336,6 +336,29 @@ function getNow() {
     return D.getYear() + "-" + D.getMonth() + "-" + D.getDay() + " " + D.getHour() + ":" + D.getMinute() + ":" + D.getSecond();
 }
 
+// ゲーム状態を取得します
+// input: group_name
+// return: state
+function getGameState(req, res, data){
+  var jsonRes = {state:""};
+  var json = JSON.parse(data);
+
+  pg.connect(process.evn.DATABASE_URL, function(err, client) {
+    if(err) throw err;
+    var q = "SELECT state FROM groups WHERE group_name='" + json.group_name + "';";
+    client
+      .query(q)
+      .on("error", function() {console.log("Getting game state FAILED.")})
+      .on("row", function(row) {jsonRes.state.replace(row.state)})
+      .on("end", function() {
+        console.log("getGameState end");
+        res.writeHead(200, {"Content-Type":"application/json"});
+        res.end(JSON.stringify(jsonRes));
+      });
+  });
+
+}
+
 // ゲーム中のユーザー位置情報更新
 // input: user_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_imform, zombie_points, suvivors 
