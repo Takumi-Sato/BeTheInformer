@@ -84,6 +84,9 @@ app.post("/inform", function(req, res) {
 app.post("/getGameState", function(req, res) {
     onRequestPost(req, res);
 })
+app.post("/deletePlayer", function(req, res) {
+    onRequestPost(req, res);
+})
 
 
 //POSTメソッドのハンドラ
@@ -138,6 +141,9 @@ function processFunction(req, res, data) {
             break;
         case "/getGameState":
             getGameState(req, res, data);
+            break;
+        case "/deletePlayer":
+            deletePlayer(req, res, data);
             break;
         default:
             break;
@@ -362,8 +368,25 @@ function getGameState(req, res, data){
         res.end(JSON.stringify(jsonRes));
       });
   });
-
 }
+
+// 登録されたプレイヤーを削除します
+// input: user_name
+function deletePlayer(req, res, data){
+  var json = JSON.parse(data);
+
+  pg.connect(process.evn.DATABASE_URL, function(err, client) {
+    if(err) throw err;
+    var q = "DELETE FROM players WHERE name='" + json.user_name + "';";
+    client
+      .query(q)
+      .on("error", function() {console.log("Delete Player FAILED.")})
+      .on("end", function() {
+        console.log("delete player complete");
+      });
+  });
+}
+
 
 // ゲーム中のユーザー位置情報更新
 // input: user_name, lat, lng
