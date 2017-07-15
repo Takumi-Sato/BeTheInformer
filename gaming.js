@@ -1,6 +1,7 @@
 
 //localStorage.username = "kai";
 var data_n =  localStorage.user_name;
+var player_status = "alive";
 var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
 var marker_player;
@@ -17,6 +18,7 @@ if ("geolocation" in navigator){
     console.log(lati);
     console.log(long);
     var name = data_n;
+
     var player_position = new google.maps.LatLng(lati, long);
     if (marker_player == undefined){
      marker_player = new google.maps.Marker({
@@ -28,6 +30,18 @@ if ("geolocation" in navigator){
       });
     }
     marker_player.setPosition(player_position);
+    if (player_status == "alive" && $('body').hasClass('zonbi')){
+      marker_player.setMap(null);
+      marker_player = new google.maps.Marker({
+        name: name,
+        position: player_position,
+        map: map,
+        title: 'player',
+        icon: 'zonbi_icon.png'
+      });
+      player_status = "zonbi";
+    }
+
     SendPosition(lati,long,name);
   }
 
@@ -43,7 +57,6 @@ function SendPosition
 (lati, long, name){
   var data = {"user_name":name, "lng": lati, "lat":long }
 
-  //marker_player.setMap();
   console.log(data);
 
 
@@ -58,7 +71,9 @@ function SendPosition
     dataType: "text",
     success: function(res){
       console.log("sendPosData: Success");
-      markPos(res);
+      if (res.is_dead == false){
+        markPos(res);
+      }
       Display(res);
     },
     error: function(res){
@@ -67,7 +82,7 @@ function SendPosition
     }
 
   });
-
+ 
 }
 
 var zonbi = new Array();
@@ -417,7 +432,9 @@ $.ajax({
     //ffconsole.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
     //Attack_List(res);
     //Zonbi_List(res);
-    markPos(res);
+    if(res.is_dead == false){
+      markPos(res);
+    }
     Display(res);
   },
   error: function(res){
@@ -467,6 +484,7 @@ function Display(res) {
     $(".my_name").empty();
     var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
     $(".my_name").append(dom);
+
 
   }
   //var data_z = res.zonbi;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>Betheinformar - Gamemap</title>
@@ -29,10 +29,11 @@
       }
       .attack_viewlist {
         position: fixed;
-        font-size: 24px;
+        font-size: 20px;
         right: 10px;
         top: 0;
-        
+
+
       }
 
       .targets {
@@ -40,11 +41,41 @@
 
       }
 
+      .informed{
+        display: flex;
+      }
+
+
+
+      .row {
+        float: left;
+        margin-right: 20px;
+      }
+
+
+
+      @media screen and (max-width:480px) {
+        #map {
+          width: 85vw;
+          height: 60vh;
+          margin: 0 auto;
+          margin-left: 0;
+        }
+
+        select {
+          font-size: 16px;
+        }
+        button {
+          margin-top:6px;
+          font-size: 12px;
+        }
+
+      }
+
   </style>
 </head>
 
 <body>
-  <p>密告中</p>
   <div class="my_name"></div>
   <div id="map"></div>
   <div class="hitpoints"></div>
@@ -52,11 +83,13 @@
   <div class="attack_viewlist"><ul class="targets"></ul></div>
   <div class="informed">
     <form class="mikkoku">
-      <p>名前：<select name="mikkoku_name" class="mikkoku_name"></select></p>
-      <p>選択：<select name="mikkoku_id" class="attack_list"></select></p>
+      <div class="row"><label for="mikkoku_name">名前：</label><select name="mikkoku_name" class="mikkoku_name"></select></div>
+      <div class="row"><label for="mikkoku_id">ID:</label><select name="mikkoku_id" class="attack_list"></select></div>
+
     </form>
-    <button class="submit" value="送信">密告！</button>
+    <div class="row"><button class="submit" value="送信">密告！</button></div>
   </div>
+
   <script
 src="https://code.jquery.com/jquery-2.2.4.min.js"
 integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
