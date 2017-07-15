@@ -194,12 +194,17 @@ function regNewGroup(req, res, data) {
         var q = "INSERT INTO groups (name, number_of_members, game_state) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait');";
         var q_getGroupName = "SELECT name FROM groups WHERE name='" + json.group_name + "';";
 
+        var sec_num = createUniqueSecretNumber();
+
         client
             .query(q)
             .on("error", function() {
                 console.log("Registration of new group FAILED.");
             })
             .on("end", function() {
+                // まずユーザー登録
+                regNewPlayer(json.user_name, json.group_name, sec_num);
+
                 res.writeHead(200, { "Content-Type": "application/json" });
                 client.query(q_getGroupName)
                     .on("error", function() {
@@ -207,10 +212,12 @@ function regNewGroup(req, res, data) {
                     })
                     .on("row", function(row) {
                         jsonRes.group_name.replace(row.name);
-                    });
-                console.log("get group");
-                console.log(jsonRes);
-                res.end(JSON.stringify(jsonRes));
+                    })
+                    .on("end", function() {
+                        console.log("get group");
+                        console.log(jsonRes);
+                        res.end(JSON.stringify(jsonRes));
+                    })
             });
     });
 }
@@ -238,12 +245,18 @@ function getGroupList(req, res, data) {
 // ユーザー登録
 // data: group_name, user_name
 function regUser(req, res, data) {
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
-        var json = JSON.parse(data);
-        var jsonRes = { "groups": [] };
+    var json = JSON.parse(data);
+    var user_name = json.user_name;
+    var group_name = json.group_name;
+    var sec_num = createUniqueSecretNumber();
 
-        var sec_num = Math.floor(Math.random() * 900) + 100;
+    regNewPlayer(user_name, group_name, sec_num);
+}
+
+// 他のユーザーと重複しないsecret_numberを生成します.
+function createUniqueSecretNumber() {
+    var sec_num = Math.floor(Math.random() * 900) + 100;
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
         var flg = true;
 
         while (flg) {
@@ -255,8 +268,15 @@ function regUser(req, res, data) {
                     flg = true;
                 }).on("end", function() {});
         }
+    });
+    return sec_num;
+}
 
-        var qRegUser = "INSERT INTO players (name, group_name, secret_number) VALUES(" + json.user_name + ", " + json.group_name + ", " + sec_num + ");";
+function regNewPlayer(user_name, group_name, sec_num) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+
+        var qRegUser = "INSERT INTO players (name, group_name, secret_number) VALUES(" + user_name + ", " + group_name + ", " + sec_num + ");";
 
         client
             .query(qRegUser)
