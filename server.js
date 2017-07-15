@@ -281,8 +281,8 @@ function getMemberList(req, res, data) {
             })
             .on("end", function() {
                 console.log("getMemberList");
-                console.log("input: " + json);
-                console.log("return: " + jsonRes);
+                console.log("input: " + JSON.stringify(json));
+                console.log("return: " + JSON.stringify(jsonRes));
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
             })
