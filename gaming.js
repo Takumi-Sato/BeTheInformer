@@ -3,7 +3,7 @@
 var data_n =  localStorage.user_name;
 var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
-
+var marker_player;
 
 if ("geolocation" in navigator){
   function getPosition(){
@@ -17,6 +17,17 @@ if ("geolocation" in navigator){
     console.log(lati);
     console.log(long);
     var name = data_n;
+    var player_position = new google.maps.LatLng(lati, long);
+    if (marker_player == undefined){
+     marker_player = new google.maps.Marker({
+      name: name,
+      position: player_position,
+      map: map,
+      title: 'player',
+      icon: 'player_icon.png'
+      });
+    }
+    marker_player.setPosition(player_position);
     SendPosition(lati,long,name);
   }
 
@@ -31,7 +42,11 @@ else{
 function SendPosition
 (lati, long, name){
   var data = {"user_name":name, "lng": lati, "lat":long }
+
+  //marker_player.setMap();
   console.log(data);
+
+
 
   $.ajax({
     // url: "/",
