@@ -276,7 +276,7 @@ function regNewPlayer(user_name, group_name, sec_num) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
 
-        var qRegUser = "INSERT INTO players (name, group_name, secret_number) VALUES(" + user_name + ", " + group_name + ", " + sec_num + ");";
+        var qRegUser = "INSERT INTO players (name, group_name, secret_number) VALUES (" + user_name + ", " + group_name + ", " + sec_num + ");";
 
         client
             .query(qRegUser)
