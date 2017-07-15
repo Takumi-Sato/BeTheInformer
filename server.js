@@ -353,7 +353,7 @@ function getNow() {
 // return: state
 function getGameState(req, res, data){
   var jsonRes = {"state":""};
-  console.log(data);
+  console.log("input : " + data);
   var json = JSON.parse(data);
 
   pg.connect(process.env.DATABASE_URL, function(err, client) {
