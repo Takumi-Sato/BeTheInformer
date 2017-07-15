@@ -271,8 +271,7 @@ function getMemberList(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
-        var group_name = json.group_name;
-        var q = "SELECT name FROM players WHERE group_name=" + group_name + ";";
+        var q = "SELECT name FROM players WHERE group_name='" + json.group_name + "';";
         var jsonRes = { "group_members": [] };
 
         client

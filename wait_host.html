@@ -57,7 +57,9 @@
     $(".member_list").append(dom2);
     
     function Display(res) {
-        var data = res.user_names;
+        var jsonMemberList = JSON.parse(res);
+        var data = jsonMemberList.group_members;
+        //var data = res.user_names;
         console.log(data);
         /*参加者の表示*/
         if(data.length == 0){
@@ -95,10 +97,10 @@
       }
 
       var parseJson = function() {
-        var JSONdata = {"group_id":""};
+        var jsonData = {"group_id":""};
         var group = localStorage.group_name;
-        JSONdata.group_id = group;
-        return JSONdata;
+        jsonData.group_id = group;
+        return jsonData;
       }
   </script>
 </body>
