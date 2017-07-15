@@ -361,7 +361,7 @@ function getGameState(req, res, data){
     client
       .query(q)
       .on("error", function() {console.log("Getting game state FAILED.")})
-      .on("row", function(row) {jsonRes.state.replace(row.state)})
+      .on("row", function(row) {jsonRes.state.replace(row.game_state)})
       .on("end", function() {
         console.log("getGameState end: " + JSON.stringify(jsonRes) );
         res.writeHead(200, {"Content-Type":"application/json"});
