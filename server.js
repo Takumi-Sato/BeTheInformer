@@ -192,7 +192,7 @@ function regNewGroup(req, res, data) {
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
         var q = "INSERT INTO groups (name, number_of_members, game_state) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait');";
-        var q_getGroupName = "SELECT name FROM groups WHERE name='" + json.group_name + "';";
+        var q_getGroupName = "SELECT name FROM groups WHERE name is '" + json.group_name + "';";
 
         var sec_num = createUniqueSecretNumber();
 
@@ -203,16 +203,6 @@ function regNewGroup(req, res, data) {
             })
             .on("end", function() {
                 // まずユーザー登録
-                var huga = 0;
-                var hoge = setInterval(function() {    
-                    console.log(huga);    
-                    huga++;
-                    //終了条件
-                    if (huga == 10) {
-                        clearInterval(hoge);
-                        console.log("終わり");
-                    }
-                }, 500);
                 regNewPlayer(json.user_name, json.group_name, sec_num);
 
                 res.writeHead(200, { "Content-Type": "application/json" });
@@ -228,6 +218,15 @@ function regNewGroup(req, res, data) {
                         console.log(jsonRes);
                         res.end(JSON.stringify(jsonRes));
                     })
+            });
+        client
+            .on("drain", function() {
+                console.log('caught drain');
+                client.end();
+                client.on('end', function() {
+                    console.log('call next');
+                    next(null);
+                });
             });
     });
 }
