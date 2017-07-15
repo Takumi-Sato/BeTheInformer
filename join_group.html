@@ -87,22 +87,22 @@
           location.href = "wait_guest.html";
 
           /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
-          /*json = parseJson(data);
+          json = parseJson(data);
           $.ajax({
-            url: 'https://be-the-informer.herokuapp.com/',
+            url: 'https://be-the-informer.herokuapp.com/regUser',
             type:          'post',
             dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
             data:          JSON.stringify(json),
             success: function(res){
-              console.log(res);
+              console.log(JSON.stringify(res));
               location.href = "wait_guest.html";
             },
             error: function(res){
               console.log("ERROR");
             }
-          })*/
+          })
         }
       }
 
