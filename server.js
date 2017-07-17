@@ -352,7 +352,7 @@ function getNow() {
 // input: group_name
 // return: state
 function getGameState(req, res, data){
-  var jsonRes = {"state":""};
+  var jsonRes = {"state" : "default"};
   console.log("input : " + data);
   var json = JSON.parse(data);
 
