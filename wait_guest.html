@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,34 +9,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <title>密告中！</title>
     <style>
-        @media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
-            #all {
-                width: 80%;
-                font-size: 80%;
-            }
+    @media screen and (max-width:480px) {
+        /*スマホを480px以下と定義してスマホ対応デザインにする*/
+        #all {
+            width: 80%;
+            font-size: 80%;
         }
-        @media screen and (min-width:480px){
-            #all {
-                margin: 0 auto;
-            }
+    }
+    
+    @media screen and (min-width:480px) {
+        #all {
+            margin: 0 auto;
         }
+    }
     </style>
 </head>
+
 <body>
     <!-- ゲームタイトルロゴ 
     <div class="logo"><h1><img src="01.png"></h1></div>-->
-    
     <h1>開始まち</h1>
     <div class="message"></div>
     <p>他の参加者を待っています…</p>
     <button class="submit">参加グループを変更する</button>
-    <script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
-  <script type="text/javascript">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
     /*  */
-    var json = {"group_name": localStorage.group_name};
+    var json = {
+        "group_name": localStorage.group_name
+    };
     $.ajax({
         //url: "http://192.168.17.136:8887/test_wait_guest.json",
         url: "https://be-the-informer.herokuapp.com/getGameState",
@@ -43,14 +45,14 @@
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(json),
-        success: function(res){
+        success: function(res) {
             State(res);
         },
-        error: function(res){
+        error: function(res) {
             console.log("ERROR");
         }
     });
-    
+
     /* 名前などの表示 */
     var name = localStorage.user_name;
     var group = localStorage.group_name;
@@ -62,18 +64,19 @@
         var data = res.state;
         console.log(data);
         /* ステータス(wait/play)をみてplayだったらゲーム画面へ */
-        if(data == "play"){
+        if (data == "play") {
             location.href = "/playing.html";
         }
-      }
+    }
 
-　　/* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
+    　　 /* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
     $(".submit").on("click", doSubmit);
-      function doSubmit () {
+
+    function doSubmit() {
         //console.log(formCheck());
         var res = confirm("本当に変更しますか？");
-        if( res == true ) {
-        // OKなら移動
+        if (res == true) {
+            // OKなら移動
             console.log(parseJson());
             var data = parseJson();
             //location.href = "join_group.html";
@@ -81,32 +84,36 @@
             /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
             json = parseJson(data);
             $.ajax({
-            url: 'https://be-the-informer.herokuapp.com/deletePlayer',
-            type:          'post',
-            dataType:      'text',
-            contentType:   'application/json',
-            scriptCharset: 'utf-8',
-            data:          JSON.stringify(json),
-            success: function(){
-              console.log("Jump");
-              window.location.href = "/join_group.html";
-            },
-            error: function(res){
-              console.log("ERROR");
-            }
-          })
+                url: 'https://be-the-informer.herokuapp.com/deletePlayer',
+                type: 'post',
+                dataType: 'text',
+                contentType: 'application/json',
+                scriptCharset: 'utf-8',
+                data: JSON.stringify(json),
+                success: function() {
+                    console.log("Jump");
+                    window.location.href = "/join_group.html";
+                },
+                error: function(res) {
+                    console.log("ERROR");
+                }
+            })
+            location.href="/join_group.html";
         }
-      }
+    }
 
-      var parseJson = function() {
+    var parseJson = function() {
         //var JSONdata = {"group_name":"", "user_name":""};
-        var JSONdata = {"user_name":""};
+        var JSONdata = {
+            "user_name": ""
+        };
         var name = localStorage.user_name;
         //var group = localStorage.group_name;
         //JSONdata.group_name = group;
         JSONdata.user_name = name;
         return JSONdata;
-      }
-  </script>
+    }
+    </script>
 </body>
+
 </html>
