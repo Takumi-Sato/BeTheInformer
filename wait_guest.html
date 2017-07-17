@@ -74,6 +74,7 @@
         if( res == true ) {
         // OKなら移動
             console.log(parseJson());
+            var data = parseJson();
             //location.href = "join_group.html";
 
             /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
@@ -84,7 +85,7 @@
             dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
-            data:          JSON.stringify(parseJson()),
+            data:          JSON.stringify(json),
             success: function(res){
               console.log(res);
               location.href = "join_group.html";
