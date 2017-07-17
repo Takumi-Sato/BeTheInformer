@@ -379,7 +379,7 @@ function getGameState(req, res, data){
 function deletePlayer(req, res, data){
   var json = JSON.parse(data);
 
-  pg.connect(process.evn.DATABASE_URL, function(err, client) {
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
     if(err) throw err;
     var q = "DELETE FROM players WHERE name='" + json.user_name + "';";
     client
