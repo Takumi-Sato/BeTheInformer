@@ -63,7 +63,7 @@
         console.log(data);
         /* ステータス(wait/play)をみてplayだったらゲーム画面へ */
         if(data == "play"){
-            location.href="playing.html";
+            location.href = "/playing.html";
         }
       }
 
@@ -89,7 +89,7 @@
             data:          JSON.stringify(json),
             success: function(res){
               console.log("Jump");
-              location.href = "join_group.html";
+              window.location.href = "/join_group.html";
             },
             error: function(res){
               console.log("ERROR");
