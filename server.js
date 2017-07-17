@@ -352,7 +352,7 @@ function getNow() {
 // input: group_name
 // return: state
 function getGameState(req, res, data){
-  var jsonRes = {"state" : "default"};
+  var jsonRes = { state : "default"};
   console.log("input : " + data);
   var json = JSON.parse(data);
 
@@ -364,7 +364,7 @@ function getGameState(req, res, data){
       .on("error", function() { console.log("Getting game state FAILED."); } )
       .on("row", function(row) { 
         console.log("get game state ROW : " + row.game_state);
-        jsonRes.state.replace(row.game_state);
+        jsonRes.state = row.game_state;
       } )
       .on("end", function() {
         console.log("getGameState end: " + JSON.stringify(jsonRes) );
