@@ -40,6 +40,7 @@
         //url: "http://192.168.17.136:8887/test_wait_guest.json",
         url: "https://be-the-informer.herokuapp.com/getGameState",
         type: "post",
+        contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(json),
         success: function(res){
@@ -87,7 +88,7 @@
             scriptCharset: 'utf-8',
             data:          JSON.stringify(json),
             success: function(res){
-              console.log(res);
+              console.log("Jump");
               location.href = "join_group.html";
             },
             error: function(res){
