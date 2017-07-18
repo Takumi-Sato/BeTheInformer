@@ -268,7 +268,30 @@ function regUser(req, res, data) {
     var group_name = json.group_name;
     var sec_num = createUniqueSecretNumber();
 
-    regNewPlayer(user_name, group_name, sec_num);
+    if(canRegNewPlayer(group_name))
+    {
+      regNewPlayer(user_name, group_name, sec_num);
+    }
+    else
+    {
+      console.log("Add Player FAILED because of member limit.");
+    }
+}
+
+function canRegNewPlayer(){
+  var res = false;
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
+
+            flg = false;
+            sec_num = Math.floor(Math.random() * 900) + 100;
+            client
+                // このグループに属する人数と、そのグループの人数制限を比較
+                .query("SELECT * FROM groups WHERE secret_number=" + sec_num + ";")
+                .on("row", function(row) {
+                    flg = true;
+                }).on("end", function() {});
+    });
+  return res;
 }
 
 // 他のユーザーと重複しないsecret_numberを生成します.
