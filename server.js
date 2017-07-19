@@ -445,14 +445,14 @@ function deletePlayer(req, res, data) {
 
 // ゲーム中のユーザー位置情報更新
 // input: user_name, group_name, lat, lng
-// return: secret_numbers, zombies, status, number_of_inform, zombie_points, suvivors 
+// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors 
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_inform: "", zombie_points: "" };
+        var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "" };
         var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
         console.log("Start QUERY");
 
@@ -493,19 +493,19 @@ function updateUserInfo(req, res, data) {
                             })
                             .on("end", function() {
                                 console.log("QUERY: get SecretNumbers finish.");
-                                var qSuvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
+                                var qsurvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
                                 client
-                                    .query(qSuvivors)
+                                    .query(qsurvivors)
                                     .on("error", function(err) {
-                                        console.log("PostgreSQL: select suvivors ERROR");
+                                        console.log("PostgreSQL: select survivors ERROR");
                                         console.log(err);
                                     })
                                     .on("row", function(row) {
-                                        console.log("suvivors row: " + JSON.stringify(row));
-                                        jsonRes.suvivors.push(row.name);
+                                        console.log("survivors row: " + JSON.stringify(row));
+                                        jsonRes.survivors.push(row.name);
                                     })
                                     .on("end", function() {
-                                        console.log("QUERY: get Suvivors finish.");
+                                        console.log("QUERY: get survivors finish.");
                                         var qLatLng = "SELECT lat, lng FROM players WHERE status='dead';";
                                         client
                                             .query(qLatLng)
