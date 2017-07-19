@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,43 +9,43 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <title>密告中！</title>
     <style>
-        @media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
-            #all {
-                width: 80%;
-                font-size: 80%;
-            }
+    @media screen and (max-width:480px) {
+        /*スマホを480px以下と定義してスマホ対応デザインにする*/
+        #all {
+            width: 80%;
+            font-size: 80%;
         }
-        @media screen and (min-width:480px){
-            #all {
-                margin: 0 auto;
-            }
+    }
+
+    @media screen and (min-width:480px) {
+        #all {
+            margin: 0 auto;
         }
+    }
     </style>
 </head>
+
 <body>
     <!-- ゲームタイトルロゴ 
     <div class="logo"><h1><img src="02.png"></h1></div>-->
- 
     <div class="message"></div>
     <div class="member_list"></div>
     <ul class="group_menber"></ul>
     <button class="submit">スタート</button>
-    <script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    var jsonGroupName = {"group_name": localStorage.group_name};
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    var jsonGroupName = { "group_name": localStorage.group_name };
+
     $.ajax({
         //url: "http://192.168.17.136:8887/test_wait_host.json",
         url: "https://be-the-informer.herokuapp.com/getMemberList",
         type: "post",
         dataType: "json",
         data: JSON.stringify(jsonGroupName),
-        success: function(res){
+        success: function(res) {
             Display(res);
         },
-        error: function(res){
+        error: function(res) {
             console.log("ERROR");
         }
     });
@@ -55,9 +56,9 @@
     //console.log(name);
     var dom = $("<p>" + name + "さん</p>");
     $(".message").append(dom);
-    var dom2 = $("<h1> " +group+ " グループの参加者</h1>");
+    var dom2 = $("<h1> " + group + " グループの参加者</h1>");
     $(".member_list").append(dom2);
-    
+
     function Display(res) {
         console.log("Display(res) [input] : " + JSON.stringify(res));
         var data = res.group_members;
@@ -65,46 +66,47 @@
         console.log("on Display()");
         console.log(data);
         /*参加者の表示*/
-        if(data.length == 0){
-          var dom = $("<li>参加者を待っています</li>");
-          $(".group_menber").append(dom);
-        }else{
-          for (var i=0; i<data.length;i++){
-            var menber = data[i];
-            var dom = $("<li>" + menber + "</li>");
+        if (data.length == 0) {
+            var dom = $("<li>参加者を待っています</li>");
             $(".group_menber").append(dom);
-          }
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                var menber = data[i];
+                var dom = $("<li>" + menber + "</li>");
+                $(".group_menber").append(dom);
+            }
         }
-      }
+    }
 
-      $(".submit").on("click", doSubmit);
-      function doSubmit () {
+    $(".submit").on("click", doSubmit);
+
+    function doSubmit() {
         console.log(parseJson());
-        location.href="playing.html";
+        //location.href = "playing.html";
 
-        /*json = parseJson(data);*/
+        json = { "group_name": localStorage.group_name };
         $.ajax({
-          url: 'https://be-the-informer.herokuapp.com/getMemberList',
-          type:          'post',
-          dataType:      'text',
-          contentType:   'application/json',
-          scriptCharset: 'utf-8',
-          success: function(res){
-              console.log(res);
-              location.href="playing.html";
-          },
-          error: function(res){
-              console.log("ERROR");
-          }
-        })
-      }
+            url: 'https://be-the-informer.herokuapp.com/gameStart',
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            scriptCharset: 'utf-8'
+        }).done(function(data) {
+            console.log(data);
+            window.location.href = "playing.html";
+        }).fail(function(data) {
+            console.log("ERROR");
+        });
+    }
 
-      var parseJson = function() {
-        var jsonData = {"group_id":""};
+    var parseJson = function() {
+        var jsonData = { "group_id": "" };
         var group = localStorage.group_name;
         jsonData.group_id = group;
         return jsonData;
-      }
-  </script>
+    }
+    </script>
 </body>
+
 </html>

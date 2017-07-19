@@ -67,8 +67,9 @@ function SendPosition
     type: "post",
     //dataType: "json",
     // data: pos,
+    contentType: "application/json",
     data: JSON.stringify(data),
-    dataType: "text",
+    dataType: "json",
     success: function(res){
       console.log("sendPosData: Success");
       if (res.is_dead == false){
@@ -421,10 +422,11 @@ function markPos(pos_data){
 
 }
 
-/*
 
+//テスト用
+/*
 $.ajax({
-  url: "http://192.168.17.122:8887/test_use_json.json",
+  url: "http://192.168.11.4:8887/test_use_json.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
   //type: "post",
   dataType: "json",
@@ -443,8 +445,9 @@ $.ajax({
 });
 */
 //ゲームの終了時間を受け取る
+
 $.ajax({
-  url: "http://192.168.17.122:8887/time.json",
+  url: "http://192.168.11.4:8887/time.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
   //type: "post",
   dataType: "json",
@@ -553,8 +556,8 @@ var timeMath = {
     $(".time_remaining").text("残り時間: "+time_remaining);
 
   },1000);
-}*/
-
+}
+*/
 //Audio Web API の実装
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
@@ -632,7 +635,6 @@ function Display(res) {
   if (res.is_dead == true && $('.zonbi').length == 0){
     var isVibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
     if(isVibrate){
-      //alert("対応している!");
       window.navigator.vibrate(200);
     }
 
@@ -640,7 +642,6 @@ function Display(res) {
       playSound(buffer);
     });
 
-    //$.sound.play("blackout6.mp3");
     $("body").addClass("zonbi");
     $(".my_name").empty();
     var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
