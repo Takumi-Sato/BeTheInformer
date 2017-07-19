@@ -46,14 +46,12 @@
         type: "post",
         contentType: "application/json",
         dataType: "json",
-        data: JSON.stringify(json),
-        success: function() {
-            console.log("getGameState scceeded");
-            State(res);
-        },
-        error: function(err) {
-            console.log("ERROR");
-        }
+        data: JSON.stringify(json)
+    }).done(function(res) {
+        console.log("getGameState scceeded");
+        State(res);
+    }).fail(function(err) {
+        console.log("getGameState ERROR");
     });
 
 
