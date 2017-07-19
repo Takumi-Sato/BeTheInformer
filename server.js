@@ -228,7 +228,7 @@ function regNewGroup(req, res, data) {
                         console.log("Select new group name FAILED.");
                     })
                     .on("row", function(row) {
-                        jsonRes.group_name.replace(row.name);
+                        jsonRes.group_name = row.name;
                     })
                     .on("end", function() {
                         console.log("get group");
@@ -463,9 +463,9 @@ function updateUserInfo(req, res, data) {
                     })
                     .on("row", function(row) {
                         console.log("playerInfo row: " + JSON.stringify(row));
-                        jsonRes.status.replace(row.status);
-                        jsonRes.zombie_points.replace(row.zombie_points);
-                        jsonRes.number_of_inform.replace(row.number_of_inform);
+                        jsonRes.status = row.status;
+                        jsonRes.zombie_points = row.zombie_points;
+                        jsonRes.number_of_inform = row.number_of_inform;
                     })
                     .on("end", function() {
                         console.log("QUERY: get PlayerInfo finish.");
@@ -533,7 +533,7 @@ function inform(req, res, data) {
         client
             .query(q)
             .on("row", function(row) {
-                jsonRes.is_correct.replace(true);
+                jsonRes.is_correct = true;
             })
             .on("end", function() {
                 if (jsonRes.is_correct) {
