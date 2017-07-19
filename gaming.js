@@ -67,8 +67,9 @@ function SendPosition
     type: "post",
     //dataType: "json",
     // data: pos,
+    contentType: "application/json",
     data: JSON.stringify(data),
-    dataType: "text",
+    dataType: "json",
     success: function(res){
       console.log("sendPosData: Success");
       if (res.is_dead == false){
