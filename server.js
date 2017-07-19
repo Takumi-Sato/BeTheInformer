@@ -298,10 +298,11 @@ function canRegNewPlayer(group_name) {
                             res = true;
                         }
                     })
-                    .on("end", function(){});
+                    .on("end", function(){
+                            return res;
+                    });
             });
     });
-    return res;
 }
 
 // 他のユーザーと重複しないsecret_numberを生成します.
