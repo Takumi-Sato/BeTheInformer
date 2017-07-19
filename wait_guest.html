@@ -36,25 +36,26 @@
     <script type="text/javascript">
     /*  */
 
-        var json = {
-            "group_name": localStorage.group_name
-        };
+    var json = {
+        "group_name": localStorage.group_name
+    };
 
-        $.ajax({
-            //url: "http://192.168.17.136:8887/test_wait_guest.json",
-            url: "https://be-the-informer.herokuapp.com/getGameState",
-            type: "post",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(json),
-            success: function(res) {
-                State(res);
-            },
-            error: function(res) {
-                console.log("ERROR");
-            }
-        });
-        
+    $.ajax({
+        //url: "http://192.168.17.136:8887/test_wait_guest.json",
+        url: "https://be-the-informer.herokuapp.com/getGameState",
+        type: "post",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(json),
+        success: function(res) {
+            console.log("getGameState scceeded");
+            State(res);
+        },
+        error: function(res) {
+            console.log("ERROR");
+        }
+    });
+
 
     /* 名前などの表示 */
     var name = localStorage.user_name;
