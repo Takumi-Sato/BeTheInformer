@@ -480,7 +480,7 @@ function updateUserInfo(req, res, data) {
                             })
                             .on("end", function() {
                                 console.log("QUERY: get SecretNumbers finish.");
-                                var qSuvivors = "SELECT name FROM players WHERE state='alive';";
+                                var qSuvivors = "SELECT name FROM players WHERE status='alive';";
                                 client
                                     .query(qSuvivors)
                                     .on("error", function(err) {
@@ -492,7 +492,7 @@ function updateUserInfo(req, res, data) {
                                     })
                                     .on("end", function() {
                                         console.log("QUERY: get Suvivors finish.");
-                                        var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
+                                        var qLatLng = "SELECT lat, lng FROM players WHERE status='dead';";
                                         client
                                             .query(qLatLng)
                                             .on("error", function(err) {
