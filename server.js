@@ -442,7 +442,7 @@ function updateUserInfo(req, res, data) {
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
         var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_imforms: "", zombie_points: "" };
-        var q = "UPDATE players SET lat='" + json.lat + "' lng='" + json.lng + "' WHERE name='" + json.user_name + "';";
+        var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
         console.log("Start QUERY");
 
         client
