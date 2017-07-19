@@ -293,8 +293,8 @@ function canRegNewPlayer(group_name) {
                     .query("SELECT COUNT(*) FROM players GROUP BY group_name WHERE group_name='" + group_name + "';")
                     .on("error", function(){console.log("counting group members FAILED");})
                     .on("row", function(row) {
-                        console.log("row.first() = " + row.first());
-                        if (row.first() > group_members) {
+                        console.log("row = " + row);
+                        if (row > group_members) {
                             res = true;
                         }
                     })
