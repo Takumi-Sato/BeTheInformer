@@ -35,7 +35,6 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
 
-    function updateMembers() {
         var jsonGroupName = { "group_name": localStorage.group_name };
 
         $.ajax({
@@ -51,8 +50,6 @@
                 console.log("ERROR");
             }
         });
-        setTimeout(updateMembers, 3000);
-    }
 
     var name = localStorage.user_name;
     var group = localStorage.group_name;

@@ -35,11 +35,11 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
     /*  */
-    var json = {
-        "group_name": localStorage.group_name
-    };
 
-    function waitGameStart() {
+        var json = {
+            "group_name": localStorage.group_name
+        };
+
         $.ajax({
             //url: "http://192.168.17.136:8887/test_wait_guest.json",
             url: "https://be-the-informer.herokuapp.com/getGameState",
@@ -54,8 +54,7 @@
                 console.log("ERROR");
             }
         });
-        setTimeout(waitGameStart, 3000);
-    }
+        
 
     /* 名前などの表示 */
     var name = localStorage.user_name;
@@ -86,7 +85,7 @@
             location.href = "join_group.html";
 
             /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
-            json = parseJson(data);
+            var json = parseJson(data);
             $.ajax({
                 url: 'https://be-the-informer.herokuapp.com/deletePlayer',
                 type: 'post',
