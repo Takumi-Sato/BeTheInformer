@@ -16,7 +16,7 @@
             font-size: 80%;
         }
     }
-    
+
     @media screen and (min-width:480px) {
         #all {
             margin: 0 auto;
@@ -38,20 +38,24 @@
     var json = {
         "group_name": localStorage.group_name
     };
-    $.ajax({
-        //url: "http://192.168.17.136:8887/test_wait_guest.json",
-        url: "https://be-the-informer.herokuapp.com/getGameState",
-        type: "post",
-        contentType: "application/json",
-        dataType: "json",
-        data: JSON.stringify(json),
-        success: function(res) {
-            State(res);
-        },
-        error: function(res) {
-            console.log("ERROR");
-        }
-    });
+
+    function waitGameStart() {
+        $.ajax({
+            //url: "http://192.168.17.136:8887/test_wait_guest.json",
+            url: "https://be-the-informer.herokuapp.com/getGameState",
+            type: "post",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success: function(res) {
+                State(res);
+            },
+            error: function(res) {
+                console.log("ERROR");
+            }
+        });
+        setTimeout(waitGameStart, 3000);
+    }
 
     /* 名前などの表示 */
     var name = localStorage.user_name;
