@@ -372,6 +372,7 @@ function getMemberList(req, res, data) {
 // input: グループ名
 function gameStart(req, res, data) {
     var json = JSON.parse(data);
+    var jsonRes = {"game_start":false};
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var q = "UPDATE groups SET game_state='play', game_start_time='" + getNow() + "' WHERE name='" + json.group_name + "';";
@@ -381,6 +382,9 @@ function gameStart(req, res, data) {
             .on("error", function() { console.log("gameStartSQL FAILED"); })
             .on("end", function() {
                 console.log("Game Start!!!!");
+                jsonRes.game_start = true;
+                res.writeHead(200, {"Content-Type": "application/json"});
+                res.end(JSON.stringify(jsonRes));
             });
     });
 }
