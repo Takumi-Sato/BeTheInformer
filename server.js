@@ -379,7 +379,9 @@ function gameStart(req, res, data) {
         client
             .query(q)
             .on("error", function() { console.log("gameStartSQL FAILED"); })
-            .on("end", function() {})
+            .on("end", function() {
+                console.log("Game Start!!!!");
+            });
     });
 }
 
