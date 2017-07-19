@@ -504,6 +504,7 @@ function updateUserInfo(req, res, data) {
                                             })
                                             .on("end", function() {
                                                 console.log("QUERY: get LatLng finish.");
+                                                console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
                                                 res.writeHead(200, { "Content-Type": "text/json" });
                                                 res.end(JSON.stringify(jsonRes));
                                             });
