@@ -207,7 +207,7 @@ function regNewGroup(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
-        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait', " + json.game_time + ");";
+        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait', @ " + json.game_time + " minutes);";
         var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
 
         var sec_num = createUniqueSecretNumber();
