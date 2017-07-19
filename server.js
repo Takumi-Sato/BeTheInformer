@@ -216,6 +216,7 @@ function regNewGroup(req, res, data) {
             .query(q)
             .on("error", function() {
                 console.log("Registration of new group FAILED.");
+                console.log("reg new group SQL : " + q);
             })
             .on("end", function() {
                 // まずユーザー登録
