@@ -477,8 +477,7 @@ function displaymap(now,res) {
 
 }
 
-function Display(input) {
-  var res = JSON.parse(input);
+function Display(res) {
   var data_a = res.secret_numbers;
   var data_s = res.survivors;
   console.log("data_a : ");
