@@ -470,7 +470,7 @@ function updateUserInfo(req, res, data) {
                     .on("end", function() {
                         console.log("QUERY: get PlayerInfo finish.");
                         var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='"+ json.group_name +"' AND" + nearCondition + ";";
+                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='"+ json.group_name +"' AND " + nearCondition + ";";
                         client
                             .query(qSecretNumbers)
                             .on("error", function(err) {
