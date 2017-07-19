@@ -84,22 +84,19 @@
         console.log(parseJson());
         //location.href = "playing.html";
 
-        json = {"group_name": localStorage.group_name};
+        json = { "group_name": localStorage.group_name };
         $.ajax({
             url: 'https://be-the-informer.herokuapp.com/gameStart',
             type: 'post',
             dataType: 'json',
             data: JSON.stringify(json),
             contentType: 'application/json',
-            scriptCharset: 'utf-8',
-            success: function(res) {
-                console.log(res);
-            },
-            error: function(res) {
-                console.log("ERROR");
-            }
+            scriptCharset: 'utf-8'
         }).done(function(data) {
-            location.href = "playing.html";
+            console.log(res);
+            window.location.href = "playing.html";
+        }).fail(function(data) {
+            console.log("ERROR");
         });
     }
 
