@@ -479,11 +479,13 @@ function displaymap(now,res) {
 
 function Display(res) {
   var data_a = res.secret_numbers;
-  var data_s = res.survivors
-  console.log("data_a : " + data_a);
+  var data_s = res.survivors;
+  console.log("data_a : ");
+  console.log(data_a);
+  console.log(JSON.stringify(data_a));
 
   if (res.is_dead == true){
-    $("body").addClass("zonbi")
+    $("body").addClass("zonbi");
     $(".my_name").empty();
     var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
     $(".my_name").append(dom);
