@@ -435,14 +435,14 @@ function deletePlayer(req, res, data) {
 
 // ゲーム中のユーザー位置情報更新
 // input: user_name, lat, lng
-// return: secret_numbers, zombies, status, number_of_imform, zombie_points, suvivors 
+// return: secret_numbers, zombies, status, number_of_inform, zombie_points, suvivors 
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_imform: "", zombie_points: "" };
+        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_inform: "", zombie_points: "" };
         var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
         console.log("Start QUERY");
 
@@ -454,7 +454,7 @@ function updateUserInfo(req, res, data) {
             })
             .on("end", function() {
                 console.log("QUERY: UPDATE finish.");
-                var qPlayerInfo = "SELECT status, number_of_imform, zombie_points FROM players WHERE name='" + json.user_name + "';";
+                var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + json.user_name + "';";
                 client
                     .query(qPlayerInfo)
                     .on("error", function(err) {
@@ -464,7 +464,7 @@ function updateUserInfo(req, res, data) {
                     .on("row", function(row) {
                         jsonRes.status.replace(row.status);
                         jsonRes.zombie_points.replace(row.zombie_points);
-                        jsonRes.number_of_imform.replace(row.number_of_imform);
+                        jsonRes.number_of_inform.replace(row.number_of_inform);
                     })
                     .on("end", function() {
                         console.log("QUERY: get PlayerInfo finish.");
