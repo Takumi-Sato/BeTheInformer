@@ -47,11 +47,11 @@
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(json),
-        success: function(res) {
+        success: function() {
             console.log("getGameState scceeded");
             State(res);
         },
-        error: function(res) {
+        error: function(err) {
             console.log("ERROR");
         }
     });
