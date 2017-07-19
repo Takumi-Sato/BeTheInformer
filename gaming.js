@@ -480,9 +480,8 @@ function displaymap(now,res) {
 function Display(res) {
   var data_a = res.secret_numbers;
   var data_s = res.survivors;
-  console.log("data_a : ");
   console.log(data_a);
-  console.log(JSON.stringify(data_a));
+  console.log(data_s);
 
   if (res.is_dead == true){
     $("body").addClass("zonbi");
