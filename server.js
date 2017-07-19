@@ -267,12 +267,14 @@ function regUser(req, res, data) {
     var user_name = json.user_name;
     var group_name = json.group_name;
     var sec_num = createUniqueSecretNumber();
-
+/*
     if (canRegNewPlayer(group_name)) {
         regNewPlayer(user_name, group_name, sec_num);
     } else {
         console.log("Add Player FAILED because of member limit.");
     }
+    */
+    regNewPlayer(user_name, group_name, sec_num);
 }
 
 function canRegNewPlayer(group_name) {
