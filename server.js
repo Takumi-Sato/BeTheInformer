@@ -434,7 +434,7 @@ function deletePlayer(req, res, data) {
 
 
 // ゲーム中のユーザー位置情報更新
-// input: user_name, lat, lng
+// input: user_name, group_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_inform, zombie_points, suvivors 
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
@@ -470,7 +470,7 @@ function updateUserInfo(req, res, data) {
                     .on("end", function() {
                         console.log("QUERY: get PlayerInfo finish.");
                         var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                        var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
+                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='"+ json.group_name +"' AND" + nearCondition + ";";
                         client
                             .query(qSecretNumbers)
                             .on("error", function(err) {
@@ -483,7 +483,7 @@ function updateUserInfo(req, res, data) {
                             })
                             .on("end", function() {
                                 console.log("QUERY: get SecretNumbers finish.");
-                                var qSuvivors = "SELECT name FROM players WHERE status='alive';";
+                                var qSuvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
                                 client
                                     .query(qSuvivors)
                                     .on("error", function(err) {
@@ -528,7 +528,7 @@ function inform(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         var jsonRes = { "is_correct": false };
-        var q = "SELECT * FROM players WHERE name=" + target_user_name + " AND secret_number=" + target_secret_number + ";";
+        var q = "SELECT * FROM players WHERE name='" + json.target_user_name + "' AND secret_number=" + json.target_secret_number + ";";
 
         client
             .query(q)
@@ -537,17 +537,22 @@ function inform(req, res, data) {
             })
             .on("end", function() {
                 if (jsonRes.is_correct) {
-                    var qSuccess = "UPDATE players SET state='dead' WHERE name=" + target_user_name + ";";
+                    var qSuccess = "UPDATE players SET state='dead' WHERE name='" + json.target_user_name + "';";
                     client
                         .query(qSuccess)
                         .on("end", function() {
-                            res.WriteHead(200, { "Content-Type": "application/json" });
+                            res.writeHead(200, { "Content-Type": "application/json" });
                             res.end(JSON.stringify(jsonRes));
                         });
                 } else {
-
+                    var qFail = "UPDATE players SET state='dead', zombie_points=0 WHERE name='" + json.my_user_name + "';";
+                    client
+                      .query(qFail)
+                      .on("end", function() {
+                          res.writeHead(200, {"Content-Type": "application/json"});
+                          res.end(JSON.stringify(jsonRes));
+                      });
                 }
-
             });
     });
 }
@@ -555,7 +560,21 @@ function inform(req, res, data) {
 // 結果を取得
 // return : ランキング
 function ranking(req, res, data) {
+    pg.connect(process.env.DATABASE_URL, function(err, client){
+        if(err) throw err;
+        var jsonRes = {"ranking":[]};
+        var q = "SELECT * FROM players ORDER BY number_of_inform, zombie_points;";
 
+        client
+          .on("error", function() { console.log("Ranking SQL FAILED"); })
+          .on("row", function(row) {
+              jsonRes.ranking.push(row.name);
+          })
+          .on("end", function() {
+              res.writeHead(200, {"Content-Type": "application/json"});
+              res.end(JSON.stringify(jsonRes));
+          })
+    });
 }
 
 app.listen(app.get("port"), function() {
