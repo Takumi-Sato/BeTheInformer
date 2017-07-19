@@ -1,0 +1,47 @@
+@media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
+    #all {
+        width: 80%;
+        font-size: 80%;
+    }
+}
+@media screen and (min-width:480px){
+    #all {
+        margin: 0 auto;
+    }   
+}
+
+html, body{
+    margin: 0;
+    height: 100%;
+    background-color: black;
+    background-image:url("player_icon.png");
+}
+
+h1 {
+    font-size:200%;
+    color: white;
+    margin: 50%,50%;
+}
+
+/* BeTheInformer.htmlだけの要素 */
+.element {
+    width:100%;
+    height:100%;
+    text-align: center;
+    /*overflow:auto;*/
+}
+
+.description {
+    font-size:100%;
+    color: white;
+}
+
+/* buttonについて */
+
+
+
+/*
+content: "";
+display: block;
+position: absolute;
+*/
