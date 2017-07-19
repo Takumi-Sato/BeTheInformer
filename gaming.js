@@ -55,7 +55,7 @@ else{
 
 function SendPosition
 (lati, long, name){
-  var data = {"user_name":name, "lng": lati, "lat":long }
+  var data = {"user_name":name, "lng": lati, "lat":long ,"group_name": localStorage.group_name}
 
   console.log(data);
 
@@ -82,7 +82,7 @@ function SendPosition
     }
 
   });
- 
+
 }
 
 var zonbi = new Array();
@@ -421,8 +421,8 @@ function markPos(pos_data){
 
 }
 
-
 /*
+
 $.ajax({
   url: "http://192.168.17.122:8887/test_use_json.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
@@ -441,8 +441,158 @@ $.ajax({
     console.log("ERROR");
   }
 });
-
 */
+//ゲームの終了時間を受け取る
+$.ajax({
+  url: "http://192.168.17.122:8887/time.json",
+  //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
+  //type: "post",
+  dataType: "json",
+  success: function(res){
+    //timereceive(res.time_finish);
+    var time_finish  = res.time_finish;
+    $(function (){
+    setInterval(function(){
+      var now = new Date();
+      var h = now.getHours();
+      h = ("0" + h).slice(-2);
+      var mi = now.getMinutes();
+      mi = ("0" + mi).slice(-2);
+      var s = now.getSeconds();
+      s = ("0" + s).slice(-2);
+      var time_now = h+":"+mi+":"+s;
+      var time_remaining = timeMath.sub(time_finish,time_now);
+
+      $(".time_remaining").text("残り時間: "+time_remaining);
+
+      },1000);
+    });
+
+  },
+  error: function(res){
+    console.log("ERROR");
+  }
+});
+
+//時間の計算をする関数
+var timeMath = {
+  // 減算
+   sub : function() {
+       var result, times, second, i,
+           len = arguments.length;
+
+       if (len === 0) return;
+
+       for (i = 0; i < len; i++) {
+           if (!arguments[i] || !arguments[i].match(/^[0-9]+:[0-9]{2}:[0-9]{2}$/)) continue;
+
+           times = arguments[i].split(':');
+
+           second = this.toSecond(times[0], times[1], times[2]);
+
+           if (!second) continue;
+
+           if (i === 0) {
+               result = second;
+           } else {
+               result -= second;
+           }
+       }
+
+       return this.toTimeFormat(result);
+   },
+
+   // 時間を秒に変換
+    toSecond : function(hour, minute, second) {
+        if ((!hour && hour !== 0) || (!minute && minute !== 0) || (!second && second !== 0) ||
+            hour === null || minute === null || second === null ||
+            typeof hour === 'boolean' ||
+            typeof minute === 'boolean' ||
+            typeof second === 'boolean' ||
+            typeof Number(hour) === 'NaN' ||
+            typeof Number(minute) === 'NaN' ||
+            typeof Number(second) === 'NaN') return;
+
+        return (Number(hour) * 60 * 60) + (Number(minute) * 60) + Number(second);
+    },
+
+    // 秒を時間（hh:mm:ss）のフォーマットに変換
+    toTimeFormat : function(fullSecond) {
+        var hour, minute, second;
+
+        if ((!fullSecond && fullSecond !== 0) || !String(fullSecond).match(/^[\-0-9][0-9]*?$/)) return;
+
+        var paddingZero = function(n) {
+            return (n < 10)  ? '0' + n : n;
+        };
+
+        hour   = Math.floor(Math.abs(fullSecond) / 3600);
+        minute = Math.floor(Math.abs(fullSecond) % 3600 / 60);
+        second = Math.floor(Math.abs(fullSecond) % 60);
+
+        minute = paddingZero(minute);
+        second = paddingZero(second);
+
+        return ((fullSecond < 0) ? '-' : '') + hour + ':' + minute + ':' + second;
+    }
+};
+
+/*function timereceive(time_finish){
+  $(function (){
+    var now = new Date();
+    var h = now.getHours();
+    h = ("0" + h).slice(-2);
+    var mi = now.getMinutes();
+    mi = ("0" + mi).slice(-2);
+    var s = now.getSeconds();
+    s = ("0" + s).slice(-2);
+    var time_now = h+":"+mi+":"+s;
+    console.log(time_now);
+    var time_remaining = timeMath.sub(time_finish,time_now);
+
+    $(".time_remaining").text("残り時間: "+time_remaining);
+
+  },1000);
+}*/
+
+//Audio Web API の実装
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+var context = new AudioContext();
+
+// Audio 用の buffer を読み込む
+var getAudioBuffer = function(url, fn) {
+  var req = new XMLHttpRequest();
+  // array buffer を指定
+  req.responseType = 'arraybuffer';
+
+  req.onreadystatechange = function() {
+    if (req.readyState === 4) {
+      if (req.status === 0 || req.status === 200) {
+        // array buffer を audio buffer に変換
+        context.decodeAudioData(req.response, function(buffer) {
+          // コールバックを実行
+          fn(buffer);
+        });
+      }
+    }
+  };
+
+  req.open('GET', url, true);
+  req.send('');
+};
+
+// サウンドを再生
+var playSound = function(buffer) {
+  // source を作成
+  var source = context.createBufferSource();
+  // buffer をセット
+  source.buffer = buffer;
+  // context に connect
+  source.connect(context.destination);
+  // 再生
+  source.start(0);
+};
+
 
 function Zonbi_List(res) {
   //console.log(res.attack);
@@ -479,11 +629,23 @@ function displaymap(now,res) {
 function Display(res) {
   var data_a = res.secret_numbers;
   var data_s = res.survivors
-  if (res.is_dead == true){
-    $("body").addClass("zonbi")
+  if (res.is_dead == true && $('.zonbi').length == 0){
+    var isVibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+    if(isVibrate){
+      //alert("対応している!");
+      window.navigator.vibrate(200);
+    }
+
+    getAudioBuffer('blackout6.mp3',function(buffer) {
+      playSound(buffer);
+    });
+
+    //$.sound.play("blackout6.mp3");
+    $("body").addClass("zonbi");
     $(".my_name").empty();
     var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
     $(".my_name").append(dom);
+
 
 
   }
