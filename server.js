@@ -377,7 +377,7 @@ function gameStart(req, res, data) {
 
         client
             .query(q)
-            .on("error", function(){ console.log("gameStartSQL FAILED");})
+            .on("error", function() { console.log("gameStartSQL FAILED"); })
             .on("end", function() {})
     });
 }
@@ -448,7 +448,7 @@ function updateUserInfo(req, res, data) {
         client
             .query(q)
             .on("error", function(err) {
-                console.log("QUERY: ERROR");
+                console.log("PostgreSQL: update player's position ERROR");
                 console.log(err);
             })
             .on("end", function() {
@@ -456,6 +456,10 @@ function updateUserInfo(req, res, data) {
                 var qPlayerInfo = "SELECT status number_of_imforms, zombie_points FROM players WHERE name=" + json.user_name + ";";
                 client
                     .query(qPlayerInfo)
+                    .on("error", function(err) {
+                        console.log("PostgreSQL: select status, points of player ERROR");
+                        console.log(err);
+                    })
                     .on("row", function(row) {
                         jsonRes.status.replace(row.status);
                         jsonRes.zombie_points.replace(row.zombie_points);
@@ -467,6 +471,10 @@ function updateUserInfo(req, res, data) {
                         var qSecretNumbers = "SELECT secret_number FROM players WHERE " + nearCondition + ";";
                         client
                             .query(qSecretNumbers)
+                            .on("error", function(err) {
+                                console.log("PostgreSQL: select near secret_numbers ERROR");
+                                console.log(err);
+                            })
                             .on("row", function() {
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
@@ -475,6 +483,10 @@ function updateUserInfo(req, res, data) {
                                 var qSuvivors = "SELECT name FROM players WHERE state='alive';";
                                 client
                                     .query(qSuvivors)
+                                    .on("error", function(err) {
+                                        console.log("PostgreSQL: select suvivors ERROR");
+                                        console.log(err);
+                                    })
                                     .on("row", function() {
                                         jsonRes.suvivors.push(row.name);
                                     })
