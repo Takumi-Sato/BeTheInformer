@@ -384,7 +384,7 @@ function gameStart(req, res, data) {
 // 現在時刻をtimestamp形式で取得します.
 function getNow() {
     var D = new Date();
-    return D.getYear() + "-" + D.getMonth() + "-" + D.getDay() + " " + D.getHours() + ":" + D.getMinutes() + ":" + D.getSeconds();
+    return D.getDay() + " " + D.getHours() + ":" + D.getMinutes() + ":" + D.getSeconds();
 }
 
 // ゲーム状態を取得します
