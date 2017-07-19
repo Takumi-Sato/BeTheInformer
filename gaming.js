@@ -479,6 +479,8 @@ function displaymap(now,res) {
 function Display(res) {
   var data_a = res.secret_numbers;
   var data_s = res.survivors
+  console.log("data_a : " + data_a);
+
   if (res.is_dead == true){
     $("body").addClass("zonbi")
     $(".my_name").empty();
