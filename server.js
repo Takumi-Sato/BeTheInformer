@@ -137,7 +137,7 @@ function processFunction(req, res, data) {
             gameStart(req, res, data);
             break;
         case "/inform":
-            imform(req, res, data);
+            inform(req, res, data);
             break;
         case "/getGameState":
             getGameState(req, res, data);
@@ -442,7 +442,7 @@ function updateUserInfo(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_imforms: "", zombie_points: "" };
+        var jsonRes = { secret_numbers: [], zombies: [], suvivors: [], status: "", number_of_imform: "", zombie_points: "" };
         var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
         console.log("Start QUERY");
 
@@ -464,7 +464,7 @@ function updateUserInfo(req, res, data) {
                     .on("row", function(row) {
                         jsonRes.status.replace(row.status);
                         jsonRes.zombie_points.replace(row.zombie_points);
-                        jsonRes.number_of_imforms.replace(row.number_of_imforms);
+                        jsonRes.number_of_imform.replace(row.number_of_imform);
                     })
                     .on("end", function() {
                         console.log("QUERY: get PlayerInfo finish.");
