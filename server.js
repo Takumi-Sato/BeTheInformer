@@ -345,9 +345,10 @@ function regNewPlayer(user_name, group_name, sec_num) {
 // input: ユーザーが属するグループ名
 // return: メンバー一覧
 function getMemberList(req, res, data) {
+    console.log("getMemberListInput: " + data);
+    var json = JSON.parse(data);
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
-        var json = JSON.parse(data);
         var q = "SELECT name FROM players WHERE group_name='" + json.group_name + "';";
         var jsonRes = { "group_members": [] };
 
@@ -369,9 +370,9 @@ function getMemberList(req, res, data) {
 /// ゲーム開始
 // input: グループ名
 function gameStart(req, res, data) {
+    var json = JSON.parse(data);
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
-        var json = JSON.parse(data);
         var q = "UPDATE groups SET game_state='play' game_start_time='" + getNow() + "' WHERE name=" + json.group_name + ";";
 
         client
