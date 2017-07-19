@@ -82,7 +82,7 @@
 
     function doSubmit() {
         console.log(parseJson());
-        location.href = "playing.html";
+        //location.href = "playing.html";
 
         json = {"group_name": localStorage.group_name};
         $.ajax({
@@ -94,11 +94,12 @@
             scriptCharset: 'utf-8',
             success: function(res) {
                 console.log(res);
-                location.href = "playing.html";
             },
             error: function(res) {
                 console.log("ERROR");
             }
+        }).done(function() {
+            location.href = "playing.html";
         });
     }
 
