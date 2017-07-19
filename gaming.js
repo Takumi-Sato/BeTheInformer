@@ -26,7 +26,7 @@ if ("geolocation" in navigator){
       position: player_position,
       map: map,
       title: 'player',
-      icon: 'player_icon.png'
+      icon: './player_icon.png'
       });
     }
     marker_player.setPosition(player_position);
