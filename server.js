@@ -248,7 +248,7 @@ function getGroupList(req, res, data) {
 
         client
             .query(q)
-            .on("error", function(){console.log("Select group names FAILED.")})
+            .on("error", function() { console.log("Select group names FAILED.") })
             .on("row", function(row) {
                 jsonRes.group_names.push(row.name);
             })
@@ -268,30 +268,39 @@ function regUser(req, res, data) {
     var group_name = json.group_name;
     var sec_num = createUniqueSecretNumber();
 
-    if(canRegNewPlayer(group_name))
-    {
-      regNewPlayer(user_name, group_name, sec_num);
-    }
-    else
-    {
-      console.log("Add Player FAILED because of member limit.");
+    if (canRegNewPlayer(group_name)) {
+        regNewPlayer(user_name, group_name, sec_num);
+    } else {
+        console.log("Add Player FAILED because of member limit.");
     }
 }
 
-function canRegNewPlayer(){
-  var res = false;
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
+function canRegNewPlayer(group_name) {
+    var res = false;
+    var group_members = 0;
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
 
-            flg = false;
-            sec_num = Math.floor(Math.random() * 900) + 100;
-            client
-                // このグループに属する人数と、そのグループの人数制限を比較
-                .query("SELECT * FROM groups WHERE secret_number=" + sec_num + ";")
-                .on("row", function(row) {
-                    flg = true;
-                }).on("end", function() {});
+        flg = false;
+        sec_num = Math.floor(Math.random() * 900) + 100;
+        client
+            // このグループに属する人数と、そのグループの人数制限を比較
+            .query("SELECT * FROM groups WHERE group_name='" + group_name + "');")
+            .on("row", function(row) {
+                group_members = row.number_of_members;
+            })
+            .on("end", function() {
+                client
+                    .query("SELECT COUNT(*) FROM players GROUP BY group_name WHERE group_name='" + group_name + "';")
+                    .on("error", function(){console.log("counting group members FAILED");})
+                    .on("row", function(row) {
+                        if (row.first() > group_members) {
+                            res = true;
+                        }
+                    })
+                    .on("end", function(){});
+            });
     });
-  return res;
+    return res;
 }
 
 // 他のユーザーと重複しないsecret_numberを生成します.
@@ -374,44 +383,44 @@ function getNow() {
 // ゲーム状態を取得します
 // input: group_name
 // return: state
-function getGameState(req, res, data){
-  var jsonRes = { state : "default"};
-  console.log("input : " + data);
-  var json = JSON.parse(data);
+function getGameState(req, res, data) {
+    var jsonRes = { state: "default" };
+    console.log("input : " + data);
+    var json = JSON.parse(data);
 
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
-    if(err) throw err;
-    var q = "SELECT game_state FROM groups WHERE name='" + json.group_name + "';";
-    client
-      .query(q)
-      .on("error", function() { console.log("Getting game state FAILED."); } )
-      .on("row", function(row) { 
-        console.log("get game state ROW : " + row.game_state);
-        jsonRes.state = row.game_state;
-      } )
-      .on("end", function() {
-        console.log("getGameState end: " + JSON.stringify(jsonRes) );
-        res.writeHead(200, {"Content-Type":"application/json"});
-        res.end(JSON.stringify(jsonRes));
-      });
-  });
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var q = "SELECT game_state FROM groups WHERE name='" + json.group_name + "';";
+        client
+            .query(q)
+            .on("error", function() { console.log("Getting game state FAILED."); })
+            .on("row", function(row) {
+                console.log("get game state ROW : " + row.game_state);
+                jsonRes.state = row.game_state;
+            })
+            .on("end", function() {
+                console.log("getGameState end: " + JSON.stringify(jsonRes));
+                res.writeHead(200, { "Content-Type": "application/json" });
+                res.end(JSON.stringify(jsonRes));
+            });
+    });
 }
 
 // 登録されたプレイヤーを削除します
 // input: user_name
-function deletePlayer(req, res, data){
-  var json = JSON.parse(data);
+function deletePlayer(req, res, data) {
+    var json = JSON.parse(data);
 
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
-    if(err) throw err;
-    var q = "DELETE FROM players WHERE name='" + json.user_name + "';";
-    client
-      .query(q)
-      .on("error", function() {console.log("Delete Player FAILED.")})
-      .on("end", function() {
-        console.log("delete player complete");
-      });
-  });
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var q = "DELETE FROM players WHERE name='" + json.user_name + "';";
+        client
+            .query(q)
+            .on("error", function() { console.log("Delete Player FAILED.") })
+            .on("end", function() {
+                console.log("delete player complete");
+            });
+    });
 }
 
 
