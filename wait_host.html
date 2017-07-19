@@ -34,9 +34,10 @@
     <button class="submit">スタート</button>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-    var jsonGroupName = { "group_name": localStorage.group_name };
 
     function updateMembers() {
+        var jsonGroupName = { "group_name": localStorage.group_name };
+
         $.ajax({
             //url: "http://192.168.17.136:8887/test_wait_host.json",
             url: "https://be-the-informer.herokuapp.com/getMemberList",

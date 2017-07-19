@@ -40,6 +40,7 @@
   crossorigin="anonymous"></script>
   <script type="text/javascript">
     
+    function getGroupListLoop() {
     $.ajax({
         //url: "http://192.168.17.136:8887/test_join_group.json",
         url: "https://be-the-informer.herokuapp.com/getGroupList",
@@ -53,6 +54,8 @@
             console.log("get group list ERROR");
         }
     });
+    setInterval(getGroupListLoop, 3000);
+  }
     
     function Display(res) {
         var data = res.group_names;
