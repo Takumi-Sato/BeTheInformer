@@ -9,7 +9,7 @@ var marker_player;
 if ("geolocation" in navigator){
   function getPosition(){
     navigator.geolocation.getCurrentPosition(success, errorCallback);
-    setTimeout(getPosition, 5000);
+    setInterval(getPosition, 5000);
   }
   getPosition();
   function success(position) {
