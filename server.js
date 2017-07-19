@@ -207,7 +207,7 @@ function regNewGroup(req, res, data) {
         if (err) throw err;
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
-        var q = "INSERT INTO groups (name, number_of_members, game_state) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait');";
+        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait', " + json.game_time + ");";
         var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
 
         var sec_num = createUniqueSecretNumber();
@@ -332,7 +332,7 @@ function regNewPlayer(user_name, group_name, sec_num) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
 
-        var qRegUser = "INSERT INTO players (name, group_name, secret_number) VALUES('" + user_name + "', '" + group_name + "', " + sec_num + ");";
+        var qRegUser = "INSERT INTO players (name, group_name, secret_number, lng, lat, status, number_of_inform, zombie_points) VALUES('" + user_name + "', '" + group_name + "', " + sec_num +  ", 0, 0, 'alive', 0, 0);";
 
         client
             .query(qRegUser)
