@@ -453,7 +453,7 @@ function updateUserInfo(req, res, data) {
             })
             .on("end", function() {
                 console.log("QUERY: UPDATE finish.");
-                var qPlayerInfo = "SELECT status, number_of_imforms, zombie_points FROM players WHERE name=" + json.user_name + ";";
+                var qPlayerInfo = "SELECT status, number_of_imforms, zombie_points FROM players WHERE name='" + json.user_name + "';";
                 client
                     .query(qPlayerInfo)
                     .on("error", function(err) {
@@ -495,6 +495,10 @@ function updateUserInfo(req, res, data) {
                                         var qLatLng = "SELECT lat, lng FROM players WHERE state='dead';";
                                         client
                                             .query(qLatLng)
+                                            .on("error", function(err) {
+                                                console.log("PostgreSQL: select zombies position ERROR");
+                                                console.log(err);
+                                            })
                                             .on("row", function() {
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
