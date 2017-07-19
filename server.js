@@ -462,6 +462,7 @@ function updateUserInfo(req, res, data) {
                         console.log(err);
                     })
                     .on("row", function(row) {
+                        console.log("playerInfo row: " + JSON.stringify(row));
                         jsonRes.status.replace(row.status);
                         jsonRes.zombie_points.replace(row.zombie_points);
                         jsonRes.number_of_inform.replace(row.number_of_inform);
@@ -477,6 +478,7 @@ function updateUserInfo(req, res, data) {
                                 console.log(err);
                             })
                             .on("row", function(row) {
+                                console.log("secret_numbers row: " + JSON.stringify(row));  
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
                             .on("end", function() {
@@ -489,6 +491,7 @@ function updateUserInfo(req, res, data) {
                                         console.log(err);
                                     })
                                     .on("row", function(row) {
+                                        console.log("suvivors row: " + JSON.stringify(row));
                                         jsonRes.suvivors.push(row.name);
                                     })
                                     .on("end", function() {
@@ -501,6 +504,7 @@ function updateUserInfo(req, res, data) {
                                                 console.log(err);
                                             })
                                             .on("row", function(row) {
+                                                console.log("zombies row: " + JSON.stringify(row));
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
                                             .on("end", function() {
