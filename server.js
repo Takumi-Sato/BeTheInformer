@@ -44,6 +44,10 @@ app.get('/wait_guest.html', function(req, res) {
     res.sendfile("wait_guest.html");
 })
 
+app.get('/player_icon.png', function(req, res) {
+    res.sendfile("player_icon.png");
+})
+
 /*
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
