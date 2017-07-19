@@ -373,7 +373,7 @@ function gameStart(req, res, data) {
     var json = JSON.parse(data);
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
-        var q = "UPDATE groups SET game_state='play' game_start_time='" + getNow() + "' WHERE name=" + json.group_name + ";";
+        var q = "UPDATE groups SET game_state='play', game_start_time='" + getNow() + "' WHERE name='" + json.group_name + "';";
 
         client
             .query(q)
