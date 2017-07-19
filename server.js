@@ -476,7 +476,7 @@ function updateUserInfo(req, res, data) {
                                 console.log("PostgreSQL: select near secret_numbers ERROR");
                                 console.log(err);
                             })
-                            .on("row", function() {
+                            .on("row", function(row) {
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
                             .on("end", function() {
@@ -488,7 +488,7 @@ function updateUserInfo(req, res, data) {
                                         console.log("PostgreSQL: select suvivors ERROR");
                                         console.log(err);
                                     })
-                                    .on("row", function() {
+                                    .on("row", function(row) {
                                         jsonRes.suvivors.push(row.name);
                                     })
                                     .on("end", function() {
@@ -500,7 +500,7 @@ function updateUserInfo(req, res, data) {
                                                 console.log("PostgreSQL: select zombies position ERROR");
                                                 console.log(err);
                                             })
-                                            .on("row", function() {
+                                            .on("row", function(row) {
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
                                             .on("end", function() {
