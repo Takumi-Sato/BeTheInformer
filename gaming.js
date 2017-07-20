@@ -1,6 +1,6 @@
 //localStorage.username = "kai";
 var data_n = localStorage.user_name;
-var data_g = localStorage.user_group;
+var data_g = localStorage.group_name;
 var player_status = "alive";
 var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
