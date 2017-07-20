@@ -157,22 +157,26 @@ function processFunction(req, res, data) {
     }
 }
 
+/* 
+/// ゲーム状態(play/finish)をタイマーでチェックして更新したかったけど、クライアント側の時間を見てやったほうが賢そう.
+/// もしくはなんかスケジューラーみたいなのないかな.
 function updateGameState() {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         client
             .query("SELECT * FROM groups;")
             .on("row", function(row) {
-                if (row.game_state==="play" && row.game_end_time > getNow()) {
+                if (row.game_state === "play" && row.game_end_time > getNow()) {
                     client
                         .query("UPDATE groups SET game_state='finish' WHERE name='" + row.name + "';")
-                        .on("end", function(){});
+                        .on("end", function() {});
                 }
             });
     });
 }
 
 //setInterval(updateGameState, 1000);
+*/
 
 function processReceiveJson(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
@@ -604,8 +608,36 @@ function updateUserInfo(req, res, data) {
                     });
             });
     });
-    console.log("under pg.connect row");
 }
+
+/* updateUserInfoで数回更新すると落ちるバグのデバッグ試み. regNewGroup->regNewPlayerが上手くできてるっぽいので、pg.connectをコールバックしていけばなんかうまくいかないかなー 
+// ゲーム中のユーザー位置情報更新
+// input: user_name, group_name, lat, lng
+// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
+function updateUserInfoII(req, res, data) {
+    var json = JSON.parse(data);
+    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
+    sqlGetGameState(jsonRes, group_name, callback);
+}
+
+
+function sqlGetGameState(jsonRes, group_name, callback){
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var q = "SELECT * FROM players WHERE group_name='" + json.group_name + "' ORDER BY number_of_inform, zombie_points;";
+
+        client
+            .on("error", function(error) { console.log("Sub SQL FAILED"); })
+            .on("row", function(row) {
+                jsonRes.game_state = row.game_state;
+            })
+            .on("end", function(result) {
+                callback();
+            })
+    });
+}
+*/
+
 
 // 密告
 // input : my_user_name, target_user_name, target_secret_number
