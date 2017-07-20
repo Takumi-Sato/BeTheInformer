@@ -172,7 +172,7 @@ function updateGameState() {
     });
 }
 
-setInterval(updateGameState, 1000);
+//setInterval(updateGameState, 1000);
 
 function processReceiveJson(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
@@ -436,10 +436,8 @@ function gameStart(req, res, data) {
                 client
                     .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
                     .on("end", function(result) {
-                        console.log(JSON.stringify(result));
                         var start = result.rows[0].game_start_time;
                         var interval = result.rows[0].game_interval_time;
-                        console.log("Interval : " + JSON.stringify(interval));
                         client
                             .query("UPDATE groups SET game_end_time=CAST('" + start + "' AS TIME)+CAST('" + interval.minutes + " minutes' AS INTERVAL) WHERE name='" + json.group_name + "';")
                             .on("end", function(result) {
