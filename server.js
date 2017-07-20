@@ -422,7 +422,7 @@ function gameStart(req, res, data) {
                         console.log(JSON.stringify(result));
                         var start = result.rows[0].game_start_time;
                         var interval = result.rows[0].game_interval_time;
-                        console.log("Interval : " + interval);
+                        console.log("Interval : " + JSON.stringify(interval));
                         client
                             .query("UPDATE groups SET game_end_time=CAST('"+start+"' AS TIME)+CAST('"+interval+"' AS INTERVAL) WHERE name='" + json.group_name + "';")
                             .on("end", function(result) {
