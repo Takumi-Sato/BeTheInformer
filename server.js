@@ -92,6 +92,9 @@ app.post("/deletePlayer", function(req, res) {
 app.post("/ranking", function(req, res) {
     onRequestPost(req, res);
 });
+app.post("/getEndTime", function(req, res) {
+    onRequestPost(req, res);
+});
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
@@ -151,6 +154,9 @@ function processFunction(req, res, data) {
             break;
         case "/ranking":
             ranking(req, res, data);
+            break;
+        case "/getEndTime":
+            getEndTime(req, res, data);
             break;
         default:
             break;
@@ -682,6 +688,29 @@ function inform(req, res, data) {
                         });
                 }
             });
+    });
+}
+
+// ゲーム終了時間を取得
+// input: group_name
+// return: end_time (game_end_time)
+function getEndTime(req, res, data) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var json = JSON.parse(data);
+        var jsonRes = { "end_time": "" };
+        var q = "SELECT * FROM groups WHERE name='" + json.group_name + "';";
+
+        client
+            .on("error", function(error) { console.log("getEndTime SQL FAILED"); })
+            .on("row", function(row) {
+                jsonRes.end_time = row.game_end_time;
+            })
+            .on("end", function(result) {
+                console.log("getEndTime return : " + JSON.stringify(jsonRes));
+                res.writeHead(200, { "Content-Type": "application/json" });
+                res.end(JSON.stringify(jsonRes));
+            })
     });
 }
 
