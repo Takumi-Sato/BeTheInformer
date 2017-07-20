@@ -246,12 +246,6 @@ function regNewGroup(req, res, data) {
                     });
                 });
             });
-        client.on('drain', function() {
-            console.log('caught!');
-            client.end(function() {
-                console.log('end');
-            });
-        });
     });
 }
 
