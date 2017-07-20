@@ -455,7 +455,10 @@ function deletePlayer(req, res, data) {
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
+        if (err) {
+            console.log("pg.connect ERROR");
+            throw err;
+        }
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
         var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "" };
