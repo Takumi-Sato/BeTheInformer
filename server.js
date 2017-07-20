@@ -172,6 +172,8 @@ function updateGameState() {
     });
 }
 
+setInterval(updateGameState, 1000);
+
 function processReceiveJson(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
