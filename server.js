@@ -242,7 +242,7 @@ function regNewGroup(req, res, data) {
                     console.log('caught!');
                     client.end(function() {
                         console.log('end');
-                        console.log("regNewGroup : " + jsonRes);
+                        console.log("regNewGroup : " + JSON.stringify(jsonRes));
                         res.end(JSON.stringify(jsonRes));
                     });
                 });
