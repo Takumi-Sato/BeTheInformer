@@ -215,7 +215,7 @@ function regNewGroup(req, res, data) {
         var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
 
         var sec_num = createUniqueSecretNumber();
-
+        console.log("Start RegNewGroup");
         client
             .query(q)
             .on("error", function() {
@@ -460,7 +460,7 @@ function updateUserInfo(req, res, data) {
         console.log("input: " + json.lat + ", " + json.user_name);
         var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "" };
         var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
-        console.log("Start QUERY");
+        console.log("Start UpdatePlayerInfo QUERY");
 
         client
             .query(q)
