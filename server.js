@@ -529,6 +529,13 @@ function updateUserInfo(req, res, data) {
                                                 res.writeHead(200, { "Content-Type": "text/json" });
                                                 res.end(JSON.stringify(jsonRes));
                                             });
+
+                                        client.on('drain', function() {
+                                            console.log('updatePlayerInfo drain caught!');
+                                            client.end(function() {
+                                                console.log('end');
+                                            });
+                                        });
                                     });
                             });
                     });
