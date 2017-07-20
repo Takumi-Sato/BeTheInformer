@@ -238,8 +238,20 @@ function regNewGroup(req, res, data) {
                         console.log("get group");
                         console.log(jsonRes);
                         res.end(JSON.stringify(jsonRes));
-                    })
+                    });
+                client.on('drain', function() {
+                    console.log('caught!');
+                    client.end(function() {
+                        console.log('end');
+                    });
+                });
             });
+        client.on('drain', function() {
+            console.log('caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -337,7 +349,7 @@ function regNewPlayer(user_name, group_name, sec_num) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
 
-        var qRegUser = "INSERT INTO players (name, group_name, secret_number, lng, lat, status, number_of_inform, zombie_points) VALUES('" + user_name + "', '" + group_name + "', " + sec_num +  ", 0, 0, 'alive', 0, 0);";
+        var qRegUser = "INSERT INTO players (name, group_name, secret_number, lng, lat, status, number_of_inform, zombie_points) VALUES('" + user_name + "', '" + group_name + "', " + sec_num + ", 0, 0, 'alive', 0, 0);";
 
         client
             .query(qRegUser)
@@ -376,7 +388,7 @@ function getMemberList(req, res, data) {
 // input: グループ名
 function gameStart(req, res, data) {
     var json = JSON.parse(data);
-    var jsonRes = {"game_start":false};
+    var jsonRes = { "game_start": false };
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var q = "UPDATE groups SET game_state='play', game_start_time='" + getNow() + "' WHERE name='" + json.group_name + "';";
@@ -387,7 +399,7 @@ function gameStart(req, res, data) {
             .on("end", function() {
                 console.log("Game Start!!!!");
                 jsonRes.game_start = true;
-                res.writeHead(200, {"Content-Type": "application/json"});
+                res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
             });
     });
@@ -480,7 +492,7 @@ function updateUserInfo(req, res, data) {
                     .on("end", function() {
                         console.log("QUERY: get PlayerInfo finish.");
                         var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='"+ json.group_name +"' AND " + nearCondition + ";";
+                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='" + json.group_name + "' AND " + nearCondition + ";";
                         client
                             .query(qSecretNumbers)
                             .on("error", function(err) {
@@ -488,7 +500,7 @@ function updateUserInfo(req, res, data) {
                                 console.log(err);
                             })
                             .on("row", function(row) {
-                                console.log("secret_numbers row: " + JSON.stringify(row));  
+                                console.log("secret_numbers row: " + JSON.stringify(row));
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
                             .on("end", function() {
@@ -557,11 +569,11 @@ function inform(req, res, data) {
                 } else {
                     var qFail = "UPDATE players SET state='dead', zombie_points=0 WHERE name='" + json.my_user_name + "';";
                     client
-                      .query(qFail)
-                      .on("end", function() {
-                          res.writeHead(200, {"Content-Type": "application/json"});
-                          res.end(JSON.stringify(jsonRes));
-                      });
+                        .query(qFail)
+                        .on("end", function() {
+                            res.writeHead(200, { "Content-Type": "application/json" });
+                            res.end(JSON.stringify(jsonRes));
+                        });
                 }
             });
     });
@@ -570,20 +582,20 @@ function inform(req, res, data) {
 // 結果を取得
 // return : ランキング
 function ranking(req, res, data) {
-    pg.connect(process.env.DATABASE_URL, function(err, client){
-        if(err) throw err;
-        var jsonRes = {"ranking":[]};
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var jsonRes = { "ranking": [] };
         var q = "SELECT * FROM players ORDER BY number_of_inform, zombie_points;";
 
         client
-          .on("error", function() { console.log("Ranking SQL FAILED"); })
-          .on("row", function(row) {
-              jsonRes.ranking.push(row.name);
-          })
-          .on("end", function() {
-              res.writeHead(200, {"Content-Type": "application/json"});
-              res.end(JSON.stringify(jsonRes));
-          })
+            .on("error", function() { console.log("Ranking SQL FAILED"); })
+            .on("row", function(row) {
+                jsonRes.ranking.push(row.name);
+            })
+            .on("end", function() {
+                res.writeHead(200, { "Content-Type": "application/json" });
+                res.end(JSON.stringify(jsonRes));
+            })
     });
 }
 
