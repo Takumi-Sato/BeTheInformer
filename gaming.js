@@ -11,7 +11,7 @@ if ("geolocation" in navigator){
     navigator.geolocation.getCurrentPosition(success, errorCallback);
   }
   setInterval(getPosition, 5000);
-  
+
   function success(position) {
     var lati = position.coords.latitude;
     var long = position.coords.longitude;
@@ -492,9 +492,12 @@ function Display(res) {
   //$(".my_name").append(dom);
   /*密告リストの表示*/
   if(data_a.length == 0){
+    $(".attack_list").empty();
     var dom = $("<option class='number'>近くに密告者はいません</option>");
     $(".attack_list").append(dom);
   }else{
+      $(".attack_list").empty();
+      $(".targets").empty();
     for (var i=0; i<data_a.length;i++){
       var number = data_a[i];
       var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
@@ -506,9 +509,11 @@ function Display(res) {
   }
 
   if(data_s.length == 0){
+    $(".mikkoku_name").empty();
     var dom = $("<li>生存者はいません</li>");
     $(".mikkoku_name").append(dom);
   }else{
+    $(".mikkoku_name").empty();
     for (var i=0; i<data_s.length;i++){
       var survivor = data_s[i];
       var dom = $("<option class='target_user_name' value=" + survivor + ">" + survivor + "</option>");
@@ -516,8 +521,11 @@ function Display(res) {
     }
 
   }
+  $(".hitpoints").empty();
   var dom3 = $("<p>密告成功数:" + res.number_of_inform + "</p>");
   $(".hitpoints").append(dom3);
+
+  $(".zonbipoints").empty();
   var dom4 = $("<p>ゾンビポイント:" + res.zombie_points + "</p>");
   $(".zonbipoints").append(dom4);
 }

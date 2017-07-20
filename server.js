@@ -477,7 +477,7 @@ function updateUserInfo(req, res, data) {
                 console.log("PostgreSQL: update player's position ERROR");
                 console.log(err);
             })
-            .on("end", function() {
+            .on("end", function(result) {
                 console.log("QUERY: UPDATE finish.");
                 var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + json.user_name + "';";
                 client
@@ -492,7 +492,7 @@ function updateUserInfo(req, res, data) {
                         jsonRes.zombie_points = row.zombie_points;
                         jsonRes.number_of_inform = row.number_of_inform;
                     })
-                    .on("end", function() {
+                    .on("end", function(result) {
                         console.log("QUERY: get PlayerInfo finish.");
                         var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
                         var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='" + json.group_name + "' AND " + nearCondition + ";";
@@ -506,7 +506,7 @@ function updateUserInfo(req, res, data) {
                                 console.log("secret_numbers row: " + JSON.stringify(row));
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
-                            .on("end", function() {
+                            .on("end", function(result) {
                                 console.log("QUERY: get SecretNumbers finish.");
                                 var qsurvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
                                 client
@@ -519,7 +519,7 @@ function updateUserInfo(req, res, data) {
                                         console.log("survivors row: " + JSON.stringify(row));
                                         jsonRes.survivors.push(row.name);
                                     })
-                                    .on("end", function() {
+                                    .on("end", function(result) {
                                         console.log("QUERY: get survivors finish.");
                                         var qLatLng = "SELECT lat, lng FROM players WHERE status='dead';";
                                         client
@@ -532,10 +532,10 @@ function updateUserInfo(req, res, data) {
                                                 console.log("zombies row: " + JSON.stringify(row));
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
-                                            .on("end", function() {
+                                            .on("end", function(result) {
                                                 console.log("QUERY: get LatLng finish.");
                                                 console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
-                                                res.writeHead(200, { "Content-Type": "text/json" });
+                                                res.writeHead(200, { "Content-Type": "application/json" });
                                                 res.end(JSON.stringify(jsonRes));
                                             });
 
