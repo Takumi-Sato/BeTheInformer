@@ -419,6 +419,7 @@ function gameStart(req, res, data) {
                 client
                     .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
                     .on("end", function(result) {
+                        consle.log(JSON.stringify(result));
                         var start = result[0].game_start_time;
                         var interval = result[0].game_interval_time;
                         var finish = start + interval;
