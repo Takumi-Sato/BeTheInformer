@@ -424,7 +424,7 @@ function gameStart(req, res, data) {
                         var interval = result.rows[0].game_interval_time;
                         console.log("Interval : " + JSON.stringify(interval));
                         client
-                            .query("UPDATE groups SET game_end_time=CAST('"+start+"' AS TIME)+CAST('"+interval+"' AS INTERVAL) WHERE name='" + json.group_name + "';")
+                            .query("UPDATE groups SET game_end_time=CAST('"+start+"' AS TIME)+CAST('"+interval.minutes+" minutes' AS INTERVAL) WHERE name='" + json.group_name + "';")
                             .on("end", function(result) {
                                 console.log("game_end_time registered.");
                                 res.writeHead(200, { "Content-Type": "application/json" });
