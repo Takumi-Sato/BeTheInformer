@@ -166,7 +166,7 @@ function updateGameState() {
                 if (row.game_state==="play" && row.game_end_time > getNow()) {
                     client
                         .query("UPDATE groups SET game_state='finish' WHERE name='" + row.name + "';")
-                        .on("end", function() {});
+                        .on("end", function(){});
                 }
             });
     });
