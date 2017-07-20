@@ -552,7 +552,7 @@ function updateUserInfo(req, res, data) {
                                             })
                                             .on("end", function(result) {
                                                 client
-                                                    .query("SELECT * FROM groups WHERE name='"+ json.group_name + "';")
+                                                    .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
                                                     .on("row", function(row) {
                                                         res.game_state = row.game_state;
                                                     })
@@ -562,14 +562,14 @@ function updateUserInfo(req, res, data) {
                                                         res.writeHead(200, { "Content-Type": "application/json" });
                                                         res.end(JSON.stringify(jsonRes));
                                                     });
-                                            })
 
-                                        client.on("drain", function() {
-                                            console.log('updatePlayerInfo drain caught!');
-                                            client.end(function() {
-                                                console.log('end');
-                                            });
-                                        });
+                                                client.on("drain", function() {
+                                                    console.log('updatePlayerInfo drain caught!');
+                                                    client.end(function() {
+                                                        console.log('end');
+                                                    });
+                                                });
+                                            })
                                     });
                             });
                     });
