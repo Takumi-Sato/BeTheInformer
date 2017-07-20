@@ -237,17 +237,13 @@ function regNewGroup(req, res, data) {
                     })
                     .on("row", function(row) {
                         jsonRes.group_name = row.name;
-                    })
-                    .on("end", function() {
-                        console.log("regNewGroup on('end')");
-                        console.log("get group");
-                        console.log(jsonRes);
-                        res.end(JSON.stringify(jsonRes));
                     });
                 client.on('drain', function() {
                     console.log('caught!');
                     client.end(function() {
                         console.log('end');
+                        console.log("regNewGroup : " + jsonRes);
+                        res.end(JSON.stringify(jsonRes));
                     });
                 });
             });
