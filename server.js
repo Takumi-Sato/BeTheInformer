@@ -415,8 +415,21 @@ function gameStart(req, res, data) {
             .on("end", function() {
                 console.log("Game Start!!!!");
                 jsonRes.game_start = true;
-                res.writeHead(200, { "Content-Type": "application/json" });
-                res.end(JSON.stringify(jsonRes));
+
+                client
+                    .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
+                    .on("end", function(result) {
+                        var start = result[0].game_start_time;
+                        var interval = result[0].game_interval_time;
+                        var finish = start + interval;
+                        client
+                            .query("UPDATE groups SET game_end_time='" + finish + "' WHERE name='" + json.group_name + "';")
+                            .on("end", function(result) {
+                                console.log("game_end_time registered.");
+                                res.writeHead(200, { "Content-Type": "application/json" });
+                                res.end(JSON.stringify(jsonRes));
+                            });
+                    })
             });
     });
 }
