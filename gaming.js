@@ -444,16 +444,19 @@ $.ajax({
   }
 });
 */
-//ゲームの終了時間を受け取る
 
+//ゲームの終了時間を受け取る
+var data_group_name = {"group_name":localStorage.group_name}
 $.ajax({
-  url: "http://192.168.11.4:8887/time.json",
-  //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
+  //url: "http://192.168.11.4:8887/time.json",
+  url: "https://be-the-informer.herokuapp.com/getEndTime",
   //type: "post",
+  contentType: "application/json",
+  data: JSON.stringify(data_group_name),
   dataType: "json",
   success: function(res){
     //timereceive(res.time_finish);
-    var time_finish  = res.time_finish;
+    var time_finish  = res.end_time;
     $(function (){
     setInterval(function(){
       var now = new Date();
