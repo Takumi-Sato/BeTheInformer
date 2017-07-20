@@ -42,15 +42,15 @@ app.get('/gaming.js', function(req, res) {
 
 app.get('/wait_guest.html', function(req, res) {
     res.sendfile("wait_guest.html");
-})
+});
 
 app.get('/player_icon.png', function(req, res) {
     res.sendfile("player_icon.png");
-})
+});
 
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
-})
+});
 
 /*
 app.post("/receiveJson", function(req, res) {
@@ -64,38 +64,34 @@ app.post("/sendJson", function(req, res) {
 
 app.post("/updateUserInfo", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/regNewGroup", function(req, res) {
     onRequestPost(req, res);
 });
-
 app.post("/getGroupList", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/regUser", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/getMemberList", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/gameStart", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/inform", function(req, res) {
     onRequestPost(req, res);
-})
+});
 app.post("/getGameState", function(req, res) {
     onRequestPost(req, res);
-})
+});
 app.post("/deletePlayer", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
+app.post("/ranking", function(req, res) {
+    onRequestPost(req, res);
+});
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
@@ -152,6 +148,9 @@ function processFunction(req, res, data) {
             break;
         case "/deletePlayer":
             deletePlayer(req, res, data);
+            break;
+        case "/ranking":
+            ranking(req, res, data);
             break;
         default:
             break;
@@ -474,7 +473,7 @@ function deletePlayer(req, res, data) {
 
 // ゲーム中のユーザー位置情報更新
 // input: user_name, group_name, lat, lng
-// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors 
+// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
@@ -486,7 +485,7 @@ function updateUserInfo(req, res, data) {
         }
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "" };
+        var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
         var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
         console.log("Start UpdatePlayerInfo QUERY");
 
@@ -552,11 +551,18 @@ function updateUserInfo(req, res, data) {
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
                                             .on("end", function(result) {
-                                                console.log("QUERY: get LatLng finish.");
-                                                console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
-                                                res.writeHead(200, { "Content-Type": "application/json" });
-                                                res.end(JSON.stringify(jsonRes));
-                                            });
+                                                client
+                                                    .query("SELECT * FROM groups WHERE name='"+ json.group_name + "';")
+                                                    .on("row", function(row) {
+                                                        res.game_state = row.game_state;
+                                                    })
+                                                    .on("end", function(result) {
+                                                        console.log("QUERY: get LatLng finish.");
+                                                        console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
+                                                        res.writeHead(200, { "Content-Type": "application/json" });
+                                                        res.end(JSON.stringify(jsonRes));
+                                                    });
+                                            })
 
                                         client.on("drain", function() {
                                             console.log('updatePlayerInfo drain caught!');
@@ -565,29 +571,8 @@ function updateUserInfo(req, res, data) {
                                             });
                                         });
                                     });
-
-                                client.on("drain", function() {
-                                    console.log('updatePlayerInfo drain caught!');
-                                    client.end(function() {
-                                        console.log('end');
-                                    });
-                                });
                             });
-
-                        client.on("drain", function() {
-                            console.log('updatePlayerInfo drain caught!');
-                            client.end(function() {
-                                console.log('end');
-                            });
-                        });
                     });
-
-                client.on("drain", function() {
-                    console.log('updatePlayerInfo drain caught!');
-                    client.end(function() {
-                        console.log('end');
-                    });
-                });
             });
     });
     console.log("under pg.connect row");

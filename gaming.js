@@ -52,7 +52,7 @@ if ("geolocation" in navigator) {
 }
 
 function SendPosition(lati, long, name) {
-    var data = { "user_name": name, "lng": lati, "lat": long }
+    var data = { "user_name": name, "lng": long, "lat": lati }
 
     console.log(data);
 
@@ -67,7 +67,10 @@ function SendPosition(lati, long, name) {
         dataType: "json",
         success: function(res) {
             console.log("sendPosData: Success");
-            if (res.is_dead == false) {
+            if (res.game_state==="finish") {
+                window.location.href = "/ranking.html";
+            }
+            if (res.status === "alive") {
                 markPos(res);
             }
             Display(res);
@@ -76,7 +79,6 @@ function SendPosition(lati, long, name) {
             console.log("sendPosData: Error");
             console.log(res);
         }
-
     });
 
 }
@@ -377,8 +379,8 @@ function initMap() {
 }
 
 function markPos(pos_data) {
-    for (var arrCount = 0; arrCount < pos_data.zonbies.length; arrCount++) {
-        var pos = new google.maps.LatLng(pos_data.zonbies[arrCount].x, pos_data.zonbies[arrCount].y);
+    for (var arrCount = 0; arrCount < pos_data.zombies.length; arrCount++) {
+        var pos = new google.maps.LatLng(pos_data.zombies[arrCount].x, pos_data.zombies[arrCount].y);
         //var name = pos_data.students[arrCount].name;
         //   var icon = new google.maps.MarkerImage('zonbi_icon.png',
         //    new google.maps.Size(45,51),
@@ -426,7 +428,7 @@ $.ajax({
 
 function Zonbi_List(res) {
     //console.log(res.attack);
-    var data = res.zonbies;
+    var data = res.zombies;
 
     for (var i = 0; i < data.length; i++) {
         var x = data[i].x;
@@ -514,14 +516,15 @@ $(".submit").on("click", doSubmit);
 function doSubmit() {
     var data = $('form').serializeArray();
     console.log(parseJson(data));
-    /*data = parseJson(data);
-$.ajax({
-  type:          'post',
-  dataType:      'json',
-  contentType:   'application/json',
-  scriptCharset: 'utf-8',
-  data:          JSON.stringify(data)
-})*/
+    data = parseJson(data);
+    $.ajax({
+        url:           'https://be-the-informer.herokuapp.com/inform',
+        type:          'post',
+        dataType:      'json',
+        contentType:   'application/json',
+        scriptCharset: 'utf-8',
+        data:          JSON.stringify(data)
+    });
 }
 var parseJson = function(data) {
     var returnJson = {};
