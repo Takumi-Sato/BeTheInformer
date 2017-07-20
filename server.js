@@ -546,8 +546,29 @@ function updateUserInfo(req, res, data) {
                                             });
                                         });
                                     });
+
+                                client.on("drain", function() {
+                                    console.log('updatePlayerInfo drain caught!');
+                                    client.end(function() {
+                                        console.log('end');
+                                    });
+                                });
                             });
+
+                        client.on("drain", function() {
+                            console.log('updatePlayerInfo drain caught!');
+                            client.end(function() {
+                                console.log('end');
+                            });
+                        });
                     });
+
+                client.on("drain", function() {
+                    console.log('updatePlayerInfo drain caught!');
+                    client.end(function() {
+                        console.log('end');
+                    });
+                });
             });
     });
     console.log("under pg.connect row");
