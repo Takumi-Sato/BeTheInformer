@@ -239,6 +239,7 @@ function regNewGroup(req, res, data) {
                         jsonRes.group_name = row.name;
                     })
                     .on("end", function() {
+                        console.log("regNewGroup on('end')");
                         console.log("get group");
                         console.log(jsonRes);
                         res.end(JSON.stringify(jsonRes));
@@ -271,7 +272,14 @@ function getGroupList(req, res, data) {
                 console.log(jsonRes);
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
-            })
+            });
+
+        client.on('drain', function() {
+            console.log('caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -318,8 +326,16 @@ function canRegNewPlayer(group_name) {
                         }
                     })
                     .on("end", function() {
+                        console.log("canRegNewPlayer return.");
                         return res;
                     });
+
+                client.on('drain', function() {
+                    console.log('caught!');
+                    client.end(function() {
+                        console.log('end');
+                    });
+                });
             });
     });
 }
@@ -338,6 +354,13 @@ function createUniqueSecretNumber() {
                 .on("row", function(row) {
                     flg = true;
                 }).on("end", function() {});
+
+            client.on('drain', function() {
+                console.log('caught!');
+                client.end(function() {
+                    console.log('end');
+                });
+            });
         }
     });
     return sec_num;
@@ -586,14 +609,20 @@ function inform(req, res, data) {
 
         client
             .query(q)
+            .on("error", function(error) {
+                console.log("inform SQL FAILED.");
+            })
             .on("row", function(row) {
                 jsonRes.is_correct = true;
             })
-            .on("end", function() {
+            .on("end", function(result) {
                 if (jsonRes.is_correct) {
                     var qSuccess = "UPDATE players SET state='dead' WHERE name='" + json.target_user_name + "';";
                     client
                         .query(qSuccess)
+                        .on("error", function(error) {
+                            console.log("inform Success SQL FAILED.");
+                        })
                         .on("end", function() {
                             res.writeHead(200, { "Content-Type": "application/json" });
                             res.end(JSON.stringify(jsonRes));
@@ -602,6 +631,9 @@ function inform(req, res, data) {
                     var qFail = "UPDATE players SET state='dead', zombie_points=0 WHERE name='" + json.my_user_name + "';";
                     client
                         .query(qFail)
+                        .on("error", function(error) {
+                            console.log("inform fail SQL FAILED.");
+                        })
                         .on("end", function() {
                             res.writeHead(200, { "Content-Type": "application/json" });
                             res.end(JSON.stringify(jsonRes));
@@ -612,19 +644,21 @@ function inform(req, res, data) {
 }
 
 // 結果を取得
+// input: group_name
 // return : ランキング
 function ranking(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
+        var json = JSON.parse(data);
         var jsonRes = { "ranking": [] };
-        var q = "SELECT * FROM players ORDER BY number_of_inform, zombie_points;";
+        var q = "SELECT * FROM players WHERE group_name='" + json.group_name + "' ORDER BY number_of_inform, zombie_points;";
 
         client
-            .on("error", function() { console.log("Ranking SQL FAILED"); })
+            .on("error", function(error) { console.log("Ranking SQL FAILED"); })
             .on("row", function(row) {
                 jsonRes.ranking.push(row.name);
             })
-            .on("end", function() {
+            .on("end", function(result) {
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
             })
