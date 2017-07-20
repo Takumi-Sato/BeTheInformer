@@ -459,7 +459,7 @@ function deletePlayer(req, res, data) {
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
-        console.log("updatePlayerInfo ERROR: " + err);
+        console.log("updatePlayerInfo pg.connect ERROR: " + err);
         if (err) {
             console.log("pg.connect ERROR");
             console.log(err);
@@ -539,7 +539,7 @@ function updateUserInfo(req, res, data) {
                                                 res.end(JSON.stringify(jsonRes));
                                             });
 
-                                        client.on('drain', function() {
+                                        client.on("drain", function() {
                                             console.log('updatePlayerInfo drain caught!');
                                             client.end(function() {
                                                 console.log('end');
@@ -550,6 +550,7 @@ function updateUserInfo(req, res, data) {
                     });
             });
     });
+    console.log("under pg.connect row");
 }
 
 // 密告
