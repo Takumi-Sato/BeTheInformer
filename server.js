@@ -455,8 +455,10 @@ function deletePlayer(req, res, data) {
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
+        console.log("updatePlayerInfo ERROR: " + err);
         if (err) {
             console.log("pg.connect ERROR");
+            console.log(err);
             throw err;
         }
         var json = JSON.parse(data);
