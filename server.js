@@ -48,6 +48,10 @@ app.get('/player_icon.png', function(req, res) {
     res.sendfile("player_icon.png");
 });
 
+app.get('/zonbi_icon.png', function(req, res) {
+    res.sendfile("zonbi_icon.png");
+})
+
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
