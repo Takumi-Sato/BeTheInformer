@@ -1,5 +1,6 @@
 //localStorage.username = "kai";
 var data_n = localStorage.user_name;
+var data_g = localStorage.user_group;
 var player_status = "alive";
 var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
@@ -17,6 +18,7 @@ if ("geolocation" in navigator) {
         console.log(lati);
         console.log(long);
         var name = data_n;
+        var group = data_g;
 
         var player_position = new google.maps.LatLng(lati, long);
         if (marker_player == undefined) {
@@ -41,7 +43,7 @@ if ("geolocation" in navigator) {
             player_status = "zonbi";
         }
 
-        SendPosition(lati, long, name);
+        SendPosition(lati, long, name, group);
     }
 
     function errorCallback(error) {
@@ -51,8 +53,8 @@ if ("geolocation" in navigator) {
 
 }
 
-function SendPosition(lati, long, name) {
-    var data = { "user_name": name, "lng": long, "lat": lati }
+function SendPosition(lati, long, name, group_name) {
+    var data = { "group_name": group_name, "user_name": name, "lng": long, "lat": lati }
 
     console.log(data);
 
