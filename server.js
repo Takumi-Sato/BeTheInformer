@@ -420,8 +420,8 @@ function gameStart(req, res, data) {
                     .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
                     .on("end", function(result) {
                         console.log(JSON.stringify(result));
-                        var start = result[0].game_start_time;
-                        var interval = result[0].game_interval_time;
+                        var start = result.rows[0].game_start_time;
+                        var interval = result.rows[0].game_interval_time;
                         var finish = start + interval;
                         client
                             .query("UPDATE groups SET game_end_time='" + finish + "' WHERE name='" + json.group_name + "';")
