@@ -157,6 +157,21 @@ function processFunction(req, res, data) {
     }
 }
 
+function updateGameState() {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        client
+            .query("SELECT * FROM groups;")
+            .on("row", function(row) {
+                if (row.game_state==="play" && row.game_end_time > getNow()) {
+                    client
+                        .query("UPDATE groups SET game_state='finish' WHERE name='" + row.name + "';")
+                        .on("end", function() {});
+                }
+            });
+    });
+}
+
 function processReceiveJson(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
@@ -424,7 +439,7 @@ function gameStart(req, res, data) {
                         var interval = result.rows[0].game_interval_time;
                         console.log("Interval : " + JSON.stringify(interval));
                         client
-                            .query("UPDATE groups SET game_end_time=CAST('"+start+"' AS TIME)+CAST('"+interval.minutes+" minutes' AS INTERVAL) WHERE name='" + json.group_name + "';")
+                            .query("UPDATE groups SET game_end_time=CAST('" + start + "' AS TIME)+CAST('" + interval.minutes + " minutes' AS INTERVAL) WHERE name='" + json.group_name + "';")
                             .on("end", function(result) {
                                 console.log("game_end_time registered.");
                                 res.writeHead(200, { "Content-Type": "application/json" });
