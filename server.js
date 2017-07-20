@@ -554,7 +554,7 @@ function updateUserInfo(req, res, data) {
                                                 client
                                                     .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
                                                     .on("row", function(row) {
-                                                        res.game_state = row.game_state;
+                                                        jsonRes.game_state = row.game_state;
                                                     })
                                                     .on("end", function(result) {
                                                         console.log("QUERY: get LatLng finish.");
