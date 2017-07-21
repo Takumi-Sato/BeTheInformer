@@ -542,7 +542,7 @@ function updateUserInfo(req, res, data) {
 
     updatePlayerPosition(json.lat, json.lng, json.user_name);
 
-    var playerInfoes = getPlayerInfo(json.user_name);
+    var playerInfoes = JSON.parse(getPlayerInfo(json.user_name));
     console.log(playerInfoes);
     console.log(JSON.stringify(playerInfoes));
     jsonRes.status = playerInfoes.status;
@@ -684,8 +684,8 @@ function getPlayerInfo(user_name) {
 
         client.on('drain', function() {
             client.end(function() {
-                console.log("getPlayerInfo success");
-                return jsonRes;
+                console.log("getPlayerInfo success, return : " + JSON.stringify(jsonRes));
+                return JSON.stringify(jsonRes);
             });
         });
     });
