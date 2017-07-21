@@ -362,6 +362,7 @@ function createUniqueSecretNumber() {
     var sec_num = Math.floor(Math.random() * 900) + 100;
     var flg = false;
     while (!flg) {
+        flg = true;
         console.log("createUniqueSecretNumber()");
         pg.connect(process.env.DATABASE_URL, function(err, client) {
             console.log("uniqueSecNum connection");
@@ -370,7 +371,7 @@ function createUniqueSecretNumber() {
             client
                 .query("SELECT secret_number FROM players WHERE secret_number=" + sec_num + ";")
                 .on("row", function(row) {
-                    flg = true;
+                    flg = false;
                 }).on("end", function() {});
 
             client.on('drain', function() {
