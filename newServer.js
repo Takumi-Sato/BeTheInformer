@@ -50,6 +50,7 @@ function createUniqueSecretNumber() {
         }
     }
     console.log("UNIQUE secret number is " + n);
+    return n;
 }
 
 // name を this.name にもつプレイヤーを取得します.
