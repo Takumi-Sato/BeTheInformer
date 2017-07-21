@@ -294,7 +294,7 @@ function regUser(req, res, data) {
         res.end(JSON.stringify(jsonRes));
     }
     var sec_num = createUniqueSecretNumber();
-    players.push(Player(json.user_name, sec_num));
+    players.push(new Player(json.user_name, sec_num));
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
@@ -329,7 +329,7 @@ function regHostPlayerAndStartGame(req, res, data) {
     } else {
         console.log("regHost Success");
         var sec_num = createUniqueSecretNumber();
-        var player = Player(json.user_name, sec_num);
+        var player = new Player(json.user_name, sec_num);
         console.log(player);
         console.log(JSON.stringify(player));
         players.push(player);
