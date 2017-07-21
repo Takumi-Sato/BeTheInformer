@@ -362,8 +362,9 @@ function createUniqueSecretNumber() {
     var sec_num = Math.floor(Math.random() * 900) + 100;
     var flg = false;
     while (!flg) {
+        console.log("createUniqueSecretNumber()");
         pg.connect(process.env.DATABASE_URL, function(err, client) {
-
+            console.log("uniqueSecNum connection");
             sec_num = Math.floor(Math.random() * 900) + 100;
 
             client
