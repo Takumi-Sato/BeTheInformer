@@ -18,7 +18,7 @@ if ("geolocation" in navigator) {
         console.log(lati);
         console.log(long);
         var name = data_n;
-        var group = data_g;
+        //var group = data_g;
 
         var player_position = new google.maps.LatLng(lati, long);
         if (marker_player == undefined) {

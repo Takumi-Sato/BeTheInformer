@@ -376,7 +376,7 @@ function getEndTime(req, res, data) {
 function updateUserInfo(req, res, data) {
     console.log("updateUserInfo(req, res, data)");
     var json = JSON.parse(data);
-    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
+    var jsonRes = { "secret_numbers": [], "zombies": [], "survivors": [], "status": "", "number_of_inform": "", "zombie_points": "", "game_state": "" };
 
     var player = getThePlayer(json.user_name);
     var info = player.statusAndPoints();
