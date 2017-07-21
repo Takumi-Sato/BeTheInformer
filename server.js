@@ -634,9 +634,16 @@ function updateUserInfo(req, res, data) {
             .on("error", function(error) { console.log("updateUserInfo FAILED"); })
             .on("end", function(result) {
                 console.log("updateUserInfo success");
-                res.writeHead(200, {"Content-Type":"application/json"});
+                res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
             });
+
+        client.on('drain', function() {
+            console.log('caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
 
     })
 }
