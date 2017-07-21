@@ -160,8 +160,8 @@ app.get('/zonbi_icon.png', function(req, res) {
     res.sendfile("zonbi_icon.png");
 })
 
-app.get('/title_02.png', function(req, res) {
-    res.sendfile("icon/title_02.png");
+app.get('/icon/title_02.png', function(req, res) {
+    res.sendfile("./icon/title_02.png");
 })
 
 app.get('/style.css', function(req, res) {
@@ -329,13 +329,15 @@ function regHostPlayerAndStartGame(req, res, data) {
 
     game_state = "play";
 
-    var date = Date.now();
+    var date = new Date();
 
-    game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    //game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    game_start_time = date.toTimeString()
     console.log("game_start_time was set : " + game_start_time);
 
     date.setMinutes(date.getMinutes() + game_interval_time);
-    game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    game_end_time = date.toTimeString()
     console.log("game_end_time was set : " + game_end_time);
 
     res.writeHead(200, { "Content-Type": "application/json" });
