@@ -40,6 +40,7 @@ function createUniqueSecretNumber() {
     var n = Math.floor(Math.random() * 900) + 100;
     var flg = true;
     while (flg) {
+        console.log("while loop in uniqueSecNum");
         flg = false;
         n = Math.floor(Math.random() * 900) + 100;
         for (var i = 0; i < players.length; ++i) {
@@ -48,6 +49,7 @@ function createUniqueSecretNumber() {
             }
         }
     }
+    console.log("UNIQUE secret number is " + n);
 }
 
 // name を this.name にもつプレイヤーを取得します.
