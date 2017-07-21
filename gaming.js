@@ -1,6 +1,6 @@
 //localStorage.username = "kai";
 var data_n = localStorage.user_name;
-var data_g = localStorage.group_name;
+//var data_g = localStorage.group_name;
 var player_status = "alive";
 var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
@@ -43,7 +43,7 @@ if ("geolocation" in navigator) {
             player_status = "zonbi";
         }
 
-        SendPosition(lati, long, name, group);
+        SendPosition(lati, long, name);
     }
 
     function errorCallback(error) {
@@ -53,8 +53,8 @@ if ("geolocation" in navigator) {
 
 }
 
-function SendPosition(lati, long, name, group_name) {
-    var data = { "group_name": group_name, "user_name": name, "lng": long, "lat": lati }
+function SendPosition(lati, long, name) {
+    var data = { "user_name": name, "lng": long, "lat": lati }
 
     console.log(data);
 
@@ -416,7 +416,7 @@ $.ajax({
     //ffconsole.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
     //Attack_List(res);
     //Zonbi_List(res);
-    if(res.is_dead == false){
+    if(res.status == 'alive'){
       markPos(res);
     }
     Display(res);
@@ -425,8 +425,8 @@ $.ajax({
     console.log("ERROR");
   }
 });
-
 */
+
 //時間の計算をする関数
 var timeMath = {
   // 減算
@@ -491,9 +491,9 @@ var timeMath = {
 };
 
 //ゲームの終了時間を受け取る
-var data_group_name = {"group_name":localStorage.group_name}
+//var data_group_name = {"group_name":localStorage.group_name}
 $.ajax({
-  //url: "http://192.168.11.4:8887/time.json",
+  //url: "http://192.168.17.122:8887/time.json",
   url: "https://be-the-informer.herokuapp.com/getEndTime",
   //type: "post",
   //contentType: "application/json",
