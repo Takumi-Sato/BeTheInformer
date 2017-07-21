@@ -322,26 +322,27 @@ function regHostPlayerAndStartGame(req, res, data) {
         jsonRes.success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
+    } else {
+        var sec_num = createUniqueSecretNumber();
+        players.push(Player(json.user_name, sec_num));
+
+
+        game_state = "play";
+
+        var date = new Date();
+
+        //game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        game_start_time = date.toTimeString()
+        console.log("game_start_time was set : " + game_start_time);
+
+        date.setMinutes(date.getMinutes() + game_play_time);
+        //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        game_end_time = date.toTimeString()
+        console.log("game_end_time was set : " + game_end_time);
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(jsonRes));
     }
-    var sec_num = createUniqueSecretNumber();
-    players.push(Player(json.user_name, sec_num));
-
-
-    game_state = "play";
-
-    var date = new Date();
-
-    //game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    game_start_time = date.toTimeString()
-    console.log("game_start_time was set : " + game_start_time);
-
-    date.setMinutes(date.getMinutes() + game_play_time);
-    //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    game_end_time = date.toTimeString()
-    console.log("game_end_time was set : " + game_end_time);
-
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(jsonRes));
 }
 
 function gameStart(req, res, data) {
