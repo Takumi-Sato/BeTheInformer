@@ -379,7 +379,9 @@ function updateUserInfo(req, res, data) {
     var json = JSON.parse(data);
     var jsonRes = { "secret_numbers": [], "zombies": [], "survivors": [], "status": "", "number_of_inform": "", "zombie_points": "", "game_state": "" };
 
+    console.log("updateUserInfo input : " + JSON.stringify(json));
     var player = getThePlayer(json.user_name);
+    console.log("the player is : " + player );
     var info = player.statusAndPoints();
 
     updatePlayerPosition(player, json.lat, json.lng);
