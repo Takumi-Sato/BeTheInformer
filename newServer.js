@@ -161,7 +161,7 @@ app.get('/zonbi_icon.png', function(req, res) {
 })
 
 app.get('/title_02.png', function(req, res) {
-    res.sendfile("title_02.png");
+    res.sendfile("icon/title_02.png");
 })
 
 app.get('/style.css', function(req, res) {
@@ -292,7 +292,7 @@ function regUser(req, res, data) {
         res.end(JSON.stringify(jsonRes));
     }
     var sec_num = createUniqueSecretNumber();
-    players.add(Player(json.user_name, sec_num));
+    players.push(Player(json.user_name, sec_num));
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
@@ -324,7 +324,7 @@ function regHostPlayerAndStartGame(req, res, data) {
         res.end(JSON.stringify(jsonRes));
     }
     var sec_num = createUniqueSecretNumber();
-    players.add(Player(json.user_name, sec_num));
+    players.push(Player(json.user_name, sec_num));
 
 
     game_state = "play";
