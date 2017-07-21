@@ -160,6 +160,10 @@ app.get('/zonbi_icon.png', function(req, res) {
     res.sendfile("zonbi_icon.png");
 })
 
+app.get('/title_02.png', function(req, res) {
+    res.sendfile("title_02.png");
+})
+
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
@@ -205,6 +209,9 @@ app.post("/ranking", function(req, res) {
     onRequestPost(req, res);
 });
 app.post("/getEndTime", function(req, res) {
+    onRequestPost(req, res);
+});
+app.post("/regHostPlayerAndStartGame", function(req, res) {
     onRequestPost(req, res);
 });
 
@@ -263,6 +270,9 @@ function processFunction(req, res, data) {
         case "/getEndTime":
             getEndTime(req, res, data);
             break;
+        case "/regHostPlayerAndStartGame":
+            regHostPlayerAndStartGame(req, res, data);
+            break;
         default:
             break;
     }
@@ -297,6 +307,37 @@ function getMemberList(req, res, data) {
     }
 
     console.log("getMemberList return: " + JSON.stringify(jsonRes));
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(jsonRes));
+}
+
+function regHostPlayerAndStartGame(req, res, data) {
+    console.log("regHostPlayerAndStartGame(req, res, data)");
+
+    var json = JSON.parse(data);
+    var jsonRes = { "player_regi_success": true };
+
+    // 同名プレイヤーがいたらfalseを返す
+    if (getThePlayer(json.user_name) === null) {
+        jsonRes.success = false;
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(jsonRes));
+    }
+    var sec_num = createUniqueSecretNumber();
+    players.add(Player(json.user_name, sec_num));
+
+
+    game_state = "play";
+
+    var date = Date.now();
+
+    game_start_time = date.toTimeString();
+    console.log("game_start_time was set : " + game_start_time);
+
+    date.setMinutes(date.getMinutes() + game_interval_time);
+    game_end_time = date.toTimeString();
+    console.log("game_end_time was set : " + game_end_time);
+
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }

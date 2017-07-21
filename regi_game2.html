@@ -90,15 +90,14 @@
           /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
           var json = parseJson(data);
           $.ajax({
-            url: 'https://be-the-informer.herokuapp.com/regNewGroup',
+            url: 'https://be-the-informer.herokuapp.com/regHostPlayerAndStartGame',
             type:          'post',
             dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
             data:          JSON.stringify(json),
             success: function(res){
-              console.log(res);
-              console.log("↑ return of regNewGroup");
+              console.log("regHostPlayerAndStartGame return: " + res);
               location.href = "playing.html";
             },
             error: function(res){
