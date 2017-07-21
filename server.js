@@ -535,14 +535,17 @@ function updateUserInfo(req, res, data) {
         }
         */
     var json = JSON.parse(data);
+    console.log(JSON.stringify(json));
+
     console.log("input: " + json.lat + ", " + json.user_name);
     var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
-    var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
+    //var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
     console.log("Start UpdatePlayerInfo QUERY");
 
     updatePlayerPosition(json.lat, json.lng, json.user_name);
 
-    var playerInfoes = JSON.parse(getPlayerInfo(json.user_name));
+    var playerInfoes = getPlayerInfo(json.user_name);
+
     console.log(playerInfoes);
     console.log(JSON.stringify(playerInfoes));
     jsonRes.status = playerInfoes.status;
@@ -685,7 +688,7 @@ function getPlayerInfo(user_name) {
         client.on('drain', function() {
             client.end(function() {
                 console.log("getPlayerInfo success, return : " + JSON.stringify(jsonRes));
-                return JSON.stringify(jsonRes);
+                return jsonRes;
             });
         });
     });
