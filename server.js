@@ -532,7 +532,7 @@ function deletePlayer(req, res, data) {
 // ゲーム中のユーザー位置情報更新
 // input: user_name, group_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
-function updateUserInfoBefore(req, res, data) {
+function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     /*pg.connect(process.env.DATABASE_URL, function(err, client) {
         console.log("updatePlayerInfo pg.connect ERROR: " + err);
@@ -549,15 +549,18 @@ function updateUserInfoBefore(req, res, data) {
     console.log("Start UpdatePlayerInfo QUERY");
 
     updatePlayerPosition(json.lat, json.lng, json.user_name);
+
     var playerInfoes = getPlayerInfo(json.user_name);
     jsonRes.status = playerInfoes.status;
     jsonRes.number_of_inform = playerInfoes.number_of_inform;
     jsonRes.zombie_points = playerInfoes.zombie_points;
-    jsonRes.secret_numbers = getNearInformers(json.lat, json.lng, json.group_name);
-    jsonRes.survivors = getSurvivors(group_name);
-    jsonRes.zombies = getZombiePositions(group_name);
-    jsonRes.game_state = getGameStateToCheck(group_name);
 
+    jsonRes.secret_numbers = getNearInformers(json.lat, json.lng, json.group_name);
+    jsonRes.survivors = getSurvivors(json.group_name);
+    jsonRes.zombies = getZombiePositions(json.group_name);
+    jsonRes.game_state = getGameStateToCheck(json.group_name);
+
+    console.log("updateUserInfo return: " + JSON.stringify(jsonRes));
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
     /*
@@ -648,18 +651,6 @@ function updateUserInfoBefore(req, res, data) {
                 });
         });
     */
-}
-
-
-function updateUserInfo(req, res, data) {
-    var json = JSON.parse(data);
-    console.log("input: " + json.lat + ", " + json.user_name);
-    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "default", number_of_inform: "default", zombie_points: "default" };
-    var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
-    console.log("Start QUERY");
-
-    updatePlayerPosition(json.lat, json.lng, json.user_name);
-
 }
 
 // 位置情報をDBに反映
