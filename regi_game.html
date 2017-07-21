@@ -29,7 +29,7 @@
     <h1>ゲーム情報登録</h1>
     <form class="regi" name="regi" method="get">
         <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
-        <p>グループ名：<input type="text" class="group_name" name="group_name" size="25"></p>
+        <!--<p>グループ名：<input type="text" class="group_name" name="group_name" size="25"></p>
         <p>人数：<select class="number_of_members" name="number_of_members"></select></p>
         <p>時間：<select class="game_time" name="game_time">
           <option value="30">30分</option>
@@ -37,7 +37,7 @@
           <option value="60">60分</option>
           <option value="90">90分</option>
           <option value="120">120分</option>
-        </select></p>
+        </select></p>-->
     </form>
     <!--<p>今のところボタンでページ遷移しないようにしています</p>-->
     <!--<button class="submit">登録</button>-->
@@ -58,9 +58,9 @@
            window.alert("入力が足りていません。");
         } else {
           var user_name = document.forms.regi.user_name.value;
-          var group_name = document.forms.regi.group_name.value;
           localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
-          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)
+          /*var group_name = document.forms.regi.group_name.value;
+          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)*/
           //console.log(localStorage.user_name);
           //console.log(localStorage.group_name);
           var data = $('form').serializeArray();
@@ -72,7 +72,7 @@
           $.ajax({
             url: 'https://be-the-informer.herokuapp.com/regNewGroup',
             type:          'post',
-            dataType:      'text',
+            dataType:      'json',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
             data:          JSON.stringify(json),
@@ -82,7 +82,7 @@
               location.href = "wait_host.html";
             },
             error: function(res){
-              console.log("ERROR");
+              console.log("ERROR : " + JSON.stringify(res));
             }
           })
         }

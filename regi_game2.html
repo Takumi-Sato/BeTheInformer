@@ -23,100 +23,95 @@
 </head>
 <body>
     <!-- ゲームタイトルロゴ 
-    <div class="logo"><h1><img src="01.png"></h1></div>-->
-    
+    <div class="logo"><h1><img src="02.png"></h1></div>-->
+    <!--  -->
+
     <h1>ユーザー登録</h1>
-    <form class="choose_group" name="join" method="get">
+    <form class="regi" name="regi" method="get">
         <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
     </form>
-    <!--<button class="submit" onclick="location.href='wait_guest.html'">参加する</button>-->
-    <button class="submit">参加する</button>
+    <button class="submit">登録</button>
 
+    <h1>グループの参加者</h1>
+    <ul class="group_menber"></ul>
+    
     <!-- トップページへのリンク -->
     <a href="BeTheInformer.html">トップに戻る</a>
+
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
-    /*
     $.ajax({
-        //url: "http://192.168.17.136:8887/test_join_group.json",
-        url: "https://be-the-informer.herokuapp.com/getGroupList",
+        //url: "http://192.168.17.136:8887/test_wait_host.json",
+        url: "https://be-the-informer.herokuapp.com/getMemberList",
         type: "post",
         dataType: "json",
-        success: function(res){
-            console.log(JSON.stringify(res));
+        data: JSON.stringify(jsonGroupName),
+        success: function(res) {
             Display(res);
         },
-        error: function(res){
-            console.log("get group list ERROR");
+        error: function(res) {
+            console.log("ERROR");
         }
     });
-    
-    function Display(res) {
-        var data = res.group_names;
-        console.log(data);
-        /*参加者の表示
-        if(data.length == 0){
-          var dom = $("<p>参加できるグループはありません</p>");
-          $(".choose_group").append(dom);
-        }else{
-          for (var i=0; i<data.length;i++){
-            var group_name = data[i];
-            var dom = $("<input type='radio' name='group_name' value=" +group_name+ ">" +group_name+ "</input><br/>");
-            console.log(group_name);
-            $(".choose_group").append(dom);
-          }
-        }
-      }*/
 
-      $(".submit").on("click", doSubmit);
+    function Display(res) {
+        console.log("Display(res) [input] : " + JSON.stringify(res));
+        var data = res.group_members;
+        //var data = res.user_names;
+        console.log("on Display()");
+        console.log(data);
+        /*参加者の表示*/
+        if (data.length == 0) {
+            var dom = $("<li>参加者を待っています</li>");
+            $(".group_menber").append(dom);
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                var menber = data[i];
+                var dom = $("<li>" + menber + "</li>");
+                $(".group_menber").append(dom);
+            }
+        }
+    }
+
+    $(".submit").on("click", doSubmit);
       function doSubmit () {
-        //console.log(formCheck());
         if(formCheck() == 1) {
            window.alert("入力が足りていません。");
         } else {
-          var user_name = document.forms.join.user_name.value;
+          var user_name = document.forms.regi.user_name.value;
           localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
-          /*var group_name = document.forms.join.group_name.value;
-          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)*/
-          //console.log(localStorage.user_name);
           var data = $('form').serializeArray();
           console.log(parseJson(data));
-          location.href = "wait_guest.html";
+          //location.href = "wait_host.html";
 
           /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
-          json = parseJson(data);
+          var json = parseJson(data);
           $.ajax({
-            url: 'https://be-the-informer.herokuapp.com/regUser',
+            url: 'https://be-the-informer.herokuapp.com/regNewGroup',
             type:          'post',
             dataType:      'text',
             contentType:   'application/json',
             scriptCharset: 'utf-8',
             data:          JSON.stringify(json),
             success: function(res){
-              console.log(JSON.stringify(res));
-              location.href = "wait_guest.html";
+              console.log(res);
+              console.log("↑ return of regNewGroup");
+              location.href = "playing.html";
             },
             error: function(res){
-              console.log("registration of player ERROR");
+              console.log("ERROR");
             }
           })
         }
       }
 
       function formCheck() {
-        var flag = 1;
-        /* グループ選択されていないとき */
-        for(i=0;i<document.forms.join.group_name.length;i++) {
-          if(document.forms.join.group_name[i].checked) {
-            flag = 0;
-            break;
-          }
-        }
-        /* ユーザー名が登録されていないとき */
-        if(document.forms.join.user_name.value == ""){
+        var flag = 0;
+        /* ユーザー名が入力されていないとき */
+        if(document.forms.regi.user_name.value == ""){
           flag = 1;
         }
         return flag;
