@@ -25,11 +25,12 @@ function Player(name, secret_number) {
     this.ranking_points = 0;
 
     this.statusAndPoints = function() {
-        return { "status": this.status, "number_of_inform": this.number_of_inform, "zombie_points": this.zombie_points };
+        var res = { "status": this.status, "number_of_inform": this.number_of_inform, "zombie_points": this.zombie_points };
+        console.log("statusAndPoints return: " + JSON.stringify(res));
+        return res;
     };
     this.updateRankingPoints = function() {
         this.ranking_points = this.number_of_inform * 1000 + this.zombie_points;
-
     }
 }
 
