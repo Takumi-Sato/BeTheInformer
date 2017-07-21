@@ -360,11 +360,10 @@ function canRegNewPlayer(group_name) {
 // 他のユーザーと重複しないsecret_numberを生成します.
 function createUniqueSecretNumber() {
     var sec_num = Math.floor(Math.random() * 900) + 100;
-    var flg = true;
-    while (flg) {
+    var flg = false;
+    while (!flg) {
         pg.connect(process.env.DATABASE_URL, function(err, client) {
 
-            flg = false;
             sec_num = Math.floor(Math.random() * 900) + 100;
 
             client
