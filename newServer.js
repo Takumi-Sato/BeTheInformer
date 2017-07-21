@@ -53,6 +53,7 @@ function createUniqueSecretNumber() {
 // name を this.name にもつプレイヤーを取得します.
 function getThePlayer(name) {
     console.log("getThePlayer(name), name=" + name);
+    console.log(JSON.stringify(players));
     for (var i = 0; i < players.length; ++i) {
         if (players[i].name == name) {
             return players[i];
@@ -320,10 +321,12 @@ function regHostPlayerAndStartGame(req, res, data) {
 
     // 同名プレイヤーがいたらfalseを返す
     if (getThePlayer(json.user_name) === null) {
+        console.log("regHost FAILED.");
         jsonRes.success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
     } else {
+        console.log("regHost Success");
         var sec_num = createUniqueSecretNumber();
         players.push(Player(json.user_name, sec_num));
 
