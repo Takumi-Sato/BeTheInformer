@@ -26,32 +26,56 @@
     <div class="logo"><h1><img src="02.png"></h1></div>-->
     <!--  -->
 
-    <h1>ゲーム情報登録</h1>
+    <h1>ユーザー登録</h1>
     <form class="regi" name="regi" method="get">
         <p>ユーザー名：<input type="text" class="user_name" name="user_name" size="25"></p>
-        <!--<p>グループ名：<input type="text" class="group_name" name="group_name" size="25"></p>
-        <p>人数：<select class="number_of_members" name="number_of_members"></select></p>
-        <p>時間：<select class="game_time" name="game_time">
-          <option value="30">30分</option>
-          <option value="45">45分</option>
-          <option value="60">60分</option>
-          <option value="90">90分</option>
-          <option value="120">120分</option>
-        </select></p>-->
     </form>
-    <!--<p>今のところボタンでページ遷移しないようにしています</p>-->
-    <!--<button class="submit">登録</button>-->
     <button class="submit">登録</button>
 
+    <h1>グループの参加者</h1>
+    <ul class="group_menber"></ul>
+    
     <!-- トップページへのリンク -->
     <a href="BeTheInformer.html">トップに戻る</a>
-
 
     <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
+    $.ajax({
+        //url: "http://192.168.17.136:8887/test_wait_host.json",
+        url: "https://be-the-informer.herokuapp.com/getMemberList",
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify(jsonGroupName),
+        success: function(res) {
+            Display(res);
+        },
+        error: function(res) {
+            console.log("ERROR");
+        }
+    });
+
+    function Display(res) {
+        console.log("Display(res) [input] : " + JSON.stringify(res));
+        var data = res.group_members;
+        //var data = res.user_names;
+        console.log("on Display()");
+        console.log(data);
+        /*参加者の表示*/
+        if (data.length == 0) {
+            var dom = $("<li>参加者を待っています</li>");
+            $(".group_menber").append(dom);
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                var menber = data[i];
+                var dom = $("<li>" + menber + "</li>");
+                $(".group_menber").append(dom);
+            }
+        }
+    }
+
     $(".submit").on("click", doSubmit);
       function doSubmit () {
         if(formCheck() == 1) {
@@ -59,10 +83,6 @@
         } else {
           var user_name = document.forms.regi.user_name.value;
           localStorage.user_name = user_name;//ローカルストレージに保存しておく(ユーザー名)
-          /*var group_name = document.forms.regi.group_name.value;
-          localStorage.group_name = group_name;//ローカルストレージに保存しておく(グループ名)*/
-          //console.log(localStorage.user_name);
-          //console.log(localStorage.group_name);
           var data = $('form').serializeArray();
           console.log(parseJson(data));
           //location.href = "wait_host.html";
@@ -79,7 +99,7 @@
             success: function(res){
               console.log(res);
               console.log("↑ return of regNewGroup");
-              location.href = "wait_host.html";
+              location.href = "playing.html";
             },
             error: function(res){
               console.log("ERROR");
@@ -94,10 +114,6 @@
         if(document.forms.regi.user_name.value == ""){
           flag = 1;
         }
-        /* グループ名が入力されていないとき */
-        if(document.forms.regi.group_name.value == ""){
-          flag = 1;
-        }
         return flag;
       }
 
@@ -108,13 +124,6 @@
         }
         //console.log(idx);
         return returnJson;
-      }
-
-      /* 人数の選択肢のためのループ */
-      for (var i = 3; i <= 30; i++) {
-          //console.log(i);
-          var dom = $("<option value=" + i + ">" +i+ "人</option>");
-          $(".number_of_members").append(dom);
       }
   </script>
 </body>

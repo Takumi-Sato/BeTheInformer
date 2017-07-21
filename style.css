@@ -1,43 +1,44 @@
 html, body {
     height: 100%;
     margin: 0;
-    width: 100%;
     padding: 0;
 }
 
 body {
     background-color: black;
-    background-image:url("player_icon.png");
+    /*background-image:url("player_icon.png");*/
 }
 
-.element {
-    width:100%;
+.start_page {
+    height: 100%;
+    display: flex;
+    justify-content: stretch;/*横方向*/
+    align-items: center;/*縦方向*/
     text-align: center;
+    flex-direction: column;/*横並びを立て並びにしている*/
+}
+
+.start_page .title h1 {
     margin: 0;
     padding: 0;
-    /*overflow:auto;*/
 }
 
-.element h1 {
-    font-size:200%;
-    color: white;
-    font-weight: bold;
-    margin: 160px, 0, 60px;
+.start_page .title h1 img{
+    margin: 0;
+    width: 100%;
+}
+
+.start_page .description {
+    width: 100%;
+    margin: 0;
     padding: 0;
-    /*padding: 50px,0px,50px,0px;*/
-}
-
-.element .description {
-    font-size:100%;
     color: white;
-    margin: 100px, 0, 160px;
     white-space : pre;
 }
 
-buttonについて 
-.element .button {
-    margin: 0;
-    padding: 0;
+.start_page .button {
+    color: white;
+    margin: 30px 0 50px;
 }
 
 

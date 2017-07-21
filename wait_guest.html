@@ -31,15 +31,14 @@
     <h1>開始まち</h1>
     <div class="message"></div>
     <p>他の参加者を待っています…</p>
-    <button class="submit">参加グループを変更する</button>
+    <!--<button class="submit">参加グループを変更する</button>-->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-    /*  */
-
+    /*
     var json = {
         "group_name": localStorage.group_name
     };
-
+    */
     function getGameState() {
 
         $.ajax({
@@ -48,7 +47,7 @@
             type: "post",
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(json)
+            /*data: JSON.stringify(json)*/
         }).done(function(res) {
             console.log("getGameState scceeded");
             State(res);
@@ -62,8 +61,9 @@
 
     /* 名前などの表示 */
     var name = localStorage.user_name;
-    var group = localStorage.group_name;
-    var dom = $("<h2> " + name + " さん</h2><p> " + name + " さんは " + group + " グループに参加しています。</p>");
+    /*var group = localStorage.group_name;
+    var dom = $("<h2> " + name + " さん</h2><p> " + name + " さんは " + group + " グループに参加しています。</p>");*/
+    var dom = $("<h2> " + name + " さん</h2>");
     $(".message").append(dom);
 
     /* ステータスが変わっていたらゲームを開始する */
@@ -76,9 +76,9 @@
         }
     }
 
-    　　 /* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
+    /* ボタンが押されたらグループ変更(情報の削除リクエスト)をする */
+    /*
     $(".submit").on("click", doSubmit);
-
     function doSubmit() {
         //console.log(formCheck());
         var res = confirm("本当に変更しますか？");
@@ -88,7 +88,6 @@
             var data = parseJson();
             location.href = "join_group.html";
 
-            /* ！！！！！！！！！！！！！！送信するよ！！！！！！！！！！！！！！ */
             var json = parseJson(data);
             $.ajax({
                 url: 'https://be-the-informer.herokuapp.com/deletePlayer',
@@ -118,7 +117,7 @@
         //JSONdata.group_name = group;
         JSONdata.user_name = name;
         return JSONdata;
-    }
+    }*/
     </script>
 </body>
 
