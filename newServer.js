@@ -329,7 +329,9 @@ function regHostPlayerAndStartGame(req, res, data) {
     } else {
         console.log("regHost Success");
         var sec_num = createUniqueSecretNumber();
-        players.push(Player(json.user_name, sec_num));
+        var player = Player(json.user_name, sec_num)
+        players.push(player);
+        console.log("after reg Host  players = " + JSON.stringify(players));
 
 
         game_state = "play";
