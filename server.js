@@ -517,7 +517,7 @@ function deletePlayer(req, res, data) {
 // ゲーム中のユーザー位置情報更新
 // input: user_name, group_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
-function updateUserInfo(req, res, data) {
+function updateUserInfoBefore(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         console.log("updatePlayerInfo pg.connect ERROR: " + err);
@@ -618,6 +618,27 @@ function updateUserInfo(req, res, data) {
                     });
             });
     });
+}
+
+
+function updateUserInfo(req, res, data) {
+    var json = JSON.parse(data);
+    console.log("input: " + json.lat + ", " + json.user_name);
+    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "default", number_of_inform: "default", zombie_points: "default" };
+    var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
+    console.log("Start QUERY");
+
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        client
+            .query(q)
+            .on("error", function(error) { console.log("updateUserInfo FAILED"); })
+            .on("end", function(result) {
+                console.log("updateUserInfo success");
+                res.writeHead(200, {"Content-Type":"application/json"});
+                res.end(JSON.stringify(jsonRes));
+            });
+
+    })
 }
 
 /* updateUserInfoで数回更新すると落ちるバグのデバッグ試み. regNewGroup->regNewPlayerが上手くできてるっぽいので、pg.connectをコールバックしていけばなんかうまくいかないかなー 
