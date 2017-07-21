@@ -290,12 +290,13 @@ function regUser(req, res, data) {
 
 function getMemberList(req, res, data) {
     console.log("getMemberList(req, res, data)");
-    var jsonRes = { "members": [] };
+    var jsonRes = { "group_members": [] };
 
     for (var i = 0; i < players.length; ++i) {
         jsonRes.members.push(players[i].name);
     }
 
+    console.log("getMemberList return: " + JSON.stringify(jsonRes));
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
