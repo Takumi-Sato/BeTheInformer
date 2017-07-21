@@ -317,6 +317,7 @@ function regHostPlayerAndStartGame(req, res, data) {
     console.log("regHostPlayerAndStartGame(req, res, data)");
 
     var json = JSON.parse(data);
+    console.log("regHost input : " + JSON.stringify(json));
     var jsonRes = { "player_regi_success": true };
 
     // 同名プレイヤーがいたらfalseを返す
