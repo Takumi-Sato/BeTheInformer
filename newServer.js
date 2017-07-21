@@ -77,6 +77,7 @@ function getNearSecretNumbers(player) {
             secret_number.push(players[i].secret_number);
         }
     }
+    return secret_numbers;
 }
 
 function areNearPosition(basePlayer, player) {
