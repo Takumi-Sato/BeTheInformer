@@ -42,11 +42,19 @@ app.get('/gaming.js', function(req, res) {
 
 app.get('/wait_guest.html', function(req, res) {
     res.sendfile("wait_guest.html");
-})
+});
 
 app.get('/player_icon.png', function(req, res) {
     res.sendfile("player_icon.png");
+});
+
+app.get('/zonbi_icon.png', function(req, res) {
+    res.sendfile("zonbi_icon.png");
 })
+
+app.get('/style.css', function(req, res) {
+    res.sendfile("style.css");
+});
 
 /*
 app.post("/receiveJson", function(req, res) {
@@ -60,38 +68,37 @@ app.post("/sendJson", function(req, res) {
 
 app.post("/updateUserInfo", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/regNewGroup", function(req, res) {
     onRequestPost(req, res);
 });
-
 app.post("/getGroupList", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/regUser", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/getMemberList", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/gameStart", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
 app.post("/inform", function(req, res) {
     onRequestPost(req, res);
-})
+});
 app.post("/getGameState", function(req, res) {
     onRequestPost(req, res);
-})
+});
 app.post("/deletePlayer", function(req, res) {
     onRequestPost(req, res);
-})
-
+});
+app.post("/ranking", function(req, res) {
+    onRequestPost(req, res);
+});
+app.post("/getEndTime", function(req, res) {
+    onRequestPost(req, res);
+});
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
@@ -149,10 +156,37 @@ function processFunction(req, res, data) {
         case "/deletePlayer":
             deletePlayer(req, res, data);
             break;
+        case "/ranking":
+            ranking(req, res, data);
+            break;
+        case "/getEndTime":
+            getEndTime(req, res, data);
+            break;
         default:
             break;
     }
 }
+
+/* 
+/// ゲーム状態(play/finish)をタイマーでチェックして更新したかったけど、クライアント側の時間を見てやったほうが賢そう.
+/// もしくはなんかスケジューラーみたいなのないかな.
+function updateGameState() {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        client
+            .query("SELECT * FROM groups;")
+            .on("row", function(row) {
+                if (row.game_state === "play" && row.game_end_time > getNow()) {
+                    client
+                        .query("UPDATE groups SET game_state='finish' WHERE name='" + row.name + "';")
+                        .on("end", function() {});
+                }
+            });
+    });
+}
+
+//setInterval(updateGameState, 1000);
+*/
 
 function processReceiveJson(req, res, data) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
@@ -215,7 +249,7 @@ function regNewGroup(req, res, data) {
         var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
 
         var sec_num = createUniqueSecretNumber();
-
+        console.log("Start RegNewGroup");
         client
             .query(q)
             .on("error", function() {
@@ -233,12 +267,15 @@ function regNewGroup(req, res, data) {
                     })
                     .on("row", function(row) {
                         jsonRes.group_name = row.name;
-                    })
-                    .on("end", function() {
-                        console.log("get group");
-                        console.log(jsonRes);
+                    });
+                client.on('drain', function() {
+                    console.log('caught!');
+                    client.end(function() {
+                        console.log('end');
+                        console.log("regNewGroup : " + JSON.stringify(jsonRes));
                         res.end(JSON.stringify(jsonRes));
-                    })
+                    });
+                });
             });
     });
 }
@@ -261,7 +298,14 @@ function getGroupList(req, res, data) {
                 console.log(jsonRes);
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
-            })
+            });
+
+        client.on('drain', function() {
+            console.log('caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -308,8 +352,16 @@ function canRegNewPlayer(group_name) {
                         }
                     })
                     .on("end", function() {
+                        console.log("canRegNewPlayer return.");
                         return res;
                     });
+
+                client.on('drain', function() {
+                    console.log('caught!');
+                    client.end(function() {
+                        console.log('end');
+                    });
+                });
             });
     });
 }
@@ -328,6 +380,13 @@ function createUniqueSecretNumber() {
                 .on("row", function(row) {
                     flg = true;
                 }).on("end", function() {});
+
+            client.on('drain', function() {
+                console.log('caught!');
+                client.end(function() {
+                    console.log('end');
+                });
+            });
         }
     });
     return sec_num;
@@ -337,7 +396,7 @@ function regNewPlayer(user_name, group_name, sec_num) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
 
-        var qRegUser = "INSERT INTO players (name, group_name, secret_number, lng, lat, status, number_of_inform, zombie_points) VALUES('" + user_name + "', '" + group_name + "', " + sec_num +  ", 0, 0, 'alive', 0, 0);";
+        var qRegUser = "INSERT INTO players (name, group_name, secret_number, lng, lat, status, number_of_inform, zombie_points) VALUES('" + user_name + "', '" + group_name + "', " + sec_num + ", 0, 0, 'alive', 0, 0);";
 
         client
             .query(qRegUser)
@@ -376,7 +435,7 @@ function getMemberList(req, res, data) {
 // input: グループ名
 function gameStart(req, res, data) {
     var json = JSON.parse(data);
-    var jsonRes = {"game_start":false};
+    var jsonRes = { "game_start": false };
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err;
         var q = "UPDATE groups SET game_state='play', game_start_time='" + getNow() + "' WHERE name='" + json.group_name + "';";
@@ -387,8 +446,20 @@ function gameStart(req, res, data) {
             .on("end", function() {
                 console.log("Game Start!!!!");
                 jsonRes.game_start = true;
-                res.writeHead(200, {"Content-Type": "application/json"});
-                res.end(JSON.stringify(jsonRes));
+
+                client
+                    .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
+                    .on("end", function(result) {
+                        var start = result.rows[0].game_start_time;
+                        var interval = result.rows[0].game_interval_time;
+                        client
+                            .query("UPDATE groups SET game_end_time=CAST('" + start + "' AS TIME)+CAST('" + interval.minutes + " minutes' AS INTERVAL) WHERE name='" + json.group_name + "';")
+                            .on("end", function(result) {
+                                console.log("game_end_time registered.");
+                                res.writeHead(200, { "Content-Type": "application/json" });
+                                res.end(JSON.stringify(jsonRes));
+                            });
+                    })
             });
     });
 }
@@ -445,16 +516,21 @@ function deletePlayer(req, res, data) {
 
 // ゲーム中のユーザー位置情報更新
 // input: user_name, group_name, lat, lng
-// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors 
+// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
 function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
     pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
+        console.log("updatePlayerInfo pg.connect ERROR: " + err);
+        if (err) {
+            console.log("pg.connect ERROR");
+            console.log(err);
+            throw err;
+        }
         var json = JSON.parse(data);
         console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "" };
+        var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
         var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
-        console.log("Start QUERY");
+        console.log("Start UpdatePlayerInfo QUERY");
 
         client
             .query(q)
@@ -462,7 +538,7 @@ function updateUserInfo(req, res, data) {
                 console.log("PostgreSQL: update player's position ERROR");
                 console.log(err);
             })
-            .on("end", function() {
+            .on("end", function(result) {
                 console.log("QUERY: UPDATE finish.");
                 var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + json.user_name + "';";
                 client
@@ -477,10 +553,10 @@ function updateUserInfo(req, res, data) {
                         jsonRes.zombie_points = row.zombie_points;
                         jsonRes.number_of_inform = row.number_of_inform;
                     })
-                    .on("end", function() {
+                    .on("end", function(result) {
                         console.log("QUERY: get PlayerInfo finish.");
                         var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='"+ json.group_name +"' AND " + nearCondition + ";";
+                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='" + json.group_name + "' AND " + nearCondition + ";";
                         client
                             .query(qSecretNumbers)
                             .on("error", function(err) {
@@ -488,10 +564,10 @@ function updateUserInfo(req, res, data) {
                                 console.log(err);
                             })
                             .on("row", function(row) {
-                                console.log("secret_numbers row: " + JSON.stringify(row));  
+                                console.log("secret_numbers row: " + JSON.stringify(row));
                                 jsonRes.secret_numbers.push(row.secret_number);
                             })
-                            .on("end", function() {
+                            .on("end", function(result) {
                                 console.log("QUERY: get SecretNumbers finish.");
                                 var qsurvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
                                 client
@@ -504,7 +580,7 @@ function updateUserInfo(req, res, data) {
                                         console.log("survivors row: " + JSON.stringify(row));
                                         jsonRes.survivors.push(row.name);
                                     })
-                                    .on("end", function() {
+                                    .on("end", function(result) {
                                         console.log("QUERY: get survivors finish.");
                                         var qLatLng = "SELECT lat, lng FROM players WHERE status='dead';";
                                         client
@@ -517,18 +593,61 @@ function updateUserInfo(req, res, data) {
                                                 console.log("zombies row: " + JSON.stringify(row));
                                                 jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
                                             })
-                                            .on("end", function() {
-                                                console.log("QUERY: get LatLng finish.");
-                                                console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
-                                                res.writeHead(200, { "Content-Type": "text/json" });
-                                                res.end(JSON.stringify(jsonRes));
-                                            });
+                                            .on("end", function(result) {
+                                                client
+                                                    .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
+                                                    .on("row", function(row) {
+                                                        jsonRes.game_state = row.game_state;
+                                                    })
+                                                    .on("end", function(result) {
+                                                        console.log("QUERY: get LatLng finish.");
+                                                        console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
+                                                        res.writeHead(200, { "Content-Type": "application/json" });
+                                                        res.end(JSON.stringify(jsonRes));
+                                                    });
+
+                                                client.on("drain", function() {
+                                                    console.log('updatePlayerInfo drain caught!');
+                                                    client.end(function() {
+                                                        console.log('end');
+                                                    });
+                                                });
+                                            })
                                     });
                             });
                     });
             });
     });
 }
+
+/* updateUserInfoで数回更新すると落ちるバグのデバッグ試み. regNewGroup->regNewPlayerが上手くできてるっぽいので、pg.connectをコールバックしていけばなんかうまくいかないかなー 
+// ゲーム中のユーザー位置情報更新
+// input: user_name, group_name, lat, lng
+// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
+function updateUserInfoII(req, res, data) {
+    var json = JSON.parse(data);
+    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
+    sqlGetGameState(jsonRes, group_name, callback);
+}
+
+
+function sqlGetGameState(jsonRes, group_name, callback){
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var q = "SELECT * FROM players WHERE group_name='" + json.group_name + "' ORDER BY number_of_inform, zombie_points;";
+
+        client
+            .on("error", function(error) { console.log("Sub SQL FAILED"); })
+            .on("row", function(row) {
+                jsonRes.game_state = row.game_state;
+            })
+            .on("end", function(result) {
+                callback();
+            })
+    });
+}
+*/
+
 
 // 密告
 // input : my_user_name, target_user_name, target_secret_number
@@ -542,14 +661,20 @@ function inform(req, res, data) {
 
         client
             .query(q)
+            .on("error", function(error) {
+                console.log("inform SQL FAILED.");
+            })
             .on("row", function(row) {
                 jsonRes.is_correct = true;
             })
-            .on("end", function() {
+            .on("end", function(result) {
                 if (jsonRes.is_correct) {
                     var qSuccess = "UPDATE players SET state='dead' WHERE name='" + json.target_user_name + "';";
                     client
                         .query(qSuccess)
+                        .on("error", function(error) {
+                            console.log("inform Success SQL FAILED.");
+                        })
                         .on("end", function() {
                             res.writeHead(200, { "Content-Type": "application/json" });
                             res.end(JSON.stringify(jsonRes));
@@ -557,33 +682,61 @@ function inform(req, res, data) {
                 } else {
                     var qFail = "UPDATE players SET state='dead', zombie_points=0 WHERE name='" + json.my_user_name + "';";
                     client
-                      .query(qFail)
-                      .on("end", function() {
-                          res.writeHead(200, {"Content-Type": "application/json"});
-                          res.end(JSON.stringify(jsonRes));
-                      });
+                        .query(qFail)
+                        .on("error", function(error) {
+                            console.log("inform fail SQL FAILED.");
+                        })
+                        .on("end", function() {
+                            res.writeHead(200, { "Content-Type": "application/json" });
+                            res.end(JSON.stringify(jsonRes));
+                        });
                 }
             });
     });
 }
 
-// 結果を取得
-// return : ランキング
-function ranking(req, res, data) {
-    pg.connect(process.env.DATABASE_URL, function(err, client){
-        if(err) throw err;
-        var jsonRes = {"ranking":[]};
-        var q = "SELECT * FROM players ORDER BY number_of_inform, zombie_points;";
+// ゲーム終了時間を取得
+// input: group_name
+// return: end_time (game_end_time)
+function getEndTime(req, res, data) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var json = JSON.parse(data);
+        var jsonRes = { "end_time": "" };
+        var q = "SELECT * FROM groups WHERE name='" + json.group_name + "';";
 
         client
-          .on("error", function() { console.log("Ranking SQL FAILED"); })
-          .on("row", function(row) {
-              jsonRes.ranking.push(row.name);
-          })
-          .on("end", function() {
-              res.writeHead(200, {"Content-Type": "application/json"});
-              res.end(JSON.stringify(jsonRes));
-          })
+            .on("error", function(error) { console.log("getEndTime SQL FAILED"); })
+            .on("row", function(row) {
+                jsonRes.end_time = row.game_end_time;
+            })
+            .on("end", function(result) {
+                console.log("getEndTime return : " + JSON.stringify(jsonRes));
+                res.writeHead(200, { "Content-Type": "application/json" });
+                res.end(JSON.stringify(jsonRes));
+            })
+    });
+}
+
+// 結果を取得
+// input: group_name
+// return : ランキング
+function ranking(req, res, data) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err;
+        var json = JSON.parse(data);
+        var jsonRes = { "ranking": [] };
+        var q = "SELECT * FROM players WHERE group_name='" + json.group_name + "' ORDER BY number_of_inform, zombie_points;";
+
+        client
+            .on("error", function(error) { console.log("Ranking SQL FAILED"); })
+            .on("row", function(row) {
+                jsonRes.ranking.push(row.name);
+            })
+            .on("end", function(result) {
+                res.writeHead(200, { "Content-Type": "application/json" });
+                res.end(JSON.stringify(jsonRes));
+            })
     });
 }
 
