@@ -241,18 +241,19 @@ function processSendJson(req, res, data) {
 // 新しいグループをDBに登録して, そのグループ名を返す
 // res: 追加したグループのグループ名
 function regNewGroup(req, res, data) {
-        var json = JSON.parse(data);
-        var jsonRes = { "group_name": "" };
-        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait', CAST('" + json.game_time + " minutes' AS INTERVAL));";
-        var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
+    var json = JSON.parse(data);
+    var jsonRes = { "group_name": "" };
 
-        var sec_num = createUniqueSecretNumber();
+    console.log("regNewGroup before create unique number");
+    var sec_num = createUniqueSecretNumber();
 
-        addNewGroup(json.group_name, json.number_of_members, json.game_time);
-        regNewPlayer(json.user_name, json.group_name, sec_num);
-        
-        res.writeHead(200, {"Content-Type":"application/json"});
-        res.end(JSON.stringify(jsonRes));
+    console.log("regNewGroup before addNewGroup");
+    addNewGroup(json.group_name, json.number_of_members, json.game_time);
+    console.log("regNewGroup before regNewPlayer");
+    regNewPlayer(json.user_name, json.group_name, sec_num);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(jsonRes));
 }
 
 function addNewGroup(group_name, number_of_members, game_time) {
