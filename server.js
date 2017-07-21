@@ -241,42 +241,32 @@ function processSendJson(req, res, data) {
 // 新しいグループをDBに登録して, そのグループ名を返す
 // res: 追加したグループのグループ名
 function regNewGroup(req, res, data) {
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
         var json = JSON.parse(data);
         var jsonRes = { "group_name": "" };
         var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait', CAST('" + json.game_time + " minutes' AS INTERVAL));";
         var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
 
         var sec_num = createUniqueSecretNumber();
-        console.log("Start RegNewGroup");
+
+        addNewGroup(json.group_name, json.number_of_members, json.game_time);
+        regNewPlayer(json.user_name, json.group_name, sec_num);
+        
+        res.writeHead(200, {"Content-Type":"application/json"});
+        res.end(JSON.stringify(jsonRes));
+}
+
+function addNewGroup(group_name, number_of_members, game_time) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + group_name + "', " + number_of_members + ", 'wait', CAST('" + game_time + " minutes' AS INTERVAL));";
         client
             .query(q)
-            .on("error", function() {
-                console.log("Registration of new group FAILED.");
-                console.log("reg new group SQL : " + q);
-            })
-            .on("end", function() {
-                // まずユーザー登録
-                // regNewPlayer(json.user_name, json.group_name, sec_num);
+            .on("error", function(error) { console.log("addNewGroup FAILED."); });
 
-                res.writeHead(200, { "Content-Type": "application/json" });
-                client.query(q_getGroupName)
-                    .on("error", function() {
-                        console.log("Select new group name FAILED.");
-                    })
-                    .on("row", function(row) {
-                        jsonRes.group_name = row.name;
-                    });
-                client.on('drain', function() {
-                    console.log('caught!');
-                    client.end(function() {
-                        console.log('end');
-                        console.log("regNewGroup : " + JSON.stringify(jsonRes));
-                        res.end(JSON.stringify(jsonRes));
-                    });
-                });
-            });
+        client.on("drain", function() {
+            client.end(function() {
+                console.log("addNewGroup success");
+            })
+        });
     });
 }
 
