@@ -405,6 +405,7 @@ function updateUserInfo(req, res, data) {
     jsonRes.number_of_inform = info.number_of_inform;
     jsonRes.game_state = game_state;
 
+    console.log("updateUserInfo return : " + JSON.stringify(jsonRes));
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
