@@ -44,11 +44,11 @@
   crossorigin="anonymous"></script>
   <script type="text/javascript">
     $.ajax({
-        //url: "http://192.168.17.136:8887/test_wait_host.json",
+        //url: "http://192.168.1.3:8887/getMemberList",
         url: "https://be-the-informer.herokuapp.com/getMemberList",
         type: "post",
         dataType: "json",
-        data: JSON.stringify(jsonGroupName),
+        //data: JSON.stringify(jsonGroupName),
         success: function(res) {
             Display(res);
         },

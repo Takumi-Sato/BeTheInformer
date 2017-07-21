@@ -109,12 +109,15 @@
       function formCheck() {
         var flag = 1;
         /* グループ選択されていないとき */
+        /*
         for(i=0;i<document.forms.join.group_name.length;i++) {
           if(document.forms.join.group_name[i].checked) {
             flag = 0;
             break;
           }
         }
+        */
+
         /* ユーザー名が登録されていないとき */
         if(document.forms.join.user_name.value == ""){
           flag = 1;
