@@ -241,42 +241,33 @@ function processSendJson(req, res, data) {
 // 新しいグループをDBに登録して, そのグループ名を返す
 // res: 追加したグループのグループ名
 function regNewGroup(req, res, data) {
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
-        var json = JSON.parse(data);
-        var jsonRes = { "group_name": "" };
-        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + json.group_name + "', " + json.number_of_members + ", 'wait', CAST('" + json.game_time + " minutes' AS INTERVAL));";
-        var q_getGroupName = "SELECT groups.name FROM groups WHERE groups.name='" + json.group_name + "';";
+    var json = JSON.parse(data);
+    var jsonRes = { "group_name": "" };
 
-        var sec_num = createUniqueSecretNumber();
-        console.log("Start RegNewGroup");
+    console.log("regNewGroup before create unique number");
+    var sec_num = createUniqueSecretNumber();
+
+    console.log("regNewGroup before addNewGroup");
+    addNewGroup(json.group_name, json.number_of_members, json.game_time);
+    console.log("regNewGroup before regNewPlayer");
+    regNewPlayer(json.user_name, json.group_name, sec_num);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(jsonRes));
+}
+
+function addNewGroup(group_name, number_of_members, game_time) {
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        var q = "INSERT INTO groups (name, number_of_members, game_state, game_interval_time) VALUES('" + group_name + "', " + number_of_members + ", 'wait', CAST('" + game_time + " minutes' AS INTERVAL));";
         client
             .query(q)
-            .on("error", function() {
-                console.log("Registration of new group FAILED.");
-                console.log("reg new group SQL : " + q);
-            })
-            .on("end", function() {
-                // まずユーザー登録
-                regNewPlayer(json.user_name, json.group_name, sec_num);
+            .on("error", function(error) { console.log("addNewGroup FAILED."); });
 
-                res.writeHead(200, { "Content-Type": "application/json" });
-                client.query(q_getGroupName)
-                    .on("error", function() {
-                        console.log("Select new group name FAILED.");
-                    })
-                    .on("row", function(row) {
-                        jsonRes.group_name = row.name;
-                    });
-                client.on('drain', function() {
-                    console.log('caught!');
-                    client.end(function() {
-                        console.log('end');
-                        console.log("regNewGroup : " + JSON.stringify(jsonRes));
-                        res.end(JSON.stringify(jsonRes));
-                    });
-                });
-            });
+        client.on("drain", function() {
+            client.end(function() {
+                console.log("addNewGroup success");
+            })
+        });
     });
 }
 
@@ -369,16 +360,18 @@ function canRegNewPlayer(group_name) {
 // 他のユーザーと重複しないsecret_numberを生成します.
 function createUniqueSecretNumber() {
     var sec_num = Math.floor(Math.random() * 900) + 100;
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
-        var flg = true;
-
-        while (flg) {
-            flg = false;
+    var flg = false;
+    while (!flg) {
+        flg = true;
+        console.log("createUniqueSecretNumber()");
+        pg.connect(process.env.DATABASE_URL, function(err, client) {
+            console.log("uniqueSecNum connection");
             sec_num = Math.floor(Math.random() * 900) + 100;
+
             client
                 .query("SELECT secret_number FROM players WHERE secret_number=" + sec_num + ";")
                 .on("row", function(row) {
-                    flg = true;
+                    flg = false;
                 }).on("end", function() {});
 
             client.on('drain', function() {
@@ -387,8 +380,8 @@ function createUniqueSecretNumber() {
                     console.log('end');
                 });
             });
-        }
-    });
+        });
+    }
     return sec_num;
 }
 
@@ -402,6 +395,13 @@ function regNewPlayer(user_name, group_name, sec_num) {
             .query(qRegUser)
             .on("err", function(err) { console.log(err); })
             .on("end", function() {});
+
+        client.on('drain', function() {
+            console.log('regNewPlayer caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -427,7 +427,14 @@ function getMemberList(req, res, data) {
                 console.log("return: " + JSON.stringify(jsonRes));
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
-            })
+            });
+
+        client.on('drain', function() {
+            console.log('regNewPlayer caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -517,164 +524,267 @@ function deletePlayer(req, res, data) {
 // ゲーム中のユーザー位置情報更新
 // input: user_name, group_name, lat, lng
 // return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
-function updateUserInfoBefore(req, res, data) {
+function updateUserInfo(req, res, data) {
     console.log("start updateUserInfo(req, res, data)");
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
+    /*pg.connect(process.env.DATABASE_URL, function(err, client) {
         console.log("updatePlayerInfo pg.connect ERROR: " + err);
         if (err) {
             console.log("pg.connect ERROR");
             console.log(err);
             throw err;
         }
-        var json = JSON.parse(data);
-        console.log("input: " + json.lat + ", " + json.user_name);
-        var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
-        var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
-        console.log("Start UpdatePlayerInfo QUERY");
+        */
+    var json = JSON.parse(data);
+    console.log(JSON.stringify(json));
 
-        client
-            .query(q)
-            .on("error", function(err) {
-                console.log("PostgreSQL: update player's position ERROR");
-                console.log(err);
-            })
-            .on("end", function(result) {
-                console.log("QUERY: UPDATE finish.");
-                var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + json.user_name + "';";
-                client
-                    .query(qPlayerInfo)
-                    .on("error", function(err) {
-                        console.log("PostgreSQL: select status, points of player ERROR");
-                        console.log(err);
-                    })
-                    .on("row", function(row) {
-                        console.log("playerInfo row: " + JSON.stringify(row));
-                        jsonRes.status = row.status;
-                        jsonRes.zombie_points = row.zombie_points;
-                        jsonRes.number_of_inform = row.number_of_inform;
-                    })
-                    .on("end", function(result) {
-                        console.log("QUERY: get PlayerInfo finish.");
-                        var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
-                        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='" + json.group_name + "' AND " + nearCondition + ";";
-                        client
-                            .query(qSecretNumbers)
-                            .on("error", function(err) {
-                                console.log("PostgreSQL: select near secret_numbers ERROR");
-                                console.log(err);
-                            })
-                            .on("row", function(row) {
-                                console.log("secret_numbers row: " + JSON.stringify(row));
-                                jsonRes.secret_numbers.push(row.secret_number);
-                            })
-                            .on("end", function(result) {
-                                console.log("QUERY: get SecretNumbers finish.");
-                                var qsurvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
-                                client
-                                    .query(qsurvivors)
-                                    .on("error", function(err) {
-                                        console.log("PostgreSQL: select survivors ERROR");
-                                        console.log(err);
-                                    })
-                                    .on("row", function(row) {
-                                        console.log("survivors row: " + JSON.stringify(row));
-                                        jsonRes.survivors.push(row.name);
-                                    })
-                                    .on("end", function(result) {
-                                        console.log("QUERY: get survivors finish.");
-                                        var qLatLng = "SELECT lat, lng FROM players WHERE status='dead';";
-                                        client
-                                            .query(qLatLng)
-                                            .on("error", function(err) {
-                                                console.log("PostgreSQL: select zombies position ERROR");
-                                                console.log(err);
-                                            })
-                                            .on("row", function(row) {
-                                                console.log("zombies row: " + JSON.stringify(row));
-                                                jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
-                                            })
-                                            .on("end", function(result) {
-                                                client
-                                                    .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
-                                                    .on("row", function(row) {
-                                                        jsonRes.game_state = row.game_state;
-                                                    })
-                                                    .on("end", function(result) {
-                                                        console.log("QUERY: get LatLng finish.");
-                                                        console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
-                                                        res.writeHead(200, { "Content-Type": "application/json" });
-                                                        res.end(JSON.stringify(jsonRes));
-                                                    });
+    console.log("input: " + json.lat + ", " + json.user_name);
+    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
+    //var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
+    console.log("Start UpdatePlayerInfo QUERY");
 
-                                                client.on("drain", function() {
-                                                    console.log('updatePlayerInfo drain caught!');
-                                                    client.end(function() {
-                                                        console.log('end');
+    updatePlayerPosition(json.lat, json.lng, json.user_name);
+
+    var playerInfoes = getPlayerInfo(json.user_name);
+
+    console.log(playerInfoes);
+    console.log(JSON.stringify(playerInfoes));
+    jsonRes.status = playerInfoes.status;
+    jsonRes.number_of_inform = playerInfoes.number_of_inform;
+    jsonRes.zombie_points = playerInfoes.zombie_points;
+
+    jsonRes.secret_numbers = getNearInformers(json.lat, json.lng, json.group_name);
+    jsonRes.survivors = getSurvivors(json.group_name);
+    jsonRes.zombies = getZombiePositions(json.group_name);
+    jsonRes.game_state = getGameStateToCheck(json.group_name);
+
+    console.log("updateUserInfo return: " + JSON.stringify(jsonRes));
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(jsonRes));
+    /*
+            client
+                .query(q)
+                .on("error", function(err) {
+                    console.log("PostgreSQL: update player's position ERROR");
+                    console.log(err);
+                })
+                .on("end", function(result) {
+                    console.log("QUERY: UPDATE finish.");
+                    var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + json.user_name + "';";
+                    client
+                        .query(qPlayerInfo)
+                        .on("error", function(err) {
+                            console.log("PostgreSQL: select status, points of player ERROR");
+                            console.log(err);
+                        })
+                        .on("row", function(row) {
+                            console.log("playerInfo row: " + JSON.stringify(row));
+                            jsonRes.status = row.status;
+                            jsonRes.zombie_points = row.zombie_points;
+                            jsonRes.number_of_inform = row.number_of_inform;
+                        })
+                        .on("end", function(result) {
+                            console.log("QUERY: get PlayerInfo finish.");
+                            var nearCondition = "sqrt((lat-" + json.lat + ")^2+(lng-" + json.lng + ")^2) > 30";
+                            var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='" + json.group_name + "' AND " + nearCondition + ";";
+                            client
+                                .query(qSecretNumbers)
+                                .on("error", function(err) {
+                                    console.log("PostgreSQL: select near secret_numbers ERROR");
+                                    console.log(err);
+                                })
+                                .on("row", function(row) {
+                                    console.log("secret_numbers row: " + JSON.stringify(row));
+                                    jsonRes.secret_numbers.push(row.secret_number);
+                                })
+                                .on("end", function(result) {
+                                    console.log("QUERY: get SecretNumbers finish.");
+                                    var qsurvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + json.group_name + "';";
+                                    client
+                                        .query(qsurvivors)
+                                        .on("error", function(err) {
+                                            console.log("PostgreSQL: select survivors ERROR");
+                                            console.log(err);
+                                        })
+                                        .on("row", function(row) {
+                                            console.log("survivors row: " + JSON.stringify(row));
+                                            jsonRes.survivors.push(row.name);
+                                        })
+                                        .on("end", function(result) {
+                                            console.log("QUERY: get survivors finish.");
+                                            var qLatLng = "SELECT lat, lng FROM players WHERE status='dead';";
+                                            client
+                                                .query(qLatLng)
+                                                .on("error", function(err) {
+                                                    console.log("PostgreSQL: select zombies position ERROR");
+                                                    console.log(err);
+                                                })
+                                                .on("row", function(row) {
+                                                    console.log("zombies row: " + JSON.stringify(row));
+                                                    jsonRes.zombies.push({ lat: row.lat, lng: row.lng });
+                                                })
+                                                .on("end", function(result) {
+                                                    client
+                                                        .query("SELECT * FROM groups WHERE name='" + json.group_name + "';")
+                                                        .on("row", function(row) {
+                                                            jsonRes.game_state = row.game_state;
+                                                        })
+                                                        .on("end", function(result) {
+                                                            console.log("QUERY: get LatLng finish.");
+                                                            console.log("UpdatePlayerInfo jsonRes: " + JSON.stringify(jsonRes));
+                                                            res.writeHead(200, { "Content-Type": "application/json" });
+                                                            res.end(JSON.stringify(jsonRes));
+                                                        });
+
+                                                    client.on("drain", function() {
+                                                        console.log('updatePlayerInfo drain caught!');
+                                                        client.end(function() {
+                                                            console.log('end');
+                                                        });
                                                     });
-                                                });
-                                            })
-                                    });
-                            });
-                    });
-            });
-    });
+                                                })
+                                        });
+                                });
+                        });
+                });
+        });
+    */
 }
 
-
-function updateUserInfo(req, res, data) {
-    var json = JSON.parse(data);
-    console.log("input: " + json.lat + ", " + json.user_name);
-    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "default", number_of_inform: "default", zombie_points: "default" };
-    var q = "UPDATE players SET lat=" + json.lat + ", lng=" + json.lng + " WHERE name='" + json.user_name + "';";
-    console.log("Start QUERY");
-
+// 位置情報をDBに反映
+function updatePlayerPosition(lat, lng, user_name) {
+    var q = "UPDATE players SET lat=" + lat + ", lng=" + lng + " WHERE name='" + user_name + "';";
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         client
             .query(q)
-            .on("error", function(error) { console.log("updateUserInfo FAILED"); })
-            .on("end", function(result) {
-                console.log("updateUserInfo success");
-                res.writeHead(200, { "Content-Type": "application/json" });
-                res.end(JSON.stringify(jsonRes));
-            });
+            .on("error", function(error) { console.log("updateUserInfo FAILED"); });
 
         client.on('drain', function() {
-            console.log('caught!');
             client.end(function() {
-                console.log('end');
+                console.log("updateUserInfo success");
             });
         });
-
     })
 }
 
-/* updateUserInfoで数回更新すると落ちるバグのデバッグ試み. regNewGroup->regNewPlayerが上手くできてるっぽいので、pg.connectをコールバックしていけばなんかうまくいかないかなー 
-// ゲーム中のユーザー位置情報更新
-// input: user_name, group_name, lat, lng
-// return: secret_numbers, zombies, status, number_of_inform, zombie_points, survivors, game_state
-function updateUserInfoII(req, res, data) {
-    var json = JSON.parse(data);
-    var jsonRes = { secret_numbers: [], zombies: [], survivors: [], status: "", number_of_inform: "", zombie_points: "", game_state: "" };
-    sqlGetGameState(jsonRes, group_name, callback);
-}
-
-
-function sqlGetGameState(jsonRes, group_name, callback){
+// return: json(status, zombie_points, number_of_inform)
+function getPlayerInfo(user_name) {
+    var jsonRes = { status: "default", zombie_points: 0, number_of_inform: 0 };
     pg.connect(process.env.DATABASE_URL, function(err, client) {
-        if (err) throw err;
-        var q = "SELECT * FROM players WHERE group_name='" + json.group_name + "' ORDER BY number_of_inform, zombie_points;";
 
+        var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + user_name + "';";
         client
-            .on("error", function(error) { console.log("Sub SQL FAILED"); })
+            .query(qPlayerInfo)
+            .on("error", function(err) {
+                console.log("PostgreSQL: select status, points of player ERROR");
+                console.log(err);
+            })
             .on("row", function(row) {
-                jsonRes.game_state = row.game_state;
-            })
-            .on("end", function(result) {
-                callback();
-            })
+                console.log("playerInfo row: " + JSON.stringify(row));
+                jsonRes.status = row.status;
+                jsonRes.zombie_points = row.zombie_points;
+                jsonRes.number_of_inform = row.number_of_inform;
+            });
+
+        client.on('drain', function() {
+            client.end(function() {
+                console.log("getPlayerInfo success, return : " + JSON.stringify(jsonRes));
+                return jsonRes;
+            });
+        });
     });
 }
-*/
+
+// return: Array(jsonsecret_numbers)
+function getNearInformers(lat, lng, group_name) {
+    var secret_numbers = [];
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        var nearCondition = "sqrt((lat-" + lat + ")^2+(lng-" + lng + ")^2) > 30";
+        var qSecretNumbers = "SELECT secret_number FROM players WHERE group_name='" + group_name + "' AND " + nearCondition + ";";
+        client
+            .query(qSecretNumbers)
+            .on("error", function(err) {
+                console.log("PostgreSQL: select near secret_numbers ERROR");
+                console.log(err);
+            })
+            .on("row", function(row) {
+                console.log("secret_numbers row: " + JSON.stringify(row));
+                secret_numbers.push(row.secret_number);
+            })
+        client.on('drain', function() {
+            client.end(function() {
+                console.log("getNearInformers success");
+                return secret_numbers;
+            });
+        });
+    });
+}
+
+// return: Array(survivors)
+function getSurvivors(group_name) {
+    var survivors = [];
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        console.log("QUERY: get SecretNumbers finish.");
+        var qsurvivors = "SELECT name FROM players WHERE status='alive' AND group_name='" + group_name + "';";
+        client
+            .query(qsurvivors)
+            .on("error", function(err) {
+                console.log("PostgreSQL: select survivors ERROR");
+                console.log(err);
+            })
+            .on("row", function(row) {
+                console.log("survivors row: " + JSON.stringify(row));
+                survivors.push(row.name);
+            })
+        client.on('drain', function() {
+            client.end(function() {
+                console.log("getSurvivors success");
+                return survivors;
+            });
+        });
+    });
+}
+
+// return: Array(zombies)
+function getZombiePositions(group_name) {
+    var zombies = [];
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        var qLatLng = "SELECT lat, lng FROM players WHERE group_name='" + group_name + "' AND status='dead';";
+        client
+            .query(qLatLng)
+            .on("error", function(err) {
+                console.log("PostgreSQL: select zombies position ERROR");
+                console.log(err);
+            })
+            .on("row", function(row) {
+                console.log("zombies row: " + JSON.stringify(row));
+                zombies.push({ lat: row.lat, lng: row.lng });
+            })
+        client.on('drain', function() {
+            client.end(function() {
+                console.log("getZombiePositions success");
+                return zombies;
+            });
+        });
+    });
+}
+
+// return: string(game_state)
+function getGameStateToCheck(group_name) {
+    var game_state = "default";
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        client
+            .query("SELECT * FROM groups WHERE name='" + group_name + "';")
+            .on("row", function(row) {
+                game_state = row.game_state;
+            });
+        client.on('drain', function() {
+            client.end(function() {
+                console.log("getGameStateToCheck success");
+                return game_state;
+            });
+        });
+    });
+}
 
 
 // 密告
