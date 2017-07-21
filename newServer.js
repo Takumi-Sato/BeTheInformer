@@ -321,7 +321,7 @@ function regHostPlayerAndStartGame(req, res, data) {
     var jsonRes = { "player_regi_success": true };
 
     // 同名プレイヤーがいたらfalseを返す
-    if (getThePlayer(json.user_name) === null) {
+    if (getThePlayer(json.user_name) !== null) {
         console.log("regHost FAILED.");
         jsonRes.success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
