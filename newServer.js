@@ -331,11 +331,11 @@ function regHostPlayerAndStartGame(req, res, data) {
 
     var date = Date.now();
 
-    game_start_time = date.toTimeString();
+    game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     console.log("game_start_time was set : " + game_start_time);
 
     date.setMinutes(date.getMinutes() + game_interval_time);
-    game_end_time = date.toTimeString();
+    game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     console.log("game_end_time was set : " + game_end_time);
 
     res.writeHead(200, { "Content-Type": "application/json" });
