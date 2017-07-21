@@ -335,7 +335,7 @@ function regHostPlayerAndStartGame(req, res, data) {
     game_start_time = date.toTimeString()
     console.log("game_start_time was set : " + game_start_time);
 
-    date.setMinutes(date.getMinutes() + game_interval_time);
+    date.setMinutes(date.getMinutes() + game_play_time);
     //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     game_end_time = date.toTimeString()
     console.log("game_end_time was set : " + game_end_time);
