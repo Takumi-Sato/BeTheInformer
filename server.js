@@ -543,6 +543,8 @@ function updateUserInfo(req, res, data) {
     updatePlayerPosition(json.lat, json.lng, json.user_name);
 
     var playerInfoes = getPlayerInfo(json.user_name);
+    console.log(playerInfoes);
+    console.log(JSON.stringify(playerInfoes));
     jsonRes.status = playerInfoes.status;
     jsonRes.number_of_inform = playerInfoes.number_of_inform;
     jsonRes.zombie_points = playerInfoes.zombie_points;
@@ -663,9 +665,9 @@ function updatePlayerPosition(lat, lng, user_name) {
 
 // return: json(status, zombie_points, number_of_inform)
 function getPlayerInfo(user_name) {
+    var jsonRes = { status: "default", zombie_points: 0, number_of_inform: 0 };
     pg.connect(process.env.DATABASE_URL, function(err, client) {
 
-        var jsonRes = { status: "default", zombie_points: 0, number_of_inform: 0 };
         var qPlayerInfo = "SELECT status, number_of_inform, zombie_points FROM players WHERE name='" + user_name + "';";
         client
             .query(qPlayerInfo)
