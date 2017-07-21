@@ -10,7 +10,7 @@ if ("geolocation" in navigator) {
     function getPosition() {
         navigator.geolocation.getCurrentPosition(success, errorCallback);
     }
-    setInterval(getPosition, 10000);
+    setInterval(getPosition, 5000);
 
     function success(position) {
         var lati = position.coords.latitude;

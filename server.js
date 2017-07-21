@@ -258,7 +258,7 @@ function regNewGroup(req, res, data) {
             })
             .on("end", function() {
                 // まずユーザー登録
-                regNewPlayer(json.user_name, json.group_name, sec_num);
+                // regNewPlayer(json.user_name, json.group_name, sec_num);
 
                 res.writeHead(200, { "Content-Type": "application/json" });
                 client.query(q_getGroupName)
@@ -369,12 +369,13 @@ function canRegNewPlayer(group_name) {
 // 他のユーザーと重複しないsecret_numberを生成します.
 function createUniqueSecretNumber() {
     var sec_num = Math.floor(Math.random() * 900) + 100;
-    pg.connect(process.env.DATABASE_URL, function(err, client) {
-        var flg = true;
+    var flg = true;
+    while (flg) {
+        pg.connect(process.env.DATABASE_URL, function(err, client) {
 
-        while (flg) {
             flg = false;
             sec_num = Math.floor(Math.random() * 900) + 100;
+
             client
                 .query("SELECT secret_number FROM players WHERE secret_number=" + sec_num + ";")
                 .on("row", function(row) {
@@ -387,8 +388,8 @@ function createUniqueSecretNumber() {
                     console.log('end');
                 });
             });
-        }
-    });
+        });
+    }
     return sec_num;
 }
 
@@ -402,6 +403,13 @@ function regNewPlayer(user_name, group_name, sec_num) {
             .query(qRegUser)
             .on("err", function(err) { console.log(err); })
             .on("end", function() {});
+
+        client.on('drain', function() {
+            console.log('regNewPlayer caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -427,7 +435,14 @@ function getMemberList(req, res, data) {
                 console.log("return: " + JSON.stringify(jsonRes));
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(jsonRes));
-            })
+            });
+
+        client.on('drain', function() {
+            console.log('regNewPlayer caught!');
+            client.end(function() {
+                console.log('end');
+            });
+        });
     });
 }
 
@@ -644,7 +659,6 @@ function updateUserInfo(req, res, data) {
                 console.log('end');
             });
         });
-
     })
 }
 
