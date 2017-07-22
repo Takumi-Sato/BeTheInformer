@@ -17,13 +17,7 @@
         <div class="message">
             <p>これは相手を蹴落として勝つ <span class="ff_font">"密告ゲーム"</span></p>
         </div>
-        <div class="down">
-            <i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </div>
-        <!--
-        <div class="description" aria-hidden="true">
-
-            
+        <div class="description">  
 スマートフォンを片手にエリア内を駆け抜け
 自分以外のプレイヤーを密告しよう！
 
@@ -37,10 +31,14 @@
 
 
 誰の番号か突き止め、密告せよ！！
-        </div>-->
+        </div>
+        
+        <div class="down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
         <div class="back_img">
-            <!--<img src="icon/top_background.png">-->
-            <img src="icon/title_02.png">
+            <img src="icon/top_background.png">
+            <!--<img src="icon/title_02.png">-->
         </div>
         <div class="button">
             <button class="host" onClick="location.href='regi_game2.html'"><i class="fa fa-users" aria-hidden="true"></i> グループ作成</button>
@@ -54,13 +52,16 @@
   crossorigin="anonymous"></script>
   <script type="text/javascript">
 
-    $(".main_header .fa-cog").on("click", setClicked);
+    $(".start_page .down .fa-chevron-down").on("click", setClicked);
     function setClicked () {
-        if (description.aria-hidden=="true") {
+        console.log($('.description').css('visibility'));
+        
+        if ($('.description').css('visibility') == "hidden") {
             $("body").addClass("des_open");
         } else {
             $("body").removeClass("des_open");
         }
+        /*$("body").addClass("des_open");*/
     }
   </script>
 </body>

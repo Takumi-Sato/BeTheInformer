@@ -31,6 +31,7 @@ body {
     width: 100%;
     border-bottom: solid;
     border-color: #585858;
+    background-color: black;
 }
 
 .title h1 img{
@@ -39,29 +40,46 @@ body {
     justify-content: stretch;/*横方向*/
 }
 
+.message {
+    width: calc(100% - 60px);;
+    background-color: black;
+}
+
 .message p {
     margin: 50px 0 40px 0;
     padding: 0;
     color: white;
     white-space : pre;
     align-items: center;/*横方向*/
+    font-family: "ＭＳ 明朝";
+    text-shadow: -13px 0px 20px rgba(255, 255, 240, 0.7), 13px 0px 20px rgba(255, 255, 240, 0.7); 
 }
 
 .message .ff_font {
-    color: red;
+    color: #FF0000;
     font-size: 20px;
     font-style: bold;
+    text-shadow: -13px 0px 20px rgba(247, 129, 129, 0.7), 13px 0px 20px rgba(247, 129, 129, 0.7);
 }
 
 .start_page .down {
     width: calc(100% - 60px);
     padding: 0;
-    background-color: #585858;
-    font-size: 20%;  
+    margin: 0;
+}
+
+.start_page .down .fa-chevron-down {
+    width: 100%;
+    padding: 3px 0;
+    background-color: #383838;
+    font-size: 10px;  
     color: white;
 }
 
 .description {
+    /*display: none;*/
+    visibility: hidden;
+    position: absolute;
     width: calc(100% - 68px);
     /*padding: 0;*/
     color: white;
@@ -70,15 +88,29 @@ body {
     border: solid;
     border-color: #585858;
     border-width: 4px;
-    transform: translateY(-103%);
-    transition: transform .6s;
+    transform: translateY(-105%);
     background-color: rgba(110,110,110,0.5);
 }
 
-.des_open .description {
+.des_open .description {   
+    transition: transform .6s;
+    position: relative;
+    z-index: -50;
+    /*display: block;*/
+    visibility: visible;
+    /*animation: show 1s linear 0s;*/
     transform: translateX(0);
 }
 
+/*
+@keyframes des_open {
+    from{
+        transform: translateY(-105%);
+    } to {
+        transform: translateX(0);
+    }
+}
+*/
 .back_img img {
     margin:20px 0 30px;
     padding: 0;
@@ -120,6 +152,7 @@ body {
 .host:hover, .guest:hover, .host:active, .guest:active {
     background: #DF0101;
     color: white;
+    text-shadow: -6px 0px 15px rgba(255, 255, 240, 0.83), 6px 0px 15px rgba(255, 255, 240, 0.83);
 }
 
 .host .fa-users, .guest .fa-user-plus {
@@ -151,8 +184,10 @@ position: absolute;
     }
     .description {
         font-size: 25px;
+        width: calc(60% - 8px);
     }
     .start_page .down {
+        font-size: 20px;
         width: 60%;
     }
     .back_img img {
