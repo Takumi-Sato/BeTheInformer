@@ -66,6 +66,7 @@
         console.log("on Display()");
         console.log(data);
         /*参加者の表示*/
+        $(".group_member").empty();
         if (data.length == 0) {
             var dom = $("<li>参加者を待っています</li>");
             $(".group_menber").append(dom);
