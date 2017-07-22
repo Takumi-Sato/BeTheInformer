@@ -104,13 +104,16 @@ function areNearPosition(basePlayer, player) {
     return nearDistance > d;
 }
 
+
+// 関数名は survivors だが、ゲーム参加者全員を返す.
 function getSurvivors() {
     console.log("getSurvivors()");
     var survivors = [];
     for (var i = 0; i < players.length; ++i) {
-        if (players[i].status === "alive") {
+
+        //if (players[i].status === "alive") {
             survivors.push(players[i].name);
-        }
+        //}
     }
     return survivors;
 }
