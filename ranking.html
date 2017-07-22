@@ -83,6 +83,7 @@
         //data: JSON.stringify(data),
         dataType: "json",
         success: function(res) {
+            console.log("POST request to /ranking was responsed");
             Result(res);
         },
         error: function(res) {
@@ -97,7 +98,6 @@
             $(".ranktable").append(dom);
 
         });
-
     }
 
     $.(".reset").on("click", resetGame);

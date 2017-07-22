@@ -129,7 +129,7 @@ function getZombies() {
 function getZombiePointsIncremental() {
     console.log("getZombiePointsIncremental()");
     var zombies = getZombies();
-    return zombies.length() + 1;
+    return zombies.length + 1;
 }
 
 function updatePlayerPosition(player, lat, lng) {
