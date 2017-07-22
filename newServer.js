@@ -92,7 +92,7 @@ function getNearSecretNumbers(player) {
             continue;
         }
         if (areNearPosition(player, players[i])) {
-            secret_number.push(players[i].secret_number);
+            secret_numbers.push(players[i].secret_number);
         }
     }
     return secret_numbers;
@@ -444,6 +444,7 @@ function updateUserInfo(req, res, data) {
 
     console.log("updateUserInfo input : " + JSON.stringify(json));
     var player = getThePlayer(json.user_name);
+    console.log("updateUserInfo: user_name=" + json.user_name  + ",  players=" + JSON.stringify(players));
     console.log("the player is : " + player);
     var info = player.statusAndPoints();
 
