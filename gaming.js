@@ -501,6 +501,7 @@ $.ajax({
   dataType: "json",
   success: function(res){
     //timereceive(res.time_finish);
+    console.log("gameEndTime returns : " + JSON.stringify(res));
     var time_finish  = res.end_time;
     $(function (){
     setInterval(function(){
