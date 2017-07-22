@@ -518,7 +518,7 @@ $.ajax({
 
       $(".time_remaining").text("残り時間: "+time_remaining);
       if (time_remaining == "0:00:00"){
-        window.location.href = "/result.html";
+        window.location.href = "/ranking.html";
       }
       },1000);
     });
