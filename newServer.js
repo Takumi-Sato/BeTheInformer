@@ -119,7 +119,7 @@ function areNearPosition(basePlayer, player) {
 var a = 6378137.0;
 var b = 6356752.314245;
 var e_pow2 = 0.00669437999019758;
-var M_upper = a*(1-e_pow2);
+var M_upper = a * (1 - e_pow2);
 
 function getDistance(a_lat, a_lng, b_lat, b_lng) {
     var t = Math.PI / 180;
@@ -128,13 +128,13 @@ function getDistance(a_lat, a_lng, b_lat, b_lng) {
     b_lat = b_lat * t;
     b_lng = b_lng * t;
     var mu_lat = (a_lat + b_lat) / 2;
-    var W = Math.sqrt(1-e_pow2*Math.pow(Math.sin(mu_lat),2))
-    var N = a/W;
-    var M = M_upper/Math.pow(W, 3);
+    var W = Math.sqrt(1 - e_pow2 * Math.pow(Math.sin(mu_lat), 2))
+    var N = a / W;
+    var M = M_upper / Math.pow(W, 3);
     var d_lng = a_lng - b_lng;
     var d_lat = a_lat - b_lat;
 
-    return Math.sqrt(Math.pow(d_lat*M, 2) + Math.pow(d_lng*N*Math.cos(mu_lat), 2));
+    return Math.sqrt(Math.pow(d_lat * M, 2) + Math.pow(d_lng * N * Math.cos(mu_lat), 2));
 }
 
 // 関数名は survivors だが、ゲーム参加者全員を返す.
@@ -144,7 +144,7 @@ function getSurvivors() {
     for (var i = 0; i < players.length; ++i) {
 
         //if (players[i].status === "alive") {
-            survivors.push(players[i].name);
+        survivors.push(players[i].name);
         //}
     }
     return survivors;
@@ -361,7 +361,7 @@ function regUser(req, res, data) {
     console.log("regUser(req, res, data)");
     var json = JSON.parse(data);
     console.log("regGuestPlayer input : " + JSON.stringify(json));
-    var jsonRes = {player_regi_success: true };
+    var jsonRes = { "player_regi_success": true };
 
     // 同名プレイヤーがいたらfalseを返す
     if (getThePlayer(json.user_name) !== null) {
@@ -495,7 +495,7 @@ function updateUserInfo(req, res, data) {
 
     console.log("updateUserInfo input : " + JSON.stringify(json));
     var player = getThePlayer(json.user_name);
-    console.log("updateUserInfo: user_name=" + json.user_name  + ",  players=" + JSON.stringify(players));
+    console.log("updateUserInfo: user_name=" + json.user_name + ",  players=" + JSON.stringify(players));
     console.log("the player is : " + player);
     var info = player.statusAndPoints();
 
@@ -549,7 +549,7 @@ function inform(req, res, data) {
         player.updateRankingPoints();
     }
 
-    res.writeHead(200, {"Content-Type":"application/json"});
+    res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
 
@@ -599,7 +599,7 @@ function sortObjectArray(array, key, order, callback) {
 }
 
 
-function resetGame(req, res, data){
+function resetGame(req, res, data) {
     game_state = "wait";
     players = [];
     console.log("check dt_default: " + JSON.stringify(dt_default));
@@ -611,15 +611,15 @@ function resetGame(req, res, data){
 }
 
 
-function checkResetGame(req, res, data){
-    var jsonRes = {"game_is_reset": false};
+function checkResetGame(req, res, data) {
+    var jsonRes = { "game_is_reset": false };
     console.log("checkResetGame(req), game_state=" + game_state);
-    if(game_state === "wait") {
+    if (game_state === "wait") {
         jsonRes.game_is_reset = true;
     }
 
     console.log(JSON.stringify(jsonRes));
-    res.writeHead(200, {"Content-Type":"application/json"});
+    res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
 
