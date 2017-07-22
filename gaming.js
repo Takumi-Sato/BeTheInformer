@@ -15,6 +15,7 @@ $(function(){
     });
 });
 
+
 if ("geolocation" in navigator) {
     function getPosition() {
         navigator.geolocation.getCurrentPosition(success, errorCallback);
