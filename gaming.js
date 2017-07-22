@@ -628,7 +628,13 @@ function doSubmit() {
         dataType:      'json',
         contentType:   'application/json',
         scriptCharset: 'utf-8',
-        data:          JSON.stringify(data)
+        data:          JSON.stringify(data),
+        success: function(res){
+            console.log("Inform Success? : " + res.success);
+        },
+        error: function(res){
+            console.log("Inform ERROR");
+        } 
     });
 }
 var parseJson = function(data) {

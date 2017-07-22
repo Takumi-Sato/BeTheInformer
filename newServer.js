@@ -11,9 +11,9 @@ var game_start_time = "";
 var game_play_time = 1;
 var game_end_time = "";
 
-var start_dt = new Date(0);
-var end_dt = new Date(0);
 var dt_default = new Date(0);
+var start_dt = dt_default;
+var end_dt = dt_default;
 
 var nearDistance = 0.1; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
@@ -510,6 +510,9 @@ function inform(req, res, data) {
         player.zombie_points = 0;
         player.updateRankingPoints();
     }
+
+    res.writeHeader(200, {"Content-Type":"application/json"});
+    res.end(JSON.stringify(jsonRes));
 }
 
 function ranking(req, res, data) {
