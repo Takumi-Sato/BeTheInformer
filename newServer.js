@@ -363,8 +363,8 @@ function regUser(req, res, data) {
     console.log("regGuestPlayer input : " + JSON.stringify(json));
     var jsonRes = { "player_regi_success": true };
 
-    // 同名プレイヤーがいたらfalseを返す
-    if (getThePlayer(json.user_name) !== null) {
+    // 同名プレイヤーがいたら、または待機状態でなければ、falseを返す
+    if (game_state!=="wait" || getThePlayer(json.user_name) !== null) {
         console.log("regGuest FAILED.");
         jsonRes.player_regi_success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -403,8 +403,8 @@ function regHostPlayerAndStartGame(req, res, data) {
     console.log("regHost input : " + JSON.stringify(json));
     var jsonRes = { "player_regi_success": true };
 
-    // 同名プレイヤーがいたらfalseを返す
-    if (getThePlayer(json.user_name) !== null) {
+    // 同名プレイヤーがいたら、またはゲームが待機状態でなければfalseを返す
+    if (game_state!=="wait" || getThePlayer(json.user_name) !== null) {
         console.log("regHost FAILED.");
         jsonRes.player_regi_success = false;
         res.writeHead(200, { "Content-Type": "application/json" });

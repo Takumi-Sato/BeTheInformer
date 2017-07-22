@@ -41,36 +41,36 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
     /*
-                    $.ajax({
-                        //url: "http://192.168.17.136:8887/test_join_group.json",
-                        url: "https://be-the-informer.herokuapp.com/getGroupList",
-                        type: "post",
-                        dataType: "json",
-                        success: function(res){
-                            console.log(JSON.stringify(res));
-                            Display(res);
-                        },
-                        error: function(res){
-                            console.log("get group list ERROR");
-                        }
-                    });
-                    
-                    function Display(res) {
-                        var data = res.group_names;
-                        console.log(data);
-                        /*参加者の表示
-                        if(data.length == 0){
-                          var dom = $("<p>参加できるグループはありません</p>");
-                          $(".choose_group").append(dom);
-                        }else{
-                          for (var i=0; i<data.length;i++){
-                            var group_name = data[i];
-                            var dom = $("<input type='radio' name='group_name' value=" +group_name+ ">" +group_name+ "</input><br/>");
-                            console.log(group_name);
-                            $(".choose_group").append(dom);
-                          }
-                        }
-                      }*/
+                        $.ajax({
+                            //url: "http://192.168.17.136:8887/test_join_group.json",
+                            url: "https://be-the-informer.herokuapp.com/getGroupList",
+                            type: "post",
+                            dataType: "json",
+                            success: function(res){
+                                console.log(JSON.stringify(res));
+                                Display(res);
+                            },
+                            error: function(res){
+                                console.log("get group list ERROR");
+                            }
+                        });
+                        
+                        function Display(res) {
+                            var data = res.group_names;
+                            console.log(data);
+                            /*参加者の表示
+                            if(data.length == 0){
+                              var dom = $("<p>参加できるグループはありません</p>");
+                              $(".choose_group").append(dom);
+                            }else{
+                              for (var i=0; i<data.length;i++){
+                                var group_name = data[i];
+                                var dom = $("<input type='radio' name='group_name' value=" +group_name+ ">" +group_name+ "</input><br/>");
+                                console.log(group_name);
+                                $(".choose_group").append(dom);
+                              }
+                            }
+                          }*/
 
     $(".submit").on("click", doSubmit);
 
@@ -103,6 +103,7 @@
                         location.href = "wait_guest.html";
                     } else {
                         // #TODO: 同名プレイヤーが既に存在することを通知する
+                        window.alert("プレイヤー登録に失敗しました。\n同名プレイヤーが存在、またはゲームが待機状態でありません。");
                     }
                 },
                 error: function(res) {

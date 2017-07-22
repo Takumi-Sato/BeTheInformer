@@ -106,6 +106,7 @@
                         location.href = "playing.html";
                     } else {
                         // #TODO: 同名プレイヤーが既に存在することを通知する
+                        window.alert("プレイヤー登録に失敗しました。\n同名プレイヤーが存在、またはゲームが待機状態でありません。");
                     }
                 },
                 error: function(res) {
