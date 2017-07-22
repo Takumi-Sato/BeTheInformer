@@ -478,7 +478,7 @@ function inform(req, res, data) {
     if (target.secret_number == target_secret_number) {
         //密告成功
         target.status = "dead";
-        target.number_of_inform = 0;
+        target.number_of_inform = -1;
 
         if (player.status === "alive") {
             //密告者が密告
@@ -492,7 +492,7 @@ function inform(req, res, data) {
     } else {
         //密告失敗
         player.status = "dead";
-        player.number_of_inform = 0;
+        player.number_of_inform = -1;
         player.zombie_points = 0;
         player.updateRankingPoints();
     }
