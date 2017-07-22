@@ -15,7 +15,7 @@ var dt_default = new Date(0);
 var start_dt = dt_default;
 var end_dt = dt_default;
 
-var nearDistance = 0.1; // 「近い」と判断する距離
+var nearDistance = 20; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 var game_end_check_timer;
@@ -109,10 +109,33 @@ function getNearSecretNumbers(player) {
 
 function areNearPosition(basePlayer, player) {
     console.log("areNearPosition()");
-    var d = Math.sqrt(Math.pow(basePlayer.lat - player.lat, 2) + Math.pow(basePlayer.lng - player.lng, 2));
+    //var d = Math.sqrt(Math.pow(basePlayer.lat - player.lat, 2) + Math.pow(basePlayer.lng - player.lng, 2));
+    var d = getDistance(basePlayer.lat, basePlayer.lng, player.lat, player.lng);
+    console.log("distance: " + d + " [m]");
     return nearDistance > d;
 }
 
+
+var a = 6378137.0;
+var b = 6356752.314245;
+var e_pow2 = 0.00669437999019758;
+var M_upper = a*(1-e_pow2);
+
+function getDistance(a_lat, a_lng, b_lat, b_lng) {
+    var t = Math.PI / 180;
+    a_lat = a_lat * t;
+    a_lng = a_lng * t;
+    b_lat = b_lat * t;
+    b_lng = b_lng * t;
+    var mu_lat = (a_lat + b_lat) / 2;
+    var W = Math.sqrt(1-e_pow2*pow(Math.sin(mu_lat),2))
+    var N = a/W;
+    var M = M_upper/pow(W, 3);
+    var d_lng = a_lng - b_lng;
+    var d_lat = a_lat - b_lat;
+
+    return Math.sqrt(pow(d_lat*M, 2) + pow(d_lng*N*Math.cos(mu_lat), 2));
+}
 
 // 関数名は survivors だが、ゲーム参加者全員を返す.
 function getSurvivors() {
