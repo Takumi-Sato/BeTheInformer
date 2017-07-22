@@ -77,9 +77,11 @@ body {
     justify-content: center;/*横方向*/
     align-items: center;/*縦方向*/
     vertical-align:middle;
+    width: 40%;
 }
 
 .button .host, .guest {
+    width: 100%;
     border: double;
     margin: 0px 0px 10px;
     display: inline-block;
@@ -129,5 +131,8 @@ position: absolute;
 @media screen and (min-width:480px){
     #all {
         margin: 0 auto;
-    }   
+    }
+    .button {
+        width: 25%;
+    }
 }
