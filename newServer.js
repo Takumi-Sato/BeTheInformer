@@ -19,8 +19,8 @@ var nearDistance = 0.1; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 function isGameEnd() {
-    console.log("isGameEnd()");
     if (game_state === "play" && !(end_dt === dt_default)) {
+        console.log("nowPlaying. check isGameEnd()");
         var now = new Date();
         if (end_dt.getTime() - now.getTime() < 0) {
             console.log("Game Over");
@@ -568,8 +568,9 @@ function sortObjectArray(array, key, order, callback) {
 function resetGame(req, res, data){
     game_state = "wait";
     players = [];
-    start_dt = new Date(0);
-    end_dt = new Date(0);
+    console.log("check dt_default: " + JSON.stringify(dt_default));
+    start_dt = dt_default;
+    end_dt = dt_default;
 
     res.writeHead(200);
     res.end();
