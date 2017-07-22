@@ -6,6 +6,15 @@ var dom = $("<p>密告者: " + data_n + " さん</p>");
 $(".my_name").append(dom);
 var marker_player;
 
+// ブラウザバック防止（果たして効果はあるのか）
+$(function(){
+    history.pushState(null, null, null);
+
+    $(window).on("popstate", function(){
+        history.pushState(null, null, null);
+    });
+});
+
 if ("geolocation" in navigator) {
     function getPosition() {
         navigator.geolocation.getCurrentPosition(success, errorCallback);
