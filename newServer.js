@@ -115,7 +115,7 @@ function areNearPosition(basePlayer, player) {
     return nearDistance > d;
 }
 
-
+// getDistance 用の変数.
 var a = 6378137.0;
 var b = 6356752.314245;
 var e_pow2 = 0.00669437999019758;
