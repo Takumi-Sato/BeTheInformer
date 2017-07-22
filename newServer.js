@@ -155,6 +155,7 @@ function getZombies() {
     var zombies = [];
     for (var i = 0; i < players.length; ++i) {
         if (players[i].status === "dead") {
+            console.log("getZombies(), Hit Zombie");
             zombies.push({ "lat": players[i].lat, "lng": players[i].lng });
         }
     }
@@ -503,7 +504,7 @@ function updateUserInfo(req, res, data) {
 
     jsonRes.secret_numbers = getNearSecretNumbers(player);
     jsonRes.survivors = getSurvivors();
-    jsonRes.zombie_points = getZombies();
+    jsonRes.zombies = getZombies();
     jsonRes.status = info.status;
     jsonRes.zombie_points = info.zombie_points;
     jsonRes.number_of_inform = info.number_of_inform;
