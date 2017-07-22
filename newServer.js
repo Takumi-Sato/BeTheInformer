@@ -365,12 +365,12 @@ function regHostPlayerAndStartGame(req, res, data) {
         console.log("game_end_time was set : " + game_end_time);
 
 
-
+/*
         start_dt = Object.assign({}, date);
         end_dt = Object.assign({}, date);
         end_dt.setMinutes(end_dt.getMinutes() + game_play_time);
         console.log("end_dt : " + end_dt.toTimeString());
-
+*/
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
