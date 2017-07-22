@@ -502,7 +502,7 @@ $.ajax({
   success: function(res){
     //timereceive(res.time_finish);
     console.log("gameEndTime returns : " + JSON.stringify(res));
-    var dt = res.end_date;
+    var dt = new Date(res.end_date);
     var time_finish  = dt.toTimeString().substr(0, 8);
     $(function (){
     setInterval(function(){
