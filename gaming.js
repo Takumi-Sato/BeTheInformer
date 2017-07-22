@@ -591,11 +591,17 @@ function Display(res) {
         var dom = $("<option class='number'>近くに密告者はいません</option>");
         $(".attack_list").append(dom);
     } else {
+        var number_selected = $('[name=attack_list]').val();
         $(".attack_list").empty();
         $(".targets").empty();
         for (var i = 0; i < data_a.length; i++) {
             var number = data_a[i];
-            var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
+
+            if (number == number_selected){
+              var dom = $("<option class='number' value=" + number + " selected>" + number + "</option>");
+            }else{
+              var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
+            }
             $(".attack_list").append(dom);
             var dom2 = $("<li>" + number + "</li>");
             $(".targets").append(dom2);
@@ -604,14 +610,20 @@ function Display(res) {
     }
 
     if (data_s.length == 0) {
+        
         $(".mikkoku_name").empty();
         var dom = $("<li>生存者はいません</li>");
         $(".mikkoku_name").append(dom);
     } else {
+        var survivor_selected = $('[name=mikkoku_name]').val();
         $(".mikkoku_name").empty();
         for (var i = 0; i < data_s.length; i++) {
             var survivor = data_s[i];
-            var dom = $("<option class='target_user_name' value=" + survivor + ">" + survivor + "</option>");
+            if (survivor == survivor_selected){
+              var dom = $("<option class='target_user_name' value=" + survivor + " selected>" + survivor + "</option>");
+            }else{
+              var dom = $("<option class='target_user_name' value=" + survivor + ">" + survivor + "</option>");
+            }
             $(".mikkoku_name").append(dom);
         }
 
