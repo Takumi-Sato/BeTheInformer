@@ -15,7 +15,7 @@ var dt_default = new Date(0);
 var start_dt = dt_default;
 var end_dt = dt_default;
 
-var nearDistance = 20; // 「近い」と判断する距離
+var nearDistance = 150; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 var game_end_check_timer;
