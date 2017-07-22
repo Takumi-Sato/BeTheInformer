@@ -37,7 +37,7 @@
     </form>
     <button class="submit">登録</button>
     <h1>グループの参加者</h1>
-    <ul class="group_menber"></ul>
+    <ul class="group_member"></ul>
     <!-- トップページへのリンク -->
     <a href="BeTheInformer.html">トップに戻る</a>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -69,12 +69,12 @@
         $(".group_member").empty();
         if (data.length == 0) {
             var dom = $("<li>参加者を待っています</li>");
-            $(".group_menber").append(dom);
+            $(".group_member").append(dom);
         } else {
             for (var i = 0; i < data.length; i++) {
-                var menber = data[i];
-                var dom = $("<li>" + menber + "</li>");
-                $(".group_menber").append(dom);
+                var member = data[i];
+                var dom = $("<li>" + member + "</li>");
+                $(".group_member").append(dom);
             }
         }
     }
