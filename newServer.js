@@ -468,10 +468,14 @@ function inform(req, res, data) {
     var jsonRes = { "success": false };
     console.log("inform(req, res, data);    input:" + JSON.stringify(json));
 
-    var player = getThePlayer(json.my_user_name);
-    var target = getThePlayer(json.target_user_name);
+    var my_user_name = json.my_user_name;
+    var target_secret_number = json.mikkoku_id;
+    var target_user_name = json.mikkoku_name;
 
-    if (target.secret_number == json.target_secret_number) {
+    var player = getThePlayer(my_user_name);
+    var target = getThePlayer(target_user_name);
+
+    if (target.secret_number == target_secret_number) {
         //密告成功
         target.status = "dead";
         target.number_of_inform = 0;
