@@ -487,12 +487,22 @@ function inform(req, res, data) {
 
 function ranking(req, res, data) {
     console.log("ranking(req, res, data)");
+    var ranking = [];
     var jsonRes = { "ranking": [] };
+/*
+    for(var i=0; i<players.length; ++i) {
+        ranking.push({"name": players[i].name, "ranking_points":players[i].ranking_points});
+    }
+*/
 
     sortObjectArray(players, "ranking_points", "desc", function(data) {
         console.log("sort result : " + JSON.stringify(data));
+        for(var i=0; i<data.length; ++i){
+            ranking.push(data[i].name);
+        }
+        jsonRes.ranking = ranking;
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(data));
+        res.end(JSON.stringify(jsonRes));
     });
 }
 
