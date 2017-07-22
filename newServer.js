@@ -311,19 +311,26 @@ function processFunction(req, res, data) {
 function regUser(req, res, data) {
     console.log("regUser(req, res, data)");
     var json = JSON.parse(data);
-    var jsonRes = { "success": true };
+    console.log("regGuestPlayer input : " + JSON.stringify(json));
+    var jsonRes = { "player_regi_success": true };
 
     // 同名プレイヤーがいたらfalseを返す
-    if (getThePlayer(json.user_name) === null) {
+    if (getThePlayer(json.user_name) !== null) {
+        console.log("regGuest FAILED.");
         jsonRes.success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
-    }
-    var sec_num = createUniqueSecretNumber();
-    players.push(new Player(json.user_name, sec_num));
+    } else {
+        console.log("regGuest Success");
+        var sec_num = createUniqueSecretNumber();
+        var player = new Player(json.user_name, sec_num);
+        console.log(player);
+        console.log(JSON.stringify(player));
+        players.push(player);
+        console.log("after reg Guest players = " + JSON.stringify(players));
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(jsonRes));
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(jsonRes));
 }
 
 function getMemberList(req, res, data) {
