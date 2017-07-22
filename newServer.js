@@ -20,7 +20,7 @@ var players = []; // 参加プレイヤーのリスト
 
 function isGameEnd() {
     console.log("isGameEnd()");
-    if (!(end_dt === dt_default)) {
+    if (game_state === "play" && !(end_dt === dt_default)) {
         var now = new Date();
         if(end_dt.getTime() - now.getTime() < 0) {
             console.log("Game Over");
