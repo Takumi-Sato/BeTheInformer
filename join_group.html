@@ -107,7 +107,7 @@
       }
 
       function formCheck() {
-        var flag = 1;
+        var flag = 0;
         /* グループ選択されていないとき */
         /*
         for(i=0;i<document.forms.join.group_name.length;i++) {
@@ -120,7 +120,7 @@
 
         /* ユーザー名が登録されていないとき */
         if(document.forms.join.user_name.value == ""){
-          flag = 0;
+          flag = 1;
         }
         return flag;
       }
