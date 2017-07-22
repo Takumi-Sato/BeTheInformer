@@ -121,7 +121,8 @@
       $.ajax({
         url: "https://be-the-informer.herokuapp.com/checkResetGame",
         type: "post",
-        dataType: "application/json",
+        dataType: "json",
+        contentType: "application/json"
         scriptCharset: "utf-8",
         success: function(res) {
           console.log("Success checkReset, return: " + JSON.stringify(res));
