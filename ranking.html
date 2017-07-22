@@ -74,13 +74,13 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
     <script>
-      var data = {"group_name": localStorage.group_name}
+      //var data = {"group_name": localStorage.group_name}
       $.ajax({
         //url: "http://192.168.11.4:8887/result.json",
         url: "https://be-the-informer.herokuapp.com/ranking",
-        //type: "post",
+        type: "post",
         contentType: "application/json",
-        data: JSON.stringify(data),
+        //data: JSON.stringify(data),
         dataType: "json",
         success: function(res){
           Result(res);

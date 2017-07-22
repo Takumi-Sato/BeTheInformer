@@ -173,7 +173,7 @@ app.get('/gaming.js', function(req, res) {
 });
 
 app.get('/ranking.html', function(req, res) {
-    res.sendfile("result.html");
+    res.sendfile("ranking.html");
 });
 
 app.get('/wait_guest.html', function(req, res) {
