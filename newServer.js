@@ -424,6 +424,7 @@ function getEndTime(req, res, data) {
 
     var end_time_str = end_dt.toTimeString();
     var jsonRes = { "end_time": end_dt};
+    console.log(" get End Time return : " + JSON.stringify(jsonRes));
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
