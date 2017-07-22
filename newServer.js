@@ -494,6 +494,7 @@ function inform(req, res, data) {
 
     if (target.secret_number == target_secret_number) {
         //密告成功
+        jsonRes.success = true;
         target.status = "dead";
         target.number_of_inform = -1;
 
