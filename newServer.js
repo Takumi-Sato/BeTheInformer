@@ -464,9 +464,9 @@ function updateUserInfo(req, res, data) {
 }
 
 function inform(req, res, data) {
-    console.log("inform(req, res, data)");
     var json = JSON.parse(data);
     var jsonRes = { "success": false };
+    console.log("inform(req, res, data);    input:" + JSON.stringify(json));
 
     var player = getThePlayer(json.my_user_name);
     var target = getThePlayer(json.target_user_name);
