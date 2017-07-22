@@ -173,7 +173,7 @@ app.get('/gaming.js', function(req, res) {
 });
 
 app.get('/ranking.html', function(req, res) {
-    res.sendfile("ranking.html");
+    res.sendfile("result.html");
 });
 
 app.get('/wait_guest.html', function(req, res) {
@@ -420,8 +420,10 @@ function getGameState(req, res, data) {
 }
 
 function getEndTime(req, res, data) {
+    var dtTemp = new Date(end_dt.getTime());
+
     var end_time_str = end_dt.toTimeString();
-    var jsonRes = { "end_time": end_time_str};
+    var jsonRes = { "end_time": end_dt};
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
