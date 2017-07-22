@@ -8,7 +8,7 @@ var app = express();
 
 var game_state = ""; // ゲーム状態
 var game_start_time = "";
-var game_play_time = 30;
+var game_play_time = 1;
 var game_end_time = "";
 
 var start_dt = new Date(0);
@@ -170,6 +170,10 @@ app.get("/BeTheInformer.html", function(req, res) {
 
 app.get('/gaming.js', function(req, res) {
     res.sendfile("gaming.js");
+});
+
+app.get('/ranking.html', function(req, res) {
+    res.sendfile("ranking.html");
 });
 
 app.get('/wait_guest.html', function(req, res) {
