@@ -582,6 +582,7 @@ function checkResetGame(req, res, data){
         jsonRes.game_is_reset = true;
     }
 
+    console.log(JSON.stringify(jsonRes));
     res.writeHead(200, {"Content-Type":"application/json"});
     res.end(JSON.stringify(jsonRes));
 }

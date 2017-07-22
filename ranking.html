@@ -124,9 +124,9 @@
         dataType: "application/json",
         scriptCharset: "utf-8",
         success: function(res) {
-          console.log("Success checkReset");
+          console.log("Success checkReset, return: " + JSON.stringify(res));
           if(res.game_is_reset) {
-            location.href = "BeTheInformer.html";
+            location.href = "/BeTheInformer.html";
           }
         },
         error: function(res){
