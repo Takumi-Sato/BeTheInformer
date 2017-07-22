@@ -497,7 +497,10 @@ function ranking(req, res, data) {
 }
 
 function sortObjectArray(array, key, order, callback) {
-    console.log("sortObjectArray, key="+key+", array="+array);
+    console.log("sortObjectArray, key="+key);
+    for(var i=0; i<array.length; ++i) {
+        console.log("array["+ i + "] = " + Object.toString(array[i]));
+    }
     var whenAisLarger = -1;
     var whenAisSmaller = 1;
 
