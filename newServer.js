@@ -128,13 +128,13 @@ function getDistance(a_lat, a_lng, b_lat, b_lng) {
     b_lat = b_lat * t;
     b_lng = b_lng * t;
     var mu_lat = (a_lat + b_lat) / 2;
-    var W = Math.sqrt(1-e_pow2*pow(Math.sin(mu_lat),2))
+    var W = Math.sqrt(1-e_pow2*Math.pow(Math.sin(mu_lat),2))
     var N = a/W;
-    var M = M_upper/pow(W, 3);
+    var M = M_upper/Math.pow(W, 3);
     var d_lng = a_lng - b_lng;
     var d_lat = a_lat - b_lat;
 
-    return Math.sqrt(pow(d_lat*M, 2) + pow(d_lng*N*Math.cos(mu_lat), 2));
+    return Math.sqrt(Math.pow(d_lat*M, 2) + Math.pow(d_lng*N*Math.cos(mu_lat), 2));
 }
 
 // 関数名は survivors だが、ゲーム参加者全員を返す.
