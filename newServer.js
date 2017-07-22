@@ -6,7 +6,7 @@ var port = process.env.PORT || 5000;
 
 var app = express();
 
-var game_state = ""; // ゲーム状態
+var game_state = "wait"; // ゲーム状態, wait/play/finish のいずれか
 var game_start_time = "";
 var game_play_time = 1;
 var game_end_time = "";
@@ -15,7 +15,7 @@ var start_dt = new Date(0);
 var end_dt = new Date(0);
 var dt_default = new Date(0);
 
-var nearDistance = 30; // 「近い」と判断する距離
+var nearDistance = 0.1; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 function isGameEnd() {
@@ -242,6 +242,14 @@ app.post("/getEndTime", function(req, res) {
 app.post("/regHostPlayerAndStartGame", function(req, res) {
     onRequestPost(req, res);
 });
+app.post("/resetGame", function(req, res) {
+    onRequestPost(req, res);
+});
+
+app.post("/checkResetGame", function(req, res) {
+    onRequestPost(req, res);
+});
+
 
 //POSTメソッドのハンドラ
 function onRequestPost(req, res) {
@@ -300,6 +308,12 @@ function processFunction(req, res, data) {
             break;
         case "/regHostPlayerAndStartGame":
             regHostPlayerAndStartGame(req, res, data);
+            break;
+        case "/resetGame":
+            resetGame(req, res, data);
+            break;
+        case "/checkResetGame":
+            checkResetGame(req, res, data);
             break;
         default:
             break;
@@ -543,6 +557,24 @@ function sortObjectArray(array, key, order, callback) {
     callback(array);
 }
 
+
+function resetGame(req, res, data){
+    game_state = "wait";
+    players = [];
+    start_dt = new Date(0);
+    end_dt = new Date(0);
+}
+
+
+function checkResetGame(req, res, data){
+    var jsonRes = {"game_is_reset":false};
+    if(game_state === "wait") {
+        jsonRes.game_is_reset = true;
+    }
+
+    res.writeHead(200, {"Content-Type":"application/json"});
+    res.end(JSON.stringify(jsonRes));
+}
 
 app.listen(app.get("port"), function() {
     console.log("Node app is running at localhost:" + app.get('port'));
