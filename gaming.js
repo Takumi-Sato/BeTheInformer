@@ -83,7 +83,7 @@ function SendPosition(lati, long, name) {
                 window.location.href = "/ranking.html";
             }
             if (res.status === "alive") {
-                markPos(res);
+                markPos(res.zombies);
             }
             Display(res);
         },
@@ -387,12 +387,12 @@ function initMap() {
         document.getElementById("map"), // マップを表示する要素
         mapOptions // マップオプション
     );
-
 }
 
-function markPos(pos_data) {
-    for (var arrCount = 0; arrCount < pos_data.zombies.length; arrCount++) {
-        var pos = new google.maps.LatLng(pos_data.zombies[arrCount].x, pos_data.zombies[arrCount].y);
+function markPos(pos_array) {
+    zonbi = [];
+    for (var arrCount = 0; arrCount < pos_array.length; arrCount++) {
+        var pos = new google.maps.LatLng(pos_array[arrCount].lat, pos_array[arrCount].lng);
         //var name = pos_data.students[arrCount].name;
         //   var icon = new google.maps.MarkerImage('zonbi_icon.png',
         //    new google.maps.Size(45,51),
@@ -407,14 +407,9 @@ function markPos(pos_data) {
         });
         zonbi.push(marker);
         marker.setMap(map);
-
-
     }
-
     displaymap(nowmap, zonbi);
-
 }
-
 
 /*
 $.ajax({
