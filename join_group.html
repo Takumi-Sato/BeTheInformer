@@ -98,9 +98,9 @@
                 scriptCharset: 'utf-8',
                 data: JSON.stringify(json),
                 success: function(res) {
-                    console.log(JSON.stringify(res));
+                    console.log("regUser return : "JSON.stringify(res));
                     if (res.player_regi_success) {
-                        location.href = "/wait_guest.html";
+                        location.href = "wait_guest.html";
                     } else {
                         // #TODO: 同名プレイヤーが既に存在することを通知する
                     }

@@ -361,7 +361,7 @@ function regUser(req, res, data) {
     console.log("regUser(req, res, data)");
     var json = JSON.parse(data);
     console.log("regGuestPlayer input : " + JSON.stringify(json));
-    var jsonRes = { "player_regi_success": true };
+    var jsonRes = {player_regi_success: true };
 
     // 同名プレイヤーがいたらfalseを返す
     if (getThePlayer(json.user_name) !== null) {
