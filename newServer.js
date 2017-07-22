@@ -569,6 +569,9 @@ function resetGame(req, res, data){
     players = [];
     start_dt = new Date(0);
     end_dt = new Date(0);
+
+    res.writeHead(200);
+    res.end();
 }
 
 
