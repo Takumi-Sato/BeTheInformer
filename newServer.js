@@ -19,9 +19,11 @@ var nearDistance = 30; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 function isGameEnd() {
+    console.log("isGameEnd()");
     if (!(end_dt === dt_default)) {
         var now = new Date();
         if(end_dt.getTime() - now.getTime() < 0) {
+            console.log("Game Over");
             game_state = "finish";
         }
     }
