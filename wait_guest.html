@@ -56,7 +56,6 @@
         });
         setTimeout(getGameState, 5000);
     }
-    setInterval(getGameState, 5000);
 
 
     /* 名前などの表示 */
@@ -68,7 +67,8 @@
 
     /* ステータスが変わっていたらゲームを開始する */
     function State(res) {
-        var data = res.state;
+        console.log("getGameState res : " + JSON.stringify(res));
+        var data = res.game_state;
         console.log(data);
         /* ステータス(wait/play)をみてplayだったらゲーム画面へ */
         if (data == "play") {
