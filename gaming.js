@@ -387,7 +387,6 @@ function initMap() {
         document.getElementById("map"), // マップを表示する要素
         mapOptions // マップオプション
     );
-
 }
 
 function markPos(pos_array) {
@@ -411,7 +410,6 @@ function markPos(pos_array) {
     }
     displaymap(nowmap, zonbi);
 }
-
 
 /*
 $.ajax({
