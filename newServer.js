@@ -490,14 +490,14 @@ function ranking(req, res, data) {
     var jsonRes = { "ranking": [] };
 
     sortObjectArray(players, "ranking_points", "desc", function(data) {
-        console.log(JSON.stringify(data));
+        console.log("sort result : " + JSON.stringify(data));
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(data));
     });
 }
 
 function sortObjectArray(array, key, order, callback) {
-    console.log("sortObjectArray");
+    console.log("sortObjectArray, key="+key+", array="+array);
     var whenAisLarger = -1;
     var whenAisSmaller = 1;
 
