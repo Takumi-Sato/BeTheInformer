@@ -336,7 +336,7 @@ function regUser(req, res, data) {
 
 function getMemberList(req, res, data) {
     console.log("getMemberList(req, res, data)");
-    var jsonRes = { "group_members": [] };
+    var jsonRes = { "members": [] };
 
     for (var i = 0; i < players.length; ++i) {
         jsonRes.members.push(players[i].name);
