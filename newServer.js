@@ -22,7 +22,7 @@ function isGameEnd() {
     console.log("isGameEnd()");
     if (game_state === "play" && !(end_dt === dt_default)) {
         var now = new Date();
-        if(end_dt.getTime() - now.getTime() < 0) {
+        if (end_dt.getTime() - now.getTime() < 0) {
             console.log("Game Over");
             game_state = "finish";
         }
@@ -331,6 +331,7 @@ function regUser(req, res, data) {
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
+    }
 }
 
 function getMemberList(req, res, data) {
@@ -372,16 +373,16 @@ function regHostPlayerAndStartGame(req, res, data) {
         game_state = "play";
 
         var date = new Date();
-/*
-        //game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        game_start_time = date.toTimeString()
-        console.log("game_start_time was set : " + game_start_time);
+        /*
+                //game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                game_start_time = date.toTimeString()
+                console.log("game_start_time was set : " + game_start_time);
 
-        date.setMinutes(date.getMinutes() + game_play_time);
-        //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        game_end_time = date.toTimeString()
-        console.log("game_end_time was set : " + game_end_time);
-*/
+                date.setMinutes(date.getMinutes() + game_play_time);
+                //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                game_end_time = date.toTimeString()
+                console.log("game_end_time was set : " + game_end_time);
+        */
 
 
         start_dt = new Date(date.getTime());
@@ -430,7 +431,7 @@ function getEndTime(req, res, data) {
     var dtTemp = new Date(end_dt.getTime());
 
     var end_time_json = end_dt.toJSON();
-    var jsonRes = { "end_date": end_time_json};
+    var jsonRes = { "end_date": end_time_json };
     console.log(" get End Time return : " + JSON.stringify(jsonRes));
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
@@ -496,15 +497,15 @@ function ranking(req, res, data) {
     console.log("ranking(req, res, data)");
     var ranking = [];
     var jsonRes = { "ranking": [] };
-/*
-    for(var i=0; i<players.length; ++i) {
-        ranking.push({"name": players[i].name, "ranking_points":players[i].ranking_points});
-    }
-*/
+    /*
+        for(var i=0; i<players.length; ++i) {
+            ranking.push({"name": players[i].name, "ranking_points":players[i].ranking_points});
+        }
+    */
 
     sortObjectArray(players, "ranking_points", "desc", function(data) {
         console.log("sort result : " + JSON.stringify(data));
-        for(var i=0; i<data.length; ++i){
+        for (var i = 0; i < data.length; ++i) {
             ranking.push(data[i].name);
         }
         jsonRes.ranking = ranking;
@@ -514,9 +515,9 @@ function ranking(req, res, data) {
 }
 
 function sortObjectArray(array, key, order, callback) {
-    console.log("sortObjectArray, key="+key);
-    for(var i=0; i<array.length; ++i) {
-        console.log("array["+ i + "] = " + Object.toString(array[i]));
+    console.log("sortObjectArray, key=" + key);
+    for (var i = 0; i < array.length; ++i) {
+        console.log("array[" + i + "] = " + Object.toString(array[i]));
     }
     var whenAisLarger = -1;
     var whenAisSmaller = 1;
