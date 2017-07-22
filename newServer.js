@@ -13,16 +13,21 @@ var game_end_time = "";
 
 var start_dt = new Date(0);
 var end_dt = new Date(0);
+var dt_default = new Date(0);
 
 var nearDistance = 30; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 function isGameEnd() {
-    if (!(game_end_time === "")) {
-        var dt = new Date();
-        var end_time_dt = new Date();
+    if (!(end_dt === dt_default)) {
+        var now = new Date();
+        if(end_dt.getTime() - now.getTime() < 0) {
+            game_state = "finish";
+        }
     }
 }
+
+setInterval(isGameEnd, 1000);
 
 function Player(name, secret_number) {
     console.log("Player()");
@@ -354,7 +359,7 @@ function regHostPlayerAndStartGame(req, res, data) {
         game_state = "play";
 
         var date = new Date();
-
+/*
         //game_start_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         game_start_time = date.toTimeString()
         console.log("game_start_time was set : " + game_start_time);
@@ -363,12 +368,13 @@ function regHostPlayerAndStartGame(req, res, data) {
         //game_end_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         game_end_time = date.toTimeString()
         console.log("game_end_time was set : " + game_end_time);
-
+*/
 
 
         start_dt = new Date(date.getTime());
         end_dt = new Date(date.getTime());
         end_dt.setMinutes(end_dt.getMinutes() + game_play_time);
+        console.log("start_dt : " + start_dt.toTimeString());
         console.log("end_dt : " + end_dt.toTimeString());
 
         res.writeHead(200, { "Content-Type": "application/json" });
