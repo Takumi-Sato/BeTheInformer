@@ -17,9 +17,8 @@ var end_dt = undefined;
 var nearDistance = 30; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
-function isGameEnd(){
-    if(!(game_end_time === ""))
-    {
+function isGameEnd() {
+    if (!(game_end_time === "")) {
         var dt = new Date();
         var end_time_dt = new Date()
     }
@@ -365,11 +364,20 @@ function regHostPlayerAndStartGame(req, res, data) {
         game_end_time = date.toTimeString()
         console.log("game_end_time was set : " + game_end_time);
 
+
+
+        start_dt = Object.assign({}, date);
+        end_dt = Object.assign({}, date);
+        end_dt.setMinutes(end_dt.getMinutes() + game_play_time);
+        console.log("end_dt : " + end_dt.toTimeString());
+
+
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
     }
 }
 
+/*
 function gameStart(req, res, data) {
     console.log("gameStart(req, res, data)");
     game_state = "play";
@@ -391,6 +399,7 @@ function gameStart(req, res, data) {
 
     res.writeHead(200);
 }
+*/
 
 function getGameState(req, res, data) {
     console.log("getGameState(req, res, data)");
@@ -412,7 +421,7 @@ function updateUserInfo(req, res, data) {
 
     console.log("updateUserInfo input : " + JSON.stringify(json));
     var player = getThePlayer(json.user_name);
-    console.log("the player is : " + player );
+    console.log("the player is : " + player);
     var info = player.statusAndPoints();
 
     updatePlayerPosition(player, json.lat, json.lng);
