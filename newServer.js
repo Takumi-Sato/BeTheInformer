@@ -576,7 +576,7 @@ function resetGame(req, res, data){
 
 
 function checkResetGame(req, res, data){
-    var jsonRes = {"game_is_reset":false};
+    var jsonRes = {"game_is_reset": false};
     console.log("checkResetGame(req), game_state=" + game_state);
     if(game_state === "wait") {
         jsonRes.game_is_reset = true;
