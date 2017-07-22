@@ -505,7 +505,7 @@ function sortObjectArray(array, key, order, callback) {
         whenAisSmaller = -1;
     }
 
-    data = data.sort(function(a, b) {
+    array = array.sort(function(a, b) {
         var x = a[key];
         var y = b[key];
         if (x > y) return whenAisLarger;
