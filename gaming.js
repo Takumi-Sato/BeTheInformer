@@ -418,7 +418,7 @@ function markPos(pos_data) {
 
 /*
 $.ajax({
-  url: "http://192.168.17.122:8887/test_use_json.json",
+  url: "http://192.168.11.4:8887/test_use_json.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
   //type: "post",
   dataType: "json",
@@ -503,7 +503,7 @@ var timeMath = {
 //ゲームの終了時間を受け取る
 //var data_group_name = {"group_name":localStorage.group_name}
 $.ajax({
-  //url: "http://192.168.17.122:8887/time.json",
+  //url: "http://192.168.11.4:8887/time.json",
   url: "https://be-the-informer.herokuapp.com/getEndTime",
   type: "post",
   contentType: "application/json",
@@ -578,6 +578,7 @@ function Display(res) {
 
     if (res.status === 'dead') {
         $("body").addClass("zonbi");
+        $(".attribute").attr('src','icon/attribute_icon_zonbi.png')
         $(".my_name").empty();
         var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
         $(".my_name").append(dom);
