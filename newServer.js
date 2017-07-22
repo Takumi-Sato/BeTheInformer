@@ -513,7 +513,7 @@ function sortObjectArray(array, key, order, callback) {
         return 0;
     });
 
-    callback(data);
+    callback(array);
 }
 
 
