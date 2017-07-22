@@ -495,8 +495,8 @@ var timeMath = {
 $.ajax({
   //url: "http://192.168.17.122:8887/time.json",
   url: "https://be-the-informer.herokuapp.com/getEndTime",
-  //type: "post",
-  //contentType: "application/json",
+  type: "post",
+  contentType: "application/json",
   //data: JSON.stringify(data_group_name),
   dataType: "json",
   success: function(res){

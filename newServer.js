@@ -416,7 +416,8 @@ function getGameState(req, res, data) {
 }
 
 function getEndTime(req, res, data) {
-    var jsonRes = { "game_end_time": game_end_time };
+    var end_time_str = end_dt.toTimeString();
+    var jsonRes = { "end_time": end_time_str};
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(jsonRes));
 }
