@@ -96,19 +96,16 @@
             $.ajax({
                 url: 'https://be-the-informer.herokuapp.com/regHostPlayerAndStartGame',
                 type: 'post',
-                dataType: 'text',
+                dataType: 'json',
                 contentType: 'application/json',
                 scriptCharset: 'utf-8',
                 data: JSON.stringify(json),
                 success: function(res) {
                     console.log("regHostPlayerAndStartGame return: " + res);
-                    if(res.player_regi_success){
-
-                    location.href = "playing.html";
-                    }
-                    else
-                    {
-                      // #TODO: 同名プレイヤーが既に存在することを通知する
+                    if (res.player_regi_success) {
+                        location.href = "playing.html";
+                    } else {
+                        // #TODO: 同名プレイヤーが既に存在することを通知する
                     }
                 },
                 error: function(res) {
