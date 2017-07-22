@@ -101,7 +101,7 @@
                 scriptCharset: 'utf-8',
                 data: JSON.stringify(json),
                 success: function(res) {
-                    console.log("regHostPlayerAndStartGame return: " + res);
+                    console.log("regHostPlayerAndStartGame return: " + JSON.stringify(res));
                     if (res.player_regi_success) {
                         location.href = "playing.html";
                     } else {
