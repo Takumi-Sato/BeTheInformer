@@ -11,8 +11,8 @@ var game_start_time = "";
 var game_play_time = 30;
 var game_end_time = "";
 
-var start_dt = undefined;
-var end_dt = undefined;
+var start_dt = new Date(0);
+var end_dt = new Date(0);
 
 var nearDistance = 30; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
@@ -20,7 +20,7 @@ var players = []; // 参加プレイヤーのリスト
 function isGameEnd() {
     if (!(game_end_time === "")) {
         var dt = new Date();
-        var end_time_dt = new Date()
+        var end_time_dt = new Date();
     }
 }
 
@@ -365,12 +365,11 @@ function regHostPlayerAndStartGame(req, res, data) {
         console.log("game_end_time was set : " + game_end_time);
 
 
-/*
-        start_dt = Object.assign({}, date);
-        end_dt = Object.assign({}, date);
+
+        start_dt = new Date(date.getTime());
+        end_dt = new Date(date.getTime());
         end_dt.setMinutes(end_dt.getMinutes() + game_play_time);
         console.log("end_dt : " + end_dt.toTimeString());
-*/
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(jsonRes));
