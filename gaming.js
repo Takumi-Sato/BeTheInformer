@@ -79,6 +79,7 @@ function SendPosition(lati, long, name) {
         dataType: "json",
         success: function(res) {
             console.log("sendPosData: Success");
+            console.log(res);
             if (res.game_state==="finish") {
                 window.location.href = "/ranking.html";
             }
