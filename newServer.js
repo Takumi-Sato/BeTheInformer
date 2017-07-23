@@ -312,21 +312,22 @@ function onRequestPost(req, res) {
     if (req.method !== "POST") return;
     var data = "";
     //読み込み中
-    req.on("readable", function() { // 三コメ: まだ readableStream に readabl なものがあれば
+    req.on("readable", function() {
         var d = req.read();
-        if (d != null) data += d; // 三コメ: data に連結する
+        if (d != null) data += d;
     });
     //読み込み完了
-    req.on("end", function() { // 三コメ: end というイベントがあるのは仕様
+    req.on("end", function() {
         processFunction(req, res, data);
         console.log(data);
     });
-    //なんかエラー
-    req.on("error", function() { // 三コメ: error というイベントがあるのも仕様
+    //エラー
+    req.on("error", function() {
         console.log("Error" + data);
     });
 }
 
+// URLでPOSTリクエストへのレスポンスを返すメソッドの振り分け
 function processFunction(req, res, data) {
     switch (req.url) {
         case "/regNewGroup":
@@ -376,8 +377,7 @@ function processFunction(req, res, data) {
     }
 }
 
-
-
+// ユーザー登録. ゲストユーザーバージョン
 function regUser(req, res, data) {
     console.log("regUser(req, res, data)");
     var json = JSON.parse(data);
@@ -404,6 +404,7 @@ function regUser(req, res, data) {
     }
 }
 
+// メンバー一覧を返します.
 function getMemberList(req, res, data) {
     console.log("getMemberList(req, res, data)");
     var jsonRes = { "members": [] };
