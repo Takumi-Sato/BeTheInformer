@@ -100,7 +100,7 @@ function getNearSecretNumbers(player) {
         if (players[i].name == player.name) {
             continue;
         }
-        if (areNearPosition(player, players[i])) {
+        if (areNearPosition(player, players[i]) && players[i].status==="alive") {
             secret_numbers.push(players[i].secret_number);
         }
     }
@@ -137,15 +137,15 @@ function getDistance(a_lat, a_lng, b_lat, b_lng) {
     return Math.sqrt(Math.pow(d_lat * M, 2) + Math.pow(d_lng * N * Math.cos(mu_lat), 2));
 }
 
-// 関数名は survivors だが、ゲーム参加者全員を返す.
-function getSurvivors() {
+// 自分以外のゲーム参加者全員を返す.
+// 関数名は survivors だが気にしない.
+function getSurvivors(user_name) {
     console.log("getSurvivors()");
     var survivors = [];
     for (var i = 0; i < players.length; ++i) {
-
-        //if (players[i].status === "alive") {
-        survivors.push(players[i].name);
-        //}
+        if (players[i].name !== user_name) {
+            survivors.push(players[i].name);
+        }
     }
     return survivors;
 }
@@ -385,7 +385,7 @@ function regUser(req, res, data) {
     var jsonRes = { "player_regi_success": true };
 
     // 同名プレイヤーがいたら、または待機状態でなければ、falseを返す
-    if (game_state!=="wait" || getThePlayer(json.user_name) !== null) {
+    if (game_state !== "wait" || getThePlayer(json.user_name) !== null) {
         console.log("regGuest FAILED.");
         jsonRes.player_regi_success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -426,7 +426,7 @@ function regHostPlayerAndStartGame(req, res, data) {
     var jsonRes = { "player_regi_success": true };
 
     // 同名プレイヤーがいたら、またはゲームが待機状態でなければfalseを返す
-    if (game_state!=="wait" || getThePlayer(json.user_name) !== null) {
+    if (game_state !== "wait" || getThePlayer(json.user_name) !== null) {
         console.log("regHost FAILED.");
         jsonRes.player_regi_success = false;
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -524,7 +524,7 @@ function updateUserInfo(req, res, data) {
     updatePlayerPosition(player, json.lat, json.lng);
 
     jsonRes.secret_numbers = getNearSecretNumbers(player);
-    jsonRes.survivors = getSurvivors();
+    jsonRes.survivors = getSurvivors(json.user_name);
     jsonRes.zombies = getZombies();
     jsonRes.status = info.status;
     jsonRes.zombie_points = info.zombie_points;
@@ -549,11 +549,9 @@ function inform(req, res, data) {
     var target = getThePlayer(target_user_name);
 
     if (target.secret_number == target_secret_number) {
-        //密告成功
+        // 密告成功
         jsonRes.success = true;
-        target.status = "dead";
-        target.number_of_inform = -1;
-
+        // ポイント計算
         if (player.status === "alive") {
             //密告者が密告
             ++player.number_of_inform;
@@ -561,10 +559,14 @@ function inform(req, res, data) {
             //ゾンビが密告
             player.zombie_points += getZombiePointsIncremental();
         }
+        // 密告された側はゾンビ化
+        target.status = "dead";
+        target.number_of_inform = -1;
+
         player.updateRankingPoints();
         target.updateRankingPoints();
     } else {
-        //密告失敗
+        //密告失敗 -> 密告者はゾンビ化, ゾンビポイントもリセット.
         player.status = "dead";
         player.number_of_inform = -1;
         player.zombie_points = 0;
@@ -588,7 +590,7 @@ function ranking(req, res, data) {
     sortObjectArray(players, "ranking_points", "desc", function(data) {
         console.log("sort result : " + JSON.stringify(data));
         for (var i = 0; i < data.length; ++i) {
-            ranking.push({"name":data[i].name, "number_of_inform":data[i].number_of_inform, "zombie_points":data[i].zombie_points});
+            ranking.push({ "name": data[i].name, "number_of_inform": data[i].number_of_inform, "zombie_points": data[i].zombie_points });
         }
         jsonRes.ranking = ranking;
         res.writeHead(200, { "Content-Type": "application/json" });
