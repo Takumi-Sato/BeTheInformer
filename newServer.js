@@ -232,6 +232,22 @@ app.get('/icon/top_background.png', function(req, res) {
     res.sendfile("./icon/top_background.png");
 })
 
+app.get('/icon/back_normal.png', function(req, res) {
+    res.sendfile("./icon/back_normal.png");
+})
+
+app.get('/icon/back_zonbi.png', function(req, res) {
+    res.sendfile("./icon/back_zonbi.png");
+})
+
+app.get('/icon/attribute_icon_informer.png', function(req, res) {
+    res.sendfile("./icon/attribute_icon_informer.png");
+})
+
+app.get('/icon/attribute_icon_zonbi.png', function(req, res) {
+    res.sendfile("./icon/attribute_icon_zonbi.png");
+})
+
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
