@@ -135,22 +135,37 @@
 
     .informed {
         display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-content: baseline;
+        
+
     }
 
-
-
-    .row {
-        float: left;
-        margin-right: 20px;
+    .mikkoku {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        align-content: center;
+        background: rgba(0,169,157,0.5);
+        /*
+        background-color: #00A99D;
+        opacity: 0.5;
+        */
+        color:white;
+        
     }
 
     button {
         width: 80px;
         border: double;
-        margin: 0px 0px 10px;
+        /*margin: 0px 0px 10px;*/
+        margin-top: 1vh;
+        margin-left:auto;
+        margin-right: auto;
         display: inline-block;
         font-weight: bold;
-        padding: 10px;
+        /*padding: 10px;*/
         text-decoration: none;
         color:  #FFF;
         background:#DF0101;
@@ -158,6 +173,7 @@
         transition: .4s;
         font-size: 15px;
         border-radius: 5px;
+        text-align: center;
     }
 
     @media screen and (max-width:480px) {
@@ -172,8 +188,10 @@
             font-size: 16px;
         }
         button {
+            /*
             margin-top: 6px;
             font-size: 12px;
+            */
         }
     }
     </style>
@@ -206,11 +224,13 @@
             <div class="row">
                 <label for="mikkoku_id">ID:</label>
                 <select name="mikkoku_id" class="attack_list"></select>
-            </div>
+           </div>
+           
         </form>
-        <div class="row">
+
+        <!--<div class="row">-->
             <button class="submit" value="送信">密告！</button>
-        </div>
+        <!--</div>-->
     </div>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="noty/lib/noty.js" type="text/javascript"></script>
