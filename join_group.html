@@ -20,11 +20,48 @@
         background-color: black;
     }
 
+    .title {
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+
+    .title h1 {
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+        margin: auto;
+        padding: 0;
+        width: 100%;
+        border-bottom: solid;
+        border-color: #585858;
+        background-color: black;
+        color: white;
+    }
+
+    .user_label {
+        color: white;
+    }
+
+    .submit_dev {
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        vertical-align: middle;
+    }
+
     .submit {
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
         width: 40%;
         border: double;
         margin: 0px 0px 10px;
-        display: inline-block;
         font-weight: bold;
         padding: 10px;
         text-decoration: none;
@@ -41,6 +78,15 @@
         background: #DF0101;
         color: white;
         text-shadow: -6px 0px 15px rgba(255, 255, 240, 0.83), 6px 0px 15px rgba(255, 255, 240, 0.83);
+    }
+
+    .go_back_top {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        align-content: center;
+        justify-content: center;
+        color: white;
     }
 
     @media screen and (max-width:480px) {
@@ -62,49 +108,59 @@
 <body>
     <!-- ゲームタイトルロゴ 
     <div class="logo"><h1><img src="01.png"></h1></div>-->
-    <h1>ユーザー登録</h1>
+    <dev class=title>
+        <h1>ゲスト参加</h1>
+    </dev>
     <form class="choose_group" name="join" method="get">
-        <p>ユーザー名：
+        <p>
+            <label class="user_label">ユーザー名：</label>
             <input type="text" class="user_name" name="user_name" size="25">
         </p>
     </form>
     <!--<button class="submit" onclick="location.href='wait_guest.html'">参加する</button>-->
-    <button class="submit">参加する</button>
+    <dev class=submit_dev>
+        <button class="submit">参加する</button>
+    </dev>
     <!-- トップページへのリンク -->
-    <a href="BeTheInformer.html">トップに戻る</a>
+    <dev class="go_back_top">
+        <br>
+        <br>
+        <a href="BeTheInformer.html">トップに戻る</a>
+    </dev>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
     /*
-                                    $.ajax({
-                                        //url: "http://192.168.17.136:8887/test_join_group.json",
-                                        url: "https://be-the-informer.herokuapp.com/getGroupList",
-                                        type: "post",
-                                        dataType: "json",
-                                        success: function(res){
-                                            console.log(JSON.stringify(res));
-                                            Display(res);
-                                        },
-                                        error: function(res){
-                                            console.log("get group list ERROR");
-                                        }
-                                    });
-                                    
-                                    function Display(res) {
-                                        var data = res.group_names;
-                                        console.log(data);
-                                        /*参加者の表示
-                                        if(data.length == 0){
-                                          var dom = $("<p>参加できるグループはありません</p>");
-                                          $(".choose_group").append(dom);
-                                        }else{
-                                          for (var i=0; i<data.length;i++){
-                                            var group_name = data[i];
-                                            var dom = $("<input type='radio' name='group_name' value=" +group_name+ ">" +group_name+ "</input><br/>");
-                                            console.log(group_name);
-                                            $(".choose_group").append(dom);
-                                          }
-                                        }
-                                      }*/
+                                                                $.ajax({
+                                                                    //url: "http://192.168.17.136:8887/test_join_group.json",
+                                                                    url: "https://be-the-informer.herokuapp.com/getGroupList",
+                                                                    type: "post",
+                                                                    dataType: "json",
+                                                                    success: function(res){
+                                                                        console.log(JSON.stringify(res));
+                                                                        Display(res);
+                                                                    },
+                                                                    error: function(res){
+                                                                        console.log("get group list ERROR");
+                                                                    }
+                                                                });
+                                                                
+                                                                function Display(res) {
+                                                                    var data = res.group_names;
+                                                                    console.log(data);
+                                                                    /*参加者の表示
+                                                                    if(data.length == 0){
+                                                                      var dom = $("<p>参加できるグループはありません</p>");
+                                                                      $(".choose_group").append(dom);
+                                                                    }else{
+                                                                      for (var i=0; i<data.length;i++){
+                                                                        var group_name = data[i];
+                                                                        var dom = $("<input type='radio' name='group_name' value=" +group_name+ ">" +group_name+ "</input><br/>");
+                                                                        console.log(group_name);
+                                                                        $(".choose_group").append(dom);
+                                                                      }
+                                                                    }
+                                                                  }
+        */
 
     $(".submit").on("click", doSubmit);
 
