@@ -412,6 +412,7 @@ function markPos(pos_array) {
 }
 
 //テスト用
+/*
 $.ajax({
   url: "http://192.168.11.4:8887/test_use_json.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
@@ -430,7 +431,7 @@ $.ajax({
     console.log("ERROR");
   }
 });
-
+*/
 
 //時間の計算をする関数
 var timeMath = {
