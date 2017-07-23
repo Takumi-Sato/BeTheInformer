@@ -47,9 +47,17 @@
         
     }
 
+    .name_and_time {
+        display: flex;
+        flex-direction: column;
+    }
+
     img.title { 
         text-align: right;
-        height: 60px;
+        height: 100%;
+        width: 40vw;
+        position: relative;
+        right: 0;
      }
     .zonbi {
         background-image: url('icon/back_zonbi.png');
@@ -164,8 +172,10 @@
 <body>
     <div class = "header">
         <img src="icon/attribute_icon_informer.png" class="attribute">
-        <div class="my_name"></div>
-        <div class="time_remaining"></div>
+        <div class = "name_and_time">
+            <div class="my_name"></div>
+            <div class="time_remaining"></div>
+        </div>
         <img src="icon/title_02.png" class="title">
     </div>
     <div id="map"></div>
