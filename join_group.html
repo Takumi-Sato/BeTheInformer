@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--<link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
-    <title>密告中！</title>
-    <style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="join.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>BeTheInformer</title>
+    <!--<style>
     html,
     body {
         height: 100%;
@@ -120,14 +120,13 @@
             margin: 0 auto;
         }
     }
-    </style>
+    </style>-->
 </head>
 
 <body>
-    <!-- ゲームタイトルロゴ -->
+    <!--
     <div class="logo">
         <h1><img src="icon/title_02.png"></h1></div>
-    <!-- -->
     <div class=title>
         <h1>ゲスト参加</h1>
     </div>
@@ -138,17 +137,38 @@
                 <input type="text" class="user_name" name="user_name" size="25">
             </p>
         </form>
-        <!--<button class="submit" onclick="location.href='wait_guest.html'">参加する</button>-->
+        <!--<button class="submit" onclick="location.href='wait_guest.html'">参加する</button>
         <div class="submit_dev">
             <button class="submit">参加する</button>
         </div>
-        <!-- トップページへのリンク -->
+        <!-- トップページへのリンク 
         <div class="go_back_top">
             <br>
             <br>
             <a href="BeTheInformer.html">トップに戻る</a>
         </div>
+    </div>-->
+    <div class="contents">
+        <div class="title">
+            <h1><img src="icon/title_02.png"></h1>
+        </div>
+
+        <div class="userName">
+            <h2>ユーザー名登録</h2>
+            <form class="choose_group" name="join" method="get">
+                <p>
+                    <label class="user_label">ユーザー名：</label>
+                    <input type="text" class="user_name" name="user_name" size="25">   
+                </p>
+            </form>
+        </div>
+
+        <div class="button">
+            <button class="submit">参加する</button>
+            <a href="BeTheInformer.html"><i class="fa fa-home" aria-hidden="true"></i>トップに戻る</a>
+        </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
     /*
