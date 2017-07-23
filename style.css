@@ -41,23 +41,26 @@ body {
 }
 
 .message {
-    width: calc(100% - 60px);;
+    width: calc(100% - 60px);
+    padding: 50px 0 40px 0;
+    margin: 0;
     background-color: black;
 }
 
-.message p {
-    margin: 50px 0 40px 0;
+.message span {
     padding: 0;
-    color: white;
-    white-space : pre;
     align-items: center;/*横方向*/
+}
+
+.message .p_font {
+    color: white;
     font-family: "ＭＳ 明朝";
     text-shadow: -13px 0px 20px rgba(255, 255, 240, 0.7), 13px 0px 20px rgba(255, 255, 240, 0.7); 
 }
 
 .message .ff_font {
     color: #FF0000;
-    font-size: 20px;
+    /*font-size: 20px;*/
     font-style: bold;
     text-shadow: -13px 0px 20px rgba(247, 129, 129, 0.7), 13px 0px 20px rgba(247, 129, 129, 0.7);
 }
@@ -80,15 +83,15 @@ body {
     /*display: none;*/
     visibility: hidden;
     position: absolute;
-    width: calc(100% - 68px);
     /*padding: 0;*/
     color: white;
-    white-space : pre;
+    
     align-items: center;/*横方向*/
     border: solid;
     border-color: #585858;
     border-width: 4px;
     transform: translateY(-105%);
+    width: calc(100% - 68px);
     background-color: rgba(110,110,110,0.5);
 }
 
@@ -176,14 +179,8 @@ position: absolute;
     #all {
         margin: 0 auto;
     }
-    .message p {
-        font-size: 30px;
-    }
-    .message .ff_font {
-        font-size: 40px;
-    }
     .description {
-        font-size: 25px;
+        
         width: calc(60% - 8px);
     }
     .start_page .down {
