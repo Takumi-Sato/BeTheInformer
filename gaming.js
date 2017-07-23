@@ -411,7 +411,7 @@ function markPos(pos_array) {
     displaymap(nowmap, zonbi);
 }
 
-/*
+//テスト用
 $.ajax({
   url: "http://192.168.11.4:8887/test_use_json.json",
   //url: "https://be-the-informer.herokuapp.com/test_use_json.json",
@@ -430,7 +430,7 @@ $.ajax({
     console.log("ERROR");
   }
 });
-*/
+
 
 //時間の計算をする関数
 var timeMath = {
@@ -625,6 +625,14 @@ function Display(res) {
         }
 
     }
+    $("points").empty();
+    if (res.status == "alive"){
+      dom3 = "<tr class='alive'><th>密告ポイント</td><td>"+ res.number_of_inform + "</th></tr>"
+    }else if (res.status == "dead"){
+      dom3 = "<tr class='dead'><th>ゾンビポイント</td><td>"+ res.zonbi_points + "</th></tr>"
+    }
+    $(".points").append(dom3);
+    /*
     $(".hitpoints").empty();
     var dom3 = $("<p>密告成功数:" + res.number_of_inform + "</p>");
     $(".hitpoints").append(dom3);
@@ -632,6 +640,7 @@ function Display(res) {
     $(".zonbipoints").empty();
     var dom4 = $("<p>ゾンビポイント:" + res.zombie_points + "</p>");
     $(".zonbipoints").append(dom4);
+    */
 }
 
 $(".submit").on("click", doSubmit);
@@ -649,6 +658,17 @@ function doSubmit() {
         data:          JSON.stringify(data),
         success: function(res){
             console.log("Inform Success? : " + res.success);
+            if (res.success == true){
+              noty({text : '密告成功！！',
+                type: success,
+                timeout: 1000
+            });
+            }else{
+              noty({text : '密告失敗...',
+                type: error,
+                timeout: 1000
+            });
+            }
         },
         error: function(res){
             console.log("Inform ERROR");
