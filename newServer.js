@@ -228,6 +228,10 @@ app.get('/icon/title_02.png', function(req, res) {
     res.sendfile("./icon/title_02.png");
 })
 
+app.get('/icon/top_background.png', function(req, res) {
+    res.sendfile("./icon/top_background.png");
+})
+
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
