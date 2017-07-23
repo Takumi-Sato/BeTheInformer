@@ -67,6 +67,8 @@
                 <tr>
                     <th>Rank</th>
                     <th>Player</th>
+                    <th>Informs</th>
+                    <th>Zombie Points</th>
                 </tr>
             </thead>
         </table>
@@ -95,7 +97,7 @@
     function Result(res) {
         var rank = res.ranking
         $.each(rank, function(index, value) {
-            var dom = "<tr><td>" + (index + 1) + "</td><td>" + value + "</td></tr>"
+            var dom = "<tr><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>"
             $(".ranktable").append(dom);
 
         });

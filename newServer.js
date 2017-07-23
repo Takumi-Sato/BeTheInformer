@@ -588,7 +588,7 @@ function ranking(req, res, data) {
     sortObjectArray(players, "ranking_points", "desc", function(data) {
         console.log("sort result : " + JSON.stringify(data));
         for (var i = 0; i < data.length; ++i) {
-            ranking.push(data[i].name);
+            ranking.push({"name":data[i].name, "number_of_inform":data[i].number_of_inform, "zombie_points":data[i].zombie_points});
         }
         jsonRes.ranking = ranking;
         res.writeHead(200, { "Content-Type": "application/json" });
