@@ -2,7 +2,7 @@
 var data_n = localStorage.user_name;
 //var data_g = localStorage.group_name;
 var player_status = "alive";
-var dom = $("<p>密告者: " + data_n + " さん</p>");
+var dom = $("<p>" + data_n + " さん</p>");
 $(".my_name").append(dom);
 var marker_player;
 
@@ -573,10 +573,22 @@ function Display(res) {
     var data_s = res.survivors;
 
     if (res.status === 'dead') {
+        new Noty({
+            type: 'error',
+            layout: 'center',
+            text: 'ゾンビになってしまった...',
+            theme: 'metroui',
+            timeout: 3000,
+            sounds: {
+              sources: ['sound/out_zonbi.wav'],
+              volume: 0.1,
+              conditions: ['docVisible']
+            }
+              }).show();
         $("body").addClass("zonbi");
         $(".attribute").attr('src','icon/attribute_icon_zonbi.png')
         $(".my_name").empty();
-        var dom = $("<p>ゾンビ: " + data_n + " さん</p>");
+        var dom = $("<p>" + data_n + " さん</p>");
         $(".my_name").append(dom);
     }
     //var data_z = res.zonbi;
@@ -626,7 +638,7 @@ function Display(res) {
         }
 
     }
-    $("points").empty();
+    $(".points").empty();
     if (res.status == "alive"){
       dom3 = "<tr class='alive'><th>密告ポイント</td><td>"+ res.number_of_inform + "</th></tr>"
     }else if (res.status == "dead"){
@@ -660,15 +672,31 @@ function doSubmit() {
         success: function(res){
             console.log("Inform Success? : " + res.success);
             if (res.success == true){
-              noty({text : '密告成功！！',
-                type: success,
-                timeout: 1000
-            });
+              new Noty({
+                  type: 'success',
+                  layout: 'center',
+                  text: '密告成功!!',
+                  theme: 'metroui',
+                  timeout: 3000,
+                  sounds: {
+                    sources: ['sound/correct1.wav'],
+                    volume: 0.1,
+                    conditions: ['docVisible']
+                  }
+              }).show();
             }else{
-              noty({text : '密告失敗...',
-                type: error,
-                timeout: 1000
-            });
+              new Noty({
+                  type: 'error',
+                  layout: 'center',
+                  text: '密告失敗!!',
+                  theme: 'metroui',
+                  timeout: 3000,
+                  sounds: {
+                    sources: ['sound/incorrect1.wav'],
+                    volume: 0.1,
+                    conditions: ['docVisible']
+                  }
+                }).show();
             }
         },
         error: function(res){
