@@ -60,6 +60,7 @@ if ("geolocation" in navigator) {
         console.log("位置情報の取得に失敗しました。");
     }
 } else {
+    alert("GPSが許可されていません");
 
 }
 
