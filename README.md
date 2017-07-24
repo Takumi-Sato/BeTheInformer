@@ -1,5 +1,5 @@
 ﻿# BeTheInformer
 人をゾンビにするゲームをつくっています
-あばばばば
-ロドドドドドド
-ahohohohohohohohoh
+
+*URL*
+https://be-the-informer.herokuapp.com
