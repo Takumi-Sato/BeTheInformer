@@ -20,7 +20,8 @@ if ("geolocation" in navigator) {
     function getPosition() {
         navigator.geolocation.getCurrentPosition(success, errorCallback);
     }
-    setInterval(getPosition, 5000);
+    
+    getPosition();
 
     function success(position) {
         var lati = position.coords.latitude;
@@ -54,13 +55,31 @@ if ("geolocation" in navigator) {
         }
 
         SendPosition(lati, long, name);
+
+        setInterval(getPosition, 5000);
     }
 
     function errorCallback(error) {
+        console.log(error.code);
         console.log("位置情報の取得に失敗しました。");
+        if (error.code === 1){
+            //アラートを使った場合
+            alert("GPSが許可されていません。");
+
+            //notyを使った場合
+            /*
+            new Noty({
+                  type: 'error',
+                  layout: 'center',
+                  text: 'GPSが許可されていません',
+                  theme: 'metroui',
+                }).show();
+                */
+        }
+        
     }
 } else {
-    alert("GPSが許可されていません");
+    //alert("GPSが許可されていません");
 
 }
 
