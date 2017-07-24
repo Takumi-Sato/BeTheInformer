@@ -98,7 +98,8 @@
         <div class="message"></div>
         <p>ゲームの開始を待っています…</p>
     </div>
-    <!--<button class="submit">参加グループを変更する</button>-->
+    <button class="submit">参加グループを変更する</button>
+    -->
 
     <div class="contents">
         <div class="title">
@@ -140,7 +141,7 @@
     var name = localStorage.user_name;
     /*var group = localStorage.group_name;
     var dom = $("<h2> " + name + " さん</h2><p> " + name + " さんは " + group + " グループに参加しています。</p>");*/
-    var dom = $("<h2>ようこそ <div class='name'>" + name + "</div> さん</h2>");
+    var dom = $("<h2>ようこそ <div class='user_name_show'>" + name + "</div> さん</h2>");
     $(".message").append(dom);
 
     /* ステータスが変わっていたらゲームを開始する */
