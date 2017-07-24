@@ -663,6 +663,10 @@ $(".submit").on("click", doSubmit);
 
 function doSubmit() {
     var data = $('form').serializeArray();
+    if(data.length < 3) {
+        window.alert("密告に必要な情報が不足しています");
+        return;
+    }
     console.log(parseJson(data));
     data = parseJson(data);
     $.ajax({
