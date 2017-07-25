@@ -666,7 +666,7 @@ function Display(res) {
     if (res.status == "alive"){
       dom3 = "<tr class='alive'><th>密告ポイント</td><td>"+ res.number_of_inform + "</th></tr>"
     }else if (res.status == "dead"){
-      dom3 = "<tr class='dead'><th>ゾンビポイント</td><td>"+ res.zonbi_points + "</th></tr>"
+      dom3 = "<tr class='dead'><th>ゾンビポイント</td><td>"+ res.zombie_points + "</th></tr>"
     }
     $(".points").append(dom3);
     /*
@@ -690,7 +690,7 @@ function doSubmit() {
         window.alert("密告に必要な情報が不足しています");
         return;
     }
-    
+
     $.ajax({
         url:           'https://be-the-informer.herokuapp.com/inform',
         type:          'post',
