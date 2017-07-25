@@ -611,7 +611,7 @@ function Display(res) {
               }).show();
             */
         $("body").addClass("zonbi");
-        $(".attribute").attr('src','icon/attribute_icon_zonbi.png')
+        //$(".attribute").attr('src','icon/attribute_icon_zonbi.png')
         $(".my_name").empty();
         var dom = $("<p>" + data_n + " さん</p>");
         $(".my_name").append(dom);
