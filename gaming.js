@@ -684,8 +684,8 @@ $(".submit").on("click", doSubmit);
 
 function doSubmit() {
     var data = $('form').serializeArray();
-    console.log("inform form array : " + data);
-    if(data[0]===null || data[1]===no_secret_number_string) {
+    console.log("inform form array : " + Array.stringify(data));
+    if(data.mikkoku_name===null || data.mikkoku_id===no_secret_number_string) {
         window.alert("密告に必要な情報が不足しています");
         return;
     }
