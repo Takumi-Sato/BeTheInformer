@@ -252,6 +252,10 @@ app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
 
+app.get('/top.css', function(req, res) {
+    res.sendfile("top.css");
+});
+
 /*
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
