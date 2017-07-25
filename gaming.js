@@ -589,6 +589,7 @@ function displaymap(now, res) {
     });
 }
 
+var no_secret_number_string = "近くに密告者はいません";
 function Display(res) {
     var data_a = res.secret_numbers;
     var data_s = res.survivors;
@@ -621,7 +622,7 @@ function Display(res) {
     /*密告リストの表示*/
     if (data_a.length == 0) {
         $(".attack_list").empty();
-        var dom = $("<option class='number'>近くに密告者はいません</option>");
+        var dom = $("<option class='number'>" + no_secret_number_string + "</option>");
         $(".attack_list").append(dom);
     } else {
         var number_selected = $('[name=attack_list]').val();
@@ -683,7 +684,8 @@ $(".submit").on("click", doSubmit);
 
 function doSubmit() {
     var data = $('form').serializeArray();
-    if(data.length < 3) {
+    console.log("inform form array : " + data);
+    if(data[0]===null || data[1]===no_secret_number_string) {
         window.alert("密告に必要な情報が不足しています");
         return;
     }
