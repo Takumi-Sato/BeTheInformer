@@ -255,9 +255,11 @@ app.get('/style.css', function(req, res) {
 app.get('/top.css', function(req, res) {
     res.sendfile("top.css");
 });
+
 app.get('/regi.css', function(req, res) {
     res.sendfile("regi.css");
 });
+
 app.get('/join.css', function(req, res) {
     res.sendfile("join.css");
 });
