@@ -255,6 +255,24 @@ app.get('/style.css', function(req, res) {
 app.get('/top.css', function(req, res) {
     res.sendfile("top.css");
 });
+app.get('/regi.css', function(req, res) {
+    res.sendfile("regi.css");
+});
+app.get('/join.css', function(req, res) {
+    res.sendfile("join.css");
+});
+
+app.get('/wait.css', function(req, res) {
+    res.sendfile("wait.css");
+});
+
+app.get('/noty/lib/noty.css', function(req, res) {
+    res.sendfile("noty/lib/noty.css");
+});
+
+app.get('/noty/lib/noty.js', function(req, res) {
+    res.sendfile("noty/lib/noty.js");
+});
 
 /*
 app.post("/receiveJson", function(req, res) {
