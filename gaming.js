@@ -596,7 +596,7 @@ function Display(res) {
     var data_s = res.survivors;
 
     if (res.status === 'dead') {
-      /*
+      
         new Noty({
             type: 'error',
             layout: 'center',
@@ -609,7 +609,7 @@ function Display(res) {
               conditions: ['docVisible']
             }
               }).show();
-        */
+        
         $("body").addClass("zonbi");
         $(".attribute").attr('src','icon/attribute_icon_zonbi.png')
         $(".my_name").empty();
