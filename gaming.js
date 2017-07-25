@@ -56,8 +56,8 @@ if ("geolocation" in navigator) {
         }
 
         SendPosition(lati, long, name);
-        
-        setInterval(getPosition, 5000);
+
+        //setInterval(getPosition, 5000);
     }
 
     function errorCallback(error) {
