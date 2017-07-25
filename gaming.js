@@ -21,7 +21,8 @@ if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(success, errorCallback);
     }
     
-    getPosition();
+    //getPosition();
+    setInterval(getPosition, 5000);
 
     function success(position) {
         var lati = position.coords.latitude;
@@ -55,7 +56,7 @@ if ("geolocation" in navigator) {
         }
 
         SendPosition(lati, long, name);
-
+        
         setInterval(getPosition, 5000);
     }
 
