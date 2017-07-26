@@ -551,6 +551,9 @@ $.ajax({
                 if (time_remaining == "0:00:00") {
                     window.location.href = "/ranking.html";
                 }
+                if (time_remaining.match(/^-/)){
+                    window.location.href = "/ranking.html";
+                }
             }, 1000);
         });
 
