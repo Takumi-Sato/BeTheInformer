@@ -209,7 +209,7 @@ body {
     $(".submit").on("click", doSubmit);
 
     function doSubmit() {
-        getCurrentPosition(
+        navigator.geolocation.getCurrentPosition(
             function() {
                 if (formCheck() == 1) {
                     window.alert("入力が足りていません。");
