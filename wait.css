@@ -2,9 +2,43 @@
   color: white;
 }
 
+.contents .title {
+    border-bottom: none;
+}
+
 .user_name_show {
   display: inline;
   color: red;
+}
+
+.load {
+    width: 20%;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    -ms-animation: spin 4s linear infinite;
+    -o-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}
+
+@-webkit-keyframes spin {
+	0% {-webkit-transform: rotate(0deg);}
+	100% {-webkit-transform: rotate(360deg);}
+}
+@-moz-keyframes spin {
+	0% {-moz-transform: rotate(0deg);}
+	100% {-moz-transform: rotate(360deg);}
+}
+@-ms-keyframes spin {
+	0% {-ms-transform: rotate(0deg);}
+	100% {-ms-transform: rotate(360deg);}
+}
+@-o-keyframes spin {
+	0% {-o-transform: rotate(0deg);}
+	100% {-o-transform: rotate(360deg);}
+}
+@keyframes spin {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
 }
 
 @media screen and (max-width:480px) {
@@ -19,19 +53,11 @@
     #all {
         margin: 0 auto;
     }
-    .userName {
-        width: 60%;
+    .contents .title img{
+        width: 65%;
     }
-    .userName h2 {
-        top: -1vw;/* 枠にかかるようにテキストを配置 */
+    .topic h2 {
         font-size: 2vw;
     }
-    .button {
-        width: 30%;
-    }
-    .button .submit {
-        padding: 15px;
-        font-size: 20px;
-        border-radius: 8px;
-    }
+
 }

@@ -8,106 +8,19 @@
     <link rel="stylesheet" href="wait.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>BeTheInformer</title>
-    <!--<style>
-    html,
-    body {
-        padding: 0;
-        margin: 0;
-    }
-
-    body {
-        background-color: black;
-    }
-
-    .title {
-        margin: 0;
-        padding: 0;
-        justify-content: center;
-        align-content: center;
-        align-items: center;
-    }
-
-    .title h1 {
-        justify-content: center;
-        align-content: center;
-        align-items: center;
-        text-align: center;
-        margin: auto;
-        padding: 0;
-        width: 100%;
-        border-bottom: solid;
-        border-color: #585858;
-        background-color: black;
-        color: red;
-    }
-
-    .logo h1 img {
-        margin: 0 auto;
-        width: calc(100% - 10px);
-        justify-content: stretch;
-        /*横方向*/
-    }
-
-    .message_container {
-        align-content: center;
-        color: white;
-    }
-    
-    .message_container .message {
-        margin: auto;
-        padding: 0;
-        text-align: center;
-    }
-
-    .message_container .message .name {
-        display: inline;
-        color: red;
-    }
-
-    .message_container p {
-        margin: auto;
-        padding: 0;
-        text-align: center;
-    }
-
-
-    @media screen and (max-width:480px) {
-        /*スマホを480px以下と定義してスマホ対応デザインにする*/
-        #all {
-            width: 80%;
-            font-size: 80%;
-        }
-    }
-
-    @media screen and (min-width:480px) {
-        #all {
-            margin: 0 auto;
-        }
-    }
-    </style>-->
 </head>
 
 <body>
-    <!-- 
-    <div class="logo">
-        <h1><img src="icon/title_02.png"></h1></div>
-    <div class="title">
-        <h1>開始待機中</h1>
-    </div>
-    <div class="message_container">
-        <div class="message"></div>
-        <p>ゲームの開始を待っています…</p>
-    </div>
-    <button class="submit">参加グループを変更する</button>
-    -->
-
     <div class="contents">
         <div class="title">
             <img src="icon/title_02.png">
         </div>
-
+        <div class="topic">
+            <h2>待 機 中</h2>
+        </div>
         <div class="message">
-            <h2>開始待機中</h2>
+            <div class="name_display"></div>
+            <img src="icon/zonbi_icon_blue.png" class="load">
             <p>ゲームの開始を待っています…</p>
         </div>
     </div>
@@ -142,7 +55,7 @@
     /*var group = localStorage.group_name;
     var dom = $("<h2> " + name + " さん</h2><p> " + name + " さんは " + group + " グループに参加しています。</p>");*/
     var dom = $("<h2>ようこそ <div class='user_name_show'>" + name + "</div> さん</h2>");
-    $(".message").append(dom);
+    $(".name_display").append(dom);
 
     /* ステータスが変わっていたらゲームを開始する */
     function State(res) {
