@@ -546,11 +546,13 @@ $.ajax({
                 s = ("0" + s).slice(-2);
                 var time_now = h + ":" + mi + ":" + s;
                 var time_remaining = timeMath.sub(time_finish, time_now);
-
+                
                 $(".time_remaining").text("残り時間: " + time_remaining);
+                //残り時間が0になったタイミングで結果のページへと飛ぶ
                 if (time_remaining == "0:00:00") {
                     window.location.href = "/ranking.html";
                 }
+                //なんらかの理由で上記のタイミングを逃した場合の対策
                 if (time_remaining.match(/^-/)){
                     window.location.href = "/ranking.html";
                 }
