@@ -42,6 +42,7 @@ if ("geolocation" in navigator) {
                 icon: 'player_icon.png'
             });
         }
+        map.setCenter(player_position);
         marker_player.setPosition(player_position);
         if (player_status == "alive" && $('body').hasClass('zonbi')) {
 
