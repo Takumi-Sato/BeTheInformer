@@ -212,37 +212,7 @@ body {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    if (formCheck() == 1) {
-                        window.alert("入力が足りていません。");
-                    } else {
-                        var user_name = document.forms.regi.user_name.value;
-                        localStorage.user_name = user_name; //ローカルストレージに保存しておく(ユーザー名)
-                        var data = $('form').serializeArray();
-                        console.log(parseJson(data));
-                        //location.href = "wait_host.html";
-
-                        var json = parseJson(data);
-                        $.ajax({
-                            url: 'https://be-the-informer.herokuapp.com/regHostPlayerAndStartGame',
-                            type: 'post',
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            scriptCharset: 'utf-8',
-                            data: JSON.stringify(json),
-                            success: function(res) {
-                                console.log("regHostPlayerAndStartGame return: " + JSON.stringify(res));
-                                if (res.player_regi_success) {
-                                    location.href = "playing.html";
-                                } else {
-                                    // 同名プレイヤーが既に存在する、またはゲームがプレイ中or結果発表であることを通知する
-                                    window.alert("プレイヤー登録に失敗しました。\n同名プレイヤーが存在するか、ゲームが待機状態ではありません。");
-                                }
-                            },
-                            error: function(res) {
-                                console.log("ERROR");
-                            }
-                        })
-                    }
+                    ajaxDoSubmit();
                 },
                 // getCurrentPositionのerrorコールバック. GPSがOFFになっていたら先へ進めない
                 function(error) {
@@ -250,12 +220,47 @@ body {
                     if (error.code === 1) {
                         alert("GPSが許可されていません。");
                     }
+                    else {
+                        ajaxDoSubmit();
+                    }
                 }
             );
         }
     }
 
-    function ajaxDoSubmit(){}
+    function ajaxDoSubmit() {
+        if (formCheck() == 1) {
+            window.alert("入力が足りていません。");
+        } else {
+            var user_name = document.forms.regi.user_name.value;
+            localStorage.user_name = user_name; //ローカルストレージに保存しておく(ユーザー名)
+            var data = $('form').serializeArray();
+            console.log(parseJson(data));
+            //location.href = "wait_host.html";
+
+            var json = parseJson(data);
+            $.ajax({
+                url: 'https://be-the-informer.herokuapp.com/regHostPlayerAndStartGame',
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                scriptCharset: 'utf-8',
+                data: JSON.stringify(json),
+                success: function(res) {
+                    console.log("regHostPlayerAndStartGame return: " + JSON.stringify(res));
+                    if (res.player_regi_success) {
+                        location.href = "playing.html";
+                    } else {
+                        // 同名プレイヤーが既に存在する、またはゲームがプレイ中or結果発表であることを通知する
+                        window.alert("プレイヤー登録に失敗しました。\n同名プレイヤーが存在するか、ゲームが待機状態ではありません。");
+                    }
+                },
+                error: function(res) {
+                    console.log("ERROR");
+                }
+            });
+        }
+    }
 
     function formCheck() {
         var flag = 0;
