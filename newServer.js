@@ -276,6 +276,15 @@ app.get('/noty/lib/noty.js', function(req, res) {
     res.sendfile("noty/lib/noty.js");
 });
 
+app.get('/icon/zonbi_character_turn.png', function(req, res) {
+    res.sendfile("icon/zonbi_character_turn.png");
+});
+
+app.get('/icon/informer_character_turn.png', function(req, res) {
+    res.sendfile("icon/informer_character_turn.png");
+});
+
+
 /*
 app.post("/receiveJson", function(req, res) {
     onRequestPost(req, res);
