@@ -280,8 +280,8 @@ app.get('/icon/zonbi_character_turn.png', function(req, res) {
     res.sendfile("icon/zonbi_character_turn.png");
 });
 
-app.get('/icon/informer_character_turn.png', function(req, res) {
-    res.sendfile("icon/informer_character_turn.png");
+app.get('/icon/informer_character.png', function(req, res) {
+    res.sendfile("icon/informer_character.png");
 });
 
 
