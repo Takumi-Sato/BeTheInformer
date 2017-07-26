@@ -21,18 +21,13 @@ body {
 .contents .title {
     margin: 0;
     padding: 0;
-}
-
-.title h1 {
-    margin:auto;
-    padding: 0;
     width: 100%;
     border-bottom: solid;
     border-color: #585858;
     background-color: black;
 }
 
-.title h1 img{
+.contents .title img {
     margin: 0 auto;
     width: calc(100% - 10px);
     justify-content: stretch;/*横方向*/
@@ -40,11 +35,13 @@ body {
 
 .topic {
     width: 100%;
+    background-color: rgba(109,109,109,0.5);
+    border-top: solid #585858;
+    border-bottom: solid #585858;
 }
 
 .topic h2 {
     color: white;
-    border-bottom: solid #585858;
     padding: 4vw 0 4vw 0;
     font-size: 4vw;
     margin: 0;
@@ -53,9 +50,8 @@ body {
 /* 登録フォームについて */
 .userName {
     color: white;
-
     position: relative;
-    margin: 2em 0;
+    margin: 2em 0 10vh;
     padding: 0.5em 1em;
     border: solid 2px #D7D7D7;
     border-radius: 8px;
@@ -71,11 +67,43 @@ body {
     margin: 0;
     padding: 0 9px;
     line-height: 1;
-    font-size: 19px;
     background: black;
     color: white;
     font-weight: bold;
     font-size: 5vw;
+}
+
+.userName form {
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0 0.5em 0;
+}
+
+.userName .user_label {
+   font-size: 4vw;
+   margin: 0;
+   padding: 0;
+}
+
+.userName .user_name {
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    border:1px solid #525252;     /* 枠線の装飾 */
+    background-color: #fff;   /* 背景色 */
+    border-radius: 8px;         /* CSS3 */
+    -moz-border-radius: 8px;    /* Firefox */
+    -webkit-border-radius: 8px; /* Safari,Chrome */
+    
+    font-size: 4vw;
+    height: 6vw;    
+}
+
+.userName .user_name:hover, .userName .user_name:active {
+    outline: 0;
+    border-color: #C9C9C9;
+    -webkit-box-shadow: 0px 0px 10px rgba(223,1,1,1);
+    -moz-box-shadow: 0px 0px 10px rgba(223,1,1,1);
+    box-shadow: 0px 0px 10px rgba(223,1,1,1);
 }
 
 /* ボタンについて */

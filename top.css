@@ -21,18 +21,13 @@ body {
 .start_page .title {
     margin: 0;
     padding: 0;
-}
-
-.title h1 {
-    margin:auto;
-    padding: 0;
     width: 100%;
     border-bottom: solid;
     border-color: #585858;
     background-color: black;
 }
 
-.title h1 img{
+.title img{
     margin: 0 auto;
     width: calc(100% - 10px);
     justify-content: stretch;/*横方向*/
@@ -201,6 +196,9 @@ position: absolute;
 @media screen and (min-width:480px){
     #all {
         margin: 0 auto;
+    }
+    .start_page .title img{
+        width: 65%;
     }
     .message span {
         font-size: 2vw;

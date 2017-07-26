@@ -1,5 +1,5 @@
-.userName {
-    margin: 2em 0 10vh;
+.contents .title {
+    border-bottom: none;
 }
 
 .member_list {
@@ -7,13 +7,8 @@
     height: 40%;
     margin: 0 0 3vh 0;
     position: relative;
-/* <<<<<<< HEAD */
-    /*background-color: rgba(238,238,238,0.8);*/
     background-image: url("icon/back_normal.png");
     background-size: 40%;
-/* ======= */
-    /* background-color: #eee; */
-/* >>>>>>> 7b62ae3bd20df94f1a0d8fb2392a2b2def4127f8 */
     padding: 1em;
 }
 
@@ -22,7 +17,6 @@
     margin: 0;
     padding: 0;
     position: absolute;
-/* <<<<<<< HEAD */
     text-align: center;
     font-size: 5vw;
     top: -1em;
@@ -32,7 +26,7 @@
     transform: rotate(-10deg);
 }
 
-.member_list ul {
+.member_list .group_member {
     /*display: block;text-align: center;*/
     position: relative;
     align-items: center;
@@ -41,52 +35,47 @@
     width: 100%;
     margin: 0.5em 0 0.5em 0;
     padding: 0.5em 0 0.5em 0;
-    overflow:auto;
-    background-color: rgba(255,255,255,0.4);
-/* ======= */
-/*
-    top: -1em;
-    background-color: rgba(100, 100, 100, 0.4);
-    padding: 0.25em 2em;
-    color: white;
-    transform: rotate(-4deg);
-}
-
-.member_list li {
-    height: calc(100% - 40px);
-    width: calc(100% - 60px);
-    margin: 0;
-    padding: 0;
     overflow: auto;
-    color: white;*/
-/* >>>>>>> 7b62ae3bd20df94f1a0d8fb2392a2b2def4127f8 */
+    background-color: rgba(255,255,255,0.4);
 }
-
-@media screen and (max-width:480px) {
-    /*スマホを480px以下と定義してスマホ対応デザインにする*/
+@media screen and (max-width:480px){/*スマホを480px以下と定義してスマホ対応デザインにする*/
     #all {
         width: 80%;
         font-size: 80%;
     }
-    
-    @media screen and (min-width:350px) {
-        
-    }
+
 }
 
 @media screen and (min-width:480px) {
     #all {
         margin: 0 auto;
     }
-    .member_list {
-        height: 40%;
+    .contents .title img{
+        width: 65%;
     }
+    .topic h2 {
+        font-size: 2vw;
+    }
+    .userName form {
+        margin: 2em 0 2em 0;
+        padding: 0.5em 0 0.5em 0;
+    }
+    .userName .user_label {
+        font-size: 2vw;
+    }
+    .userName .user_name {
+        font-size: 2vw;
+        height: 3vw;    
+    }   
     .userName, .member_list {
         width: 60%;
     }
     .userName h2 {
         top: -1vw;/* 枠にかかるようにテキストを配置 */
         font-size: 2vw;
+    }
+    .member_list {
+        height: 40%;
     }
     .member_list h2 {
         height: 3vw;

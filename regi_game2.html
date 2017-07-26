@@ -10,147 +10,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>BeTheInformer</title>
 </head>
-<!--
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: black;
-}
-
-
-.title {
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-}
-
-.title h1 {
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    margin: auto;
-    padding: 0;
-    width: 100%;
-    border-bottom: solid;
-    border-color: #585858;
-    background-color: black;
-    color: white;
-}
-
-.logo h1 img {
-    margin: 0 auto;
-    width: calc(100% - 10px);
-    justify-content: stretch;
-    /*横方向*/
-}
-
-.user_label {
-    color: white;
-}
-
-.contents {
-    align-content: center;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
-    color: white;
-}
-
-.submit_dev {
-    padding: 0;
-    margin: 0;
-    /*vertical-align: middle;*/
-    text-align: center;
-}
-
-
-.submit {
-    display: block;
-    justify-content: center;
-    align-items: center;
-    vertical-align: middle;
-    width: 40%;
-    border: double;
-    margin: 0 auto;
-    font-weight: bold;
-    padding: 10px;
-    text-decoration: none;
-    color: #DF0101;
-    background: white;
-    border-color: #DF0101;
-    transition: .4s;
-    font-size: 15px;
-    border-radius: 5px;
-}
-
-.submit:hover, .submit:active {
-    background: #DF0101;
-    color: white;
-    text-shadow: -6px 0px 15px rgba(255, 255, 240, 0.83), 6px 0px 15px rgba(255, 255, 240, 0.83);
-}
-
-.go_back_top {
-    display: block;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    align-content: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-}
-
-@media screen and (max-width:480px) {
-    /*スマホを480px以下と定義してスマホ対応デザインにする*/
-    #all {
-        width: 80%;
-        font-size: 80%;
-    }
-}
-
-@media screen and (min-width:480px) {
-    #all {
-        margin: 0 auto;
-    }
-}
--->
-
 <body>
     <div class="contents">
-        <!--<div class="logo">-->
         <div class="title">
-            <h1><img src="icon/title_02.png"></h1>
+            <img src="icon/title_02.png">
         </div>
         <div class="topic">
             <h2>ホストとしてグループを作ります</h2>
         </div>
-        <!--<div class="title">-->
         <div class="userName">
-            <!-- <h1>ユーザー登録 and ゲーム開始</h1> -->
             <h2>Name</h2>
-            <!--</div>
-            <div class="contents">-->
             <form class="regi" name="regi" method="get">
-                <p>
-                    <label class="user_label">ユーザー名：</label>
-                    <input type="text" class="user_name" name="user_name" size="25">
-                </p>
+                    <label class="user_label">入力してください：</label>
+                    <input type="text" class="user_name" name="user_name" placeholder="UserName" ontouchstart="">
             </form>
-            <!-- <button class="submit">ゲーム開始</button> -->
         </div>
-        <div class="member_list">
-            <!--<h1 class="member_list_title">ゲーム参加者一覧</h1>-->
-            
+        <div class="member_list">         
             <ul class="group_member">
-
             <li>aa</li>
             <li>sss</li>
             <li>dd</li>
