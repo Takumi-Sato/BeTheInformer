@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,7 +129,6 @@ body {
         <div class="title">
             <h1><img src="icon/title_02.png"></h1>
         </div>
-
         <!--<div class="title">-->
         <div class="userName">
             <!-- <h1>ユーザー登録 and ゲーム開始</h1> -->
@@ -143,12 +143,11 @@ body {
             </form>
             <!-- <button class="submit">ゲーム開始</button> -->
         </div>
-
         <div class="member_list">
             <!--<h1 class="member_list_title">ゲーム参加者一覧</h1>-->
             <h2 class="member_list_title">ゲーム参加者一覧</h2>
             <ul class="group_member">
-            <!--
+                <!--
             <li>aa</li>
             <li>sss</li>
             <li>dd</li>
@@ -163,7 +162,6 @@ body {
             -->
             </ul>
         </div>
-        
         <div class="button">
             <button class="submit">ゲーム開始</button>
             <a href="BeTheInformer.html"><i class="fa fa-home" aria-hidden="true"></i>トップに戻る</a>
@@ -171,7 +169,6 @@ body {
     </div>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-
     function getMemberList() {
         $.ajax({
             //url: "http://192.168.1.3:8887/getMemberList",
@@ -210,38 +207,52 @@ body {
     }
 
     $(".submit").on("click", doSubmit);
-    function doSubmit() {
-        if (formCheck() == 1) {
-            window.alert("入力が足りていません。");
-        } else {
-            var user_name = document.forms.regi.user_name.value;
-            localStorage.user_name = user_name; //ローカルストレージに保存しておく(ユーザー名)
-            var data = $('form').serializeArray();
-            console.log(parseJson(data));
-            //location.href = "wait_host.html";
 
-            var json = parseJson(data);
-            $.ajax({
-                url: 'https://be-the-informer.herokuapp.com/regHostPlayerAndStartGame',
-                type: 'post',
-                dataType: 'json',
-                contentType: 'application/json',
-                scriptCharset: 'utf-8',
-                data: JSON.stringify(json),
-                success: function(res) {
-                    console.log("regHostPlayerAndStartGame return: " + JSON.stringify(res));
-                    if (res.player_regi_success) {
-                        location.href = "playing.html";
-                    } else {
-                        // 同名プレイヤーが既に存在する、またはゲームがプレイ中or結果発表であることを通知する
-                        window.alert("プレイヤー登録に失敗しました。\n同名プレイヤーが存在するか、ゲームが待機状態ではありません。");
-                    }
-                },
-                error: function(res) {
-                    console.log("ERROR");
+    function doSubmit() {
+        getCurrentPosition(
+            function() {
+                if (formCheck() == 1) {
+                    window.alert("入力が足りていません。");
+                } else {
+                    var user_name = document.forms.regi.user_name.value;
+                    localStorage.user_name = user_name; //ローカルストレージに保存しておく(ユーザー名)
+                    var data = $('form').serializeArray();
+                    console.log(parseJson(data));
+                    //location.href = "wait_host.html";
+
+                    var json = parseJson(data);
+                    $.ajax({
+                        url: 'https://be-the-informer.herokuapp.com/regHostPlayerAndStartGame',
+                        type: 'post',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        scriptCharset: 'utf-8',
+                        data: JSON.stringify(json),
+                        success: function(res) {
+                            console.log("regHostPlayerAndStartGame return: " + JSON.stringify(res));
+                            if (res.player_regi_success) {
+                                location.href = "playing.html";
+                            } else {
+                                // 同名プレイヤーが既に存在する、またはゲームがプレイ中or結果発表であることを通知する
+                                window.alert("プレイヤー登録に失敗しました。\n同名プレイヤーが存在するか、ゲームが待機状態ではありません。");
+                            }
+                        },
+                        error: function(res) {
+                            console.log("ERROR");
+                        }
+                    })
                 }
-            })
-        }
+            },
+            // getCurrentPositionのerrorコールバック. GPSがOFFになっていたら先へ進めない
+            function() {
+                if(error.code===1){
+                    alert("GPSが許可されていません。");
+                }
+            }
+        );
+
+
+
     }
 
     function formCheck() {
