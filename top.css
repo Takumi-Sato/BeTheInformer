@@ -49,6 +49,7 @@ body {
 .message span {
     padding: 0;
     align-items: center;/*横方向*/
+    font-size: 4vw;
 }
 
 .message .p_font {
@@ -84,7 +85,7 @@ body {
     position: absolute;
     /*padding: 0;*/
     color: white;
-    font-size: 2vw;
+    font-size: 4vw;
     align-items: center;/*横方向*/
     border: solid;
     border-color: #585858;
@@ -94,6 +95,14 @@ body {
     background-color: rgba(110,110,110,0.5);
 }
 
+.description span br {
+    display: none;
+}
+
+.description .red {
+    color: #DF0101;
+    /*text-shadow: -13px 0px 20px rgba(247, 129, 129, 0.9), 13px 0px 20px rgba(247, 129, 129, 0.9);*/
+}
 .des_open .description {   
     transition: transform .6s;
     position: relative;
@@ -161,6 +170,10 @@ body {
     font-size: 20px;
 }
 
+.button .host br {
+    display: none;
+}
+
 /*
 content: "";
 display: block;
@@ -172,14 +185,29 @@ position: absolute;
         width: 80%;
         font-size: 80%;
     }
+    
+    @media screen and (max-width:350px) {
+        .button .host br {
+            display: block;
+        }
+        @media screen and (max-width:340px) {
+            .description span br {
+                display: block;
+            }
+        }
+    }
 }
 
 @media screen and (min-width:480px){
     #all {
         margin: 0 auto;
     }
+    .message span {
+        font-size: 2vw;
+    }
     .description {
         width: calc(60% - 8px);
+        font-size: 2vw;
     }
     .start_page .down {
         font-size: 20px;
