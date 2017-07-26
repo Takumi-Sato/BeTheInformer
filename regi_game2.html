@@ -208,7 +208,7 @@ body {
 
     $(".submit").on("click", doSubmit);
 
-    function doSubmit() {
+    function doSubmit(position) {
         navigator.geolocation.getCurrentPosition(
             function() {
                 if (formCheck() == 1) {
@@ -245,7 +245,7 @@ body {
             },
             // getCurrentPositionのerrorコールバック. GPSがOFFになっていたら先へ進めない
             function(error) {
-                console.log("getCurrentPositionのerrorコールバック")
+                console.log("getCurrentPositionのerrorコールバック: " + error.code);
                 if(error.code===1){
                     alert("GPSが許可されていません。");
                 }
