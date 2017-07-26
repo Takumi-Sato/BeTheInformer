@@ -7,10 +7,10 @@ $(".my_name").append(dom);
 var marker_player;
 
 // ブラウザバック防止（果たして効果はあるのか）
-$(function(){
+$(function() {
     history.pushState(null, null, null);
 
-    $(window).on("popstate", function(){
+    $(window).on("popstate", function() {
         history.pushState(null, null, null);
     });
 });
@@ -20,7 +20,7 @@ if ("geolocation" in navigator) {
     function getPosition() {
         navigator.geolocation.getCurrentPosition(success, errorCallback);
     }
-    
+
     //getPosition();
     setInterval(getPosition, 5000);
 
@@ -63,7 +63,8 @@ if ("geolocation" in navigator) {
     function errorCallback(error) {
         console.log(error.code);
         console.log("位置情報の取得に失敗しました。");
-        if (error.code === 1){
+        console.log("error : " + JSON.stringify(error));
+        if (error.code === 1) {
             //アラートを使った場合
             alert("GPSが許可されていません。");
 
@@ -77,7 +78,7 @@ if ("geolocation" in navigator) {
                 }).show();
                 */
         }
-        
+
     }
 } else {
     //alert("GPSが許可されていません");
@@ -101,7 +102,7 @@ function SendPosition(lati, long, name) {
         success: function(res) {
             console.log("sendPosData: Success");
             console.log(res);
-            if (res.game_state==="finish") {
+            if (res.game_state === "finish") {
                 window.location.href = "/ranking.html";
             }
             if (res.status === "alive") {
@@ -457,17 +458,17 @@ $.ajax({
 
 //時間の計算をする関数
 var timeMath = {
-  // 減算
-   sub : function() {
-       var result, times, second, i,
-           len = arguments.length;
+    // 減算
+    sub: function() {
+        var result, times, second, i,
+            len = arguments.length;
 
-       if (len === 0) return;
+        if (len === 0) return;
 
-       for (i = 0; i < len; i++) {
-           if (!arguments[i] || !arguments[i].match(/^[0-9]+:[0-9]{2}:[0-9]{2}$/)) continue;
+        for (i = 0; i < len; i++) {
+            if (!arguments[i] || !arguments[i].match(/^[0-9]+:[0-9]{2}:[0-9]{2}$/)) continue;
 
-           times = arguments[i].split(':');
+            times = arguments[i].split(':');
 
             second = this.toSecond(times[0], times[1], times[2]);
 
@@ -484,77 +485,77 @@ var timeMath = {
     },
 
     // 時間を秒に変換
-   toSecond : function(hour, minute, second) {
-       if ((!hour && hour !== 0) || (!minute && minute !== 0) || (!second && second !== 0) ||
-           hour === null || minute === null || second === null ||
-           typeof hour === 'boolean' ||
-           typeof minute === 'boolean' ||
-           typeof second === 'boolean' ||
-           typeof Number(hour) === 'NaN' ||
-           typeof Number(minute) === 'NaN' ||
-           typeof Number(second) === 'NaN') return;
+    toSecond: function(hour, minute, second) {
+        if ((!hour && hour !== 0) || (!minute && minute !== 0) || (!second && second !== 0) ||
+            hour === null || minute === null || second === null ||
+            typeof hour === 'boolean' ||
+            typeof minute === 'boolean' ||
+            typeof second === 'boolean' ||
+            typeof Number(hour) === 'NaN' ||
+            typeof Number(minute) === 'NaN' ||
+            typeof Number(second) === 'NaN') return;
 
-       return (Number(hour) * 60 * 60) + (Number(minute) * 60) + Number(second);
-   },
+        return (Number(hour) * 60 * 60) + (Number(minute) * 60) + Number(second);
+    },
 
-   // 秒を時間（hh:mm:ss）のフォーマットに変換
-   toTimeFormat : function(fullSecond) {
-       var hour, minute, second;
+    // 秒を時間（hh:mm:ss）のフォーマットに変換
+    toTimeFormat: function(fullSecond) {
+        var hour, minute, second;
 
-       if ((!fullSecond && fullSecond !== 0) || !String(fullSecond).match(/^[\-0-9][0-9]*?$/)) return;
+        if ((!fullSecond && fullSecond !== 0) || !String(fullSecond).match(/^[\-0-9][0-9]*?$/)) return;
 
-       var paddingZero = function(n) {
-           return (n < 10)  ? '0' + n : n;
-       };
+        var paddingZero = function(n) {
+            return (n < 10) ? '0' + n : n;
+        };
 
-       hour   = Math.floor(Math.abs(fullSecond) / 3600);
-       minute = Math.floor(Math.abs(fullSecond) % 3600 / 60);
-       second = Math.floor(Math.abs(fullSecond) % 60);
+        hour = Math.floor(Math.abs(fullSecond) / 3600);
+        minute = Math.floor(Math.abs(fullSecond) % 3600 / 60);
+        second = Math.floor(Math.abs(fullSecond) % 60);
 
-       minute = paddingZero(minute);
-       second = paddingZero(second);
+        minute = paddingZero(minute);
+        second = paddingZero(second);
 
-       return ((fullSecond < 0) ? '-' : '') + hour + ':' + minute + ':' + second;
-   }
+        return ((fullSecond < 0) ? '-' : '') + hour + ':' + minute + ':' + second;
+    }
 };
 
 //ゲームの終了時間を受け取る
 //var data_group_name = {"group_name":localStorage.group_name}
 $.ajax({
-  //url: "http://192.168.11.4:8887/time.json",
-  url: "https://be-the-informer.herokuapp.com/getEndTime",
-  type: "post",
-  contentType: "application/json",
-  //data: JSON.stringify(data_group_name),
-  dataType: "json",
-  success: function(res){
-    //timereceive(res.time_finish);
-    console.log("gameEndTime returns : " + JSON.stringify(res));
-    var dt = new Date(res.end_date);
-    var time_finish  = dt.toTimeString().substr(0, 8);
-    $(function (){
-    setInterval(function(){
-      var now = new Date();
-      var h = now.getHours();
-      h = ("0" + h).slice(-2);
-      var mi = now.getMinutes();
-      mi = ("0" + mi).slice(-2);
-      var s = now.getSeconds();
-      s = ("0" + s).slice(-2);
-      var time_now = h+":"+mi+":"+s;
-      var time_remaining = timeMath.sub(time_finish,time_now);
+    //url: "http://192.168.11.4:8887/time.json",
+    url: "https://be-the-informer.herokuapp.com/getEndTime",
+    type: "post",
+    contentType: "application/json",
+    //data: JSON.stringify(data_group_name),
+    dataType: "json",
+    success: function(res) {
+        //timereceive(res.time_finish);
+        console.log("gameEndTime returns : " + JSON.stringify(res));
+        var dt = new Date(res.end_date);
+        var time_finish = dt.toTimeString().substr(0, 8);
+        $(function() {
+            setInterval(function() {
+                var now = new Date();
+                var h = now.getHours();
+                h = ("0" + h).slice(-2);
+                var mi = now.getMinutes();
+                mi = ("0" + mi).slice(-2);
+                var s = now.getSeconds();
+                s = ("0" + s).slice(-2);
+                var time_now = h + ":" + mi + ":" + s;
+                var time_remaining = timeMath.sub(time_finish, time_now);
 
-      $(".time_remaining").text("残り時間: "+time_remaining);
-      if (time_remaining == "0:00:00"){
-        window.location.href = "/ranking.html";
-      }
-      },1000);
-    });
+                $(".time_remaining").text("残り時間: " + time_remaining);
+                if (time_remaining == "0:00:00") {
+                    window.location.href = "/ranking.html";
+                }
+            }, 1000);
+        });
 
-  },
-  error: function(res){
-    console.log("ERROR");
-  }
+    },
+    error: function(res) {
+        console.log("ERROR");
+    }
 });
 
 
@@ -591,6 +592,7 @@ function displaymap(now, res) {
 }
 
 var no_secret_number_string = "近くに密告者はいません";
+
 function Display(res) {
     var data_a = res.secret_numbers;
     var data_s = res.survivors;
@@ -632,10 +634,10 @@ function Display(res) {
         for (var i = 0; i < data_a.length; i++) {
             var number = data_a[i];
 
-            if (number == number_selected){
-              var dom = $("<option class='number' value=" + number + " selected>" + number + "</option>");
-            }else{
-              var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
+            if (number == number_selected) {
+                var dom = $("<option class='number' value=" + number + " selected>" + number + "</option>");
+            } else {
+                var dom = $("<option class='number' value=" + number + ">" + number + "</option>");
             }
             $(".attack_list").append(dom);
             var dom2 = $("<li>" + number + "</li>");
@@ -645,7 +647,7 @@ function Display(res) {
     }
 
     if (data_s.length == 0) {
-        
+
         $(".mikkoku_name").empty();
         var dom = $("<li>生存者はいません</li>");
         $(".mikkoku_name").append(dom);
@@ -654,20 +656,20 @@ function Display(res) {
         $(".mikkoku_name").empty();
         for (var i = 0; i < data_s.length; i++) {
             var survivor = data_s[i];
-            if (survivor == survivor_selected){
-              var dom = $("<option class='target_user_name' value=" + survivor + " selected>" + survivor + "</option>");
-            }else{
-              var dom = $("<option class='target_user_name' value=" + survivor + ">" + survivor + "</option>");
+            if (survivor == survivor_selected) {
+                var dom = $("<option class='target_user_name' value=" + survivor + " selected>" + survivor + "</option>");
+            } else {
+                var dom = $("<option class='target_user_name' value=" + survivor + ">" + survivor + "</option>");
             }
             $(".mikkoku_name").append(dom);
         }
 
     }
     $(".points").empty();
-    if (res.status == "alive"){
-      dom3 = "<tr class='alive'><th>密告ポイント</td><td>"+ res.number_of_inform + "</th></tr>"
-    }else if (res.status == "dead"){
-      dom3 = "<tr class='dead'><th>ゾンビポイント</td><td>"+ res.zombie_points + "</th></tr>"
+    if (res.status == "alive") {
+        dom3 = "<tr class='alive'><th>密告ポイント</td><td>" + res.number_of_inform + "</th></tr>"
+    } else if (res.status == "dead") {
+        dom3 = "<tr class='dead'><th>ゾンビポイント</td><td>" + res.zombie_points + "</th></tr>"
     }
     $(".points").append(dom3);
     /*
@@ -687,51 +689,51 @@ function doSubmit() {
     var data = $('form').serializeArray();
     console.log(parseJson(data));
     data = parseJson(data);
-    if(data.mikkoku_name===null || data.mikkoku_id===no_secret_number_string) {
+    if (data.mikkoku_name === null || data.mikkoku_id === no_secret_number_string) {
         window.alert("密告に必要な情報が不足しています");
         return;
     }
 
     $.ajax({
-        url:           'https://be-the-informer.herokuapp.com/inform',
-        type:          'post',
-        dataType:      'json',
-        contentType:   'application/json',
+        url: 'https://be-the-informer.herokuapp.com/inform',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
         scriptCharset: 'utf-8',
-        data:          JSON.stringify(data),
-        success: function(res){
+        data: JSON.stringify(data),
+        success: function(res) {
             console.log("Inform Success? : " + res.success);
-            if (res.success == true){
-              new Noty({
-                  type: 'success',
-                  layout: 'center',
-                  text: '密告成功!!',
-                  theme: 'metroui',
-                  timeout: 3000,
-                  sounds: {
-                    sources: ['sound/correct1.wav'],
-                    volume: 0.1,
-                    conditions: ['docVisible']
-                  }
-              }).show();
-            }else{
-              new Noty({
-                  type: 'error',
-                  layout: 'center',
-                  text: '密告失敗!!',
-                  theme: 'metroui',
-                  timeout: 3000,
-                  sounds: {
-                    sources: ['sound/incorrect1.wav'],
-                    volume: 0.1,
-                    conditions: ['docVisible']
-                  }
+            if (res.success == true) {
+                new Noty({
+                    type: 'success',
+                    layout: 'center',
+                    text: '密告成功!!',
+                    theme: 'metroui',
+                    timeout: 3000,
+                    sounds: {
+                        sources: ['sound/correct1.wav'],
+                        volume: 0.1,
+                        conditions: ['docVisible']
+                    }
+                }).show();
+            } else {
+                new Noty({
+                    type: 'error',
+                    layout: 'center',
+                    text: '密告失敗!!',
+                    theme: 'metroui',
+                    timeout: 3000,
+                    sounds: {
+                        sources: ['sound/incorrect1.wav'],
+                        volume: 0.1,
+                        conditions: ['docVisible']
+                    }
                 }).show();
             }
         },
-        error: function(res){
+        error: function(res) {
             console.log("Inform ERROR");
-        } 
+        }
     });
 }
 var parseJson = function(data) {
