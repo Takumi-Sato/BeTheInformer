@@ -1,13 +1,17 @@
-<<<<<<< HEAD
+.contents {
+  color: white;
+}
+
+.user_name_show {
+  display: inline;
+  color: red;
+}
+
 @media screen and (max-width:480px) {
     /*スマホを480px以下と定義してスマホ対応デザインにする*/
     #all {
         width: 80%;
         font-size: 80%;
-    }
-    
-    @media screen and (min-width:350px) {
-        
     }
 }
 
@@ -30,13 +34,4 @@
         font-size: 20px;
         border-radius: 8px;
     }
-=======
-.contents {
-  color: white;
-}
-
-.user_name_show {
-  display: inline;
-  color: red;
->>>>>>> 7b62ae3bd20df94f1a0d8fb2392a2b2def4127f8
 }
