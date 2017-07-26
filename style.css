@@ -22,8 +22,10 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
+    /*
     border-bottom: solid;
     border-color: #585858;
+    */
     background-color: black;
 }
 
@@ -49,11 +51,11 @@ body {
 
 /* 登録フォームについて */
 .userName {
-    color: white;
+    color: #C9C9C9;
     position: relative;
     margin: 2em 0 10vh;
     padding: 0.5em 1em;
-    border: solid 2px #D7D7D7;
+    border: solid 2px #DF0101;
     border-radius: 8px;
     width: calc(100% - 60px);
 }
@@ -134,4 +136,13 @@ body {
     background: #DF0101;
     color: white;
     text-shadow: -6px 0px 15px rgba(255, 255, 240, 0.83), 6px 0px 15px rgba(255, 255, 240, 0.83);
+}
+
+.home {
+    margin: 1vh 0 8vh 0;
+}
+.home a {
+    font-size: 15px;
+    color: #DF0101;
+    text-shadow: -13px 0px 20px rgba(247, 129, 129, 0.7), 13px 0px 20px rgba(247, 129, 129, 0.7);
 }

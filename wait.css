@@ -2,10 +2,6 @@
   color: white;
 }
 
-.contents .title {
-    border-bottom: none;
-}
-
 .user_name_show {
   display: inline;
   color: red;

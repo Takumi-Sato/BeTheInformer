@@ -3,78 +3,48 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Betheinformar - result</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <style>
-    table {
-        *border-collapse: collapse;
-        /* IE7 and lower */
-        border-spacing: 10;
-        border: 1.0px;
-    }
-
-    th:first-child {
-        -moz-border-radius: 6px 0 0 0;
-        -webkit-border-radius: 6px 0 0 0;
-        border-radius: 6px 0 0 0;
-    }
-
-    th:last-child {
-        -moz-border-radius: 0 6px 0 0;
-        -webkit-border-radius: 0 6px 0 0;
-        border-radius: 0 6px 0 0;
-    }
-
-    .ranktable tr:hover {
-        background: #fbf8e9;
-        -o-transition: all 0.1s ease-in-out;
-        -webkit-transition: all 0.1s ease-in-out;
-        -moz-transition: all 0.1s ease-in-out;
-        -ms-transition: all 0.1s ease-in-out;
-        transition: all 0.1s ease-in-out;
-    }
-
-    .highlight {
-        background: #fbf8e9;
-        -o-transition: all 0.1s ease-in-out;
-        -webkit-transition: all 0.1s ease-in-out;
-        -moz-transition: all 0.1s ease-in-out;
-        -ms-transition: all 0.1s ease-in-out;
-        transition: all 0.1s ease-in-out;
-    }
-    /*
-  .zebra tbody tr:nth-child(even) {
-    background: #f5f5f5;
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
-    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-  }
-
-  .alternate {
-    background: #f5f5f5;
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
-    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-  }
-  */
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="ranking.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Betheinformar</title>
 </head>
 
 <body>
-    <div class="ranking">
-        <table class="ranktable">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Player</th>
-                    <th>Informs</th>
-                    <th>Zombie Points</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-    <button class="reset">ゲーム終了</button>
+    <div class="contents">
+        <div class="title">
+            <img src="icon/title_02.png">
+        </div>
+        <div class="topic">
+            <h2>R A N K I N G</h2>
+        </div>
 
+        <div class="ranking">
+            <table class="ranktable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Informs</th>
+                        <th>Zombie Points</th>
+                    </tr>
+                </thead>
+                <tr><td>1</td><td>つぼ</td><td>6</td><td>0</td></tr>
+                <tr><td>2</td><td>あほ</td><td>5</td><td>0</td></tr>
+                <tr><td>3</td><td>おこめ</td><td>4</td><td>0</td></tr>
+                <tr><td>4</td><td>はらへ</td><td>3</td><td>0</td></tr>
+                <tr><td>5</td><td>寝たい</td><td>2</td><td>0</td></tr>
+                <tr><td>6</td><td>わかり</td><td>1</td><td>0</td></tr>
+            </table>
+        </div>
+
+        <div class="button">
+            <button class="submit" ontouchstart="">ゲーム終了</button>
+            <!-- <button class="reset">ゲーム終了</button> -->
+        </div>
+    </div>
+    
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script>
     //var data = {"group_name": localStorage.group_name}
@@ -103,7 +73,7 @@
         });
     }
 
-    $(".reset").on("click", resetGame);
+    $(".submit").on("click", resetGame);
 
     function resetGame() {
         $.ajax({
