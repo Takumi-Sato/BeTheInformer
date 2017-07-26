@@ -41,6 +41,29 @@ body {
 /* 登録フォームについて */
 .userName {
     color: white;
+
+    position: relative;
+    margin: 2em 0;
+    padding: 0.5em 1em;
+    border: solid 3px #DF0101;
+    border-radius: 8px;
+    width: calc(100% - 60px);
+}
+
+/* 登録フォームタイトル */
+.userName h2 {
+    position: absolute;
+    display: inline-block;
+    top: -2.5vw;/* 枠にかかるようにテキストを配置 */
+    left: 28px;
+    margin: 0;
+    padding: 0 9px;
+    line-height: 1;
+    font-size: 19px;
+    background: black;
+    color: white;
+    font-weight: bold;
+    font-size: 5vw;
 }
 
 /* ボタンについて */

@@ -1,31 +1,43 @@
+.userName {
+    margin: 2em 0 10vh;
+}
+
 .member_list {
-    color: white;
     width: calc(100% - 60px);
-    height: 200px;
-    margin: 0;
+    height: 40%;
+    margin: 0 0 3vh 0;
     position: relative;
-    background-color: #eee;
+    /*background-color: rgba(238,238,238,0.8);*/
+    background-image: url("icon/back_normal.png");
+    background-size: 40%;
     padding: 1em;
 }
 
 .member_list h2 {
-    height: 40px;
+    height: 8vw;
     margin: 0;
     padding: 0;
     position: absolute;
-  top: -1em;
-  background-color: rgba(100,100,100,0.4);
-  padding: 0.25em 2em;
-  color: #fff;
-  transform: rotate(-4deg);
+    text-align: center;
+    font-size: 5vw;
+    top: -1em;
+    background-color: rgba(50,50,50,0.8);
+    padding: 0.25em 1em;
+    color: red;
+    transform: rotate(-10deg);
 }
 
 .member_list ul {
-    height: calc(100% - 40px);
-    width: calc(100% - 60px);
-    margin: 0;
-    padding: 0;
+    /*display: block;text-align: center;*/
+    position: relative;
+    align-items: center;
+    color: black;
+    height: calc(100% - 2em);
+    width: 100%;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0 0.5em 0;
     overflow:auto;
+    background-color: rgba(255,255,255,0.4);
 }
 
 @media screen and (max-width:480px) {
@@ -33,6 +45,10 @@
     #all {
         width: 80%;
         font-size: 80%;
+    }
+    
+    @media screen and (min-width:350px) {
+        
     }
 }
 
@@ -42,5 +58,24 @@
     }
     .member_list {
         height: 40%;
+    }
+    .userName, .member_list {
+        width: 60%;
+    }
+    .userName h2 {
+        top: -1vw;/* 枠にかかるようにテキストを配置 */
+        font-size: 2vw;
+    }
+    .member_list h2 {
+        height: 3vw;
+        font-size: 2vw;
+    }
+    .button {
+        width: 30%;
+    }
+    .button .submit {
+        padding: 15px;
+        font-size: 20px;
+        border-radius: 8px;
     }
 }

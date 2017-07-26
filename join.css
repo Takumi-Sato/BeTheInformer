@@ -1,0 +1,32 @@
+@media screen and (max-width:480px) {
+    /*スマホを480px以下と定義してスマホ対応デザインにする*/
+    #all {
+        width: 80%;
+        font-size: 80%;
+    }
+    
+    @media screen and (min-width:350px) {
+        
+    }
+}
+
+@media screen and (min-width:480px) {
+    #all {
+        margin: 0 auto;
+    }
+    .userName {
+        width: 60%;
+    }
+    .userName h2 {
+        top: -1vw;/* 枠にかかるようにテキストを配置 */
+        font-size: 2vw;
+    }
+    .button {
+        width: 30%;
+    }
+    .button .submit {
+        padding: 15px;
+        font-size: 20px;
+        border-radius: 8px;
+    }
+}
