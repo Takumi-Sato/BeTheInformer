@@ -44,6 +44,18 @@ if ("geolocation" in navigator) {
         }
         marker_player.setPosition(player_position);
         if (player_status == "alive" && $('body').hasClass('zonbi')) {
+            new Noty({
+            type: 'error',
+            layout: 'center',
+            text: 'ゾンビになってしまった...',
+            theme: 'metroui',
+            timeout: 3000,
+            sounds: {
+              sources: ['sound/out_zonbi.wav'],
+              volume: 0.1,
+              conditions: ['docVisible']
+            }
+              }).show();
             marker_player.setMap(null);
             marker_player = new google.maps.Marker({
                 name: name,
@@ -598,20 +610,6 @@ function Display(res) {
     var data_s = res.survivors;
 
     if (res.status === 'dead') {
-        /*
-        new Noty({
-            type: 'error',
-            layout: 'center',
-            text: 'ゾンビになってしまった...',
-            theme: 'metroui',
-            timeout: 3000,
-            sounds: {
-              sources: ['sound/out_zonbi.wav'],
-              volume: 0.1,
-              conditions: ['docVisible']
-            }
-              }).show();
-            */
         $("body").addClass("zonbi");
         //$(".attribute").attr('src','icon/attribute_icon_zonbi.png')
         $(".my_name").empty();
