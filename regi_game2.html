@@ -208,10 +208,10 @@ body {
 
     $(".submit").on("click", doSubmit);
 
-    function doSubmit(position) {
+    function doSubmit() {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
-                function() {
+                function(position) {
                     if (formCheck() == 1) {
                         window.alert("入力が足りていません。");
                     } else {
@@ -254,6 +254,8 @@ body {
             );
         }
     }
+
+    function ajaxDoSubmit(){}
 
     function formCheck() {
         var flag = 0;
