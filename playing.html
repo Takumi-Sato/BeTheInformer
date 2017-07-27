@@ -179,25 +179,38 @@
         color:white; 
     }
 /* -----------------------ここからつぼ----------------------- */
-.mikkoku {
+/*.mikkoku {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
     align-content: center;
-    /*background: rgba(0,169,157,0.5);*/
+    background: rgba(0,169,157,0.5);
     color:white;
     height: 26px;
+    position: relative;
+    
 }
 
-.mikkoku label {
+.mikkoku row {
     position: relative;
+    display: flex;
+    
+} 
+
+.mikkoku label {
+    position: absolute;
+    
     display: block;
     border: 1px solid #00A99D;
     border-radius: 5px;
     background: #fff;
+    /*-webkit-appearance:button;
+    -moz-appearance:button;
+    appearance:button;*
 }
 
 .mikkoku label:before {
+    position: absolute;
     content: "";
     position: absolute;
     top: 50%;
@@ -212,7 +225,7 @@
 
 .mikkoku select {
     cursor: pointer;
-    position: relative;
+    position: absolute;
     -webkit-appearance: none;
     appearance: none;
     display: block;
@@ -221,6 +234,7 @@
     border: none;
     border-radius: 5px;
     background: transparent;
+    top: 0;
 }
 
 ::-ms-expand {
@@ -354,7 +368,14 @@
         <form class="mikkoku">
             <div class="row">
                 <label for="mikkoku_name">名前：</label>
-                <select name="mikkoku_name" class="mikkoku_name"></select>
+                <select name="mikkoku_name" class="mikkoku_name">
+                    <option value="en">英語</option>
+<option value="de">ドイツ語</option>
+<option value="fr">フランス語</option>
+<option value="ja" selected>日本語</option>
+<option value="zh">中国語</option>
+                </select>
+                
             </div>
             <div class="row">
                 <label for="mikkoku_id">ID:</label>
