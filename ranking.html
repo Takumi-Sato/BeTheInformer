@@ -56,11 +56,14 @@
 
         <div class="button">
             <button class="submit" ontouchstart="">ゲーム終了</button>
-            <!-- <button class="reset">ゲーム終了</button> -->
+            <!--<a class="tweet" ontouchstart=""><i class="fa fa-twitter" aria-hidden="true"></i> <span>Tweet!</span></a>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://be-the-informer.herokuapp.com/" data-via="ahonoko_tubo">Tweet</a>
+            <a class="tweet-share-button" ontouchstart="" href="https://twitter.com/intent/tweet?text=BeTheInformerに参加しました！つぼさんの結果は１位です！&hashtags=BeTheInformer,cojtSW_9th&url=https://be-the-informer.herokuapp.com/"><i class="fa fa-twitter" aria-hidden="true"></i> <span>Tweet!</span></a>-->
         </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     <script>
     //var data = {"group_name": localStorage.group_name}
     $.ajax({
@@ -80,9 +83,13 @@
     });
 
     function Result(res) {
+        var name = localStorage.user_name;
         var rank = res.ranking
         $.each(rank, function(index, value) {
-            
+            if (value.name == name) {
+                var tweet = "<a class='tweet-share-button' ontouchstart='' href='https://twitter.com/intent/tweet?text=BeTheInformerに参加しました！" +value.name+ "さんの結果は" +(index + 1)+ "位です！&hashtags=BeTheInformer,cojtSW_9th&url=https://be-the-informer.herokuapp.com/'><i class='fa fa-twitter' aria-hidden='true'></i> <span>Tweet!</span></a>";
+                $(".button").append(tweet);
+            }    
             if (index < 3) {
                 if (index == 0) {
                     var top = "<h2>優勝は<span> " + value.name + " </span>さんです</h2>";
