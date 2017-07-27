@@ -303,7 +303,6 @@ app.get('/icon/small/zonbi_icon_blue.png', function(req, res) {
     res.sendfile("icon/small/zonbi_icon_blue.png");
 });
 
-
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
@@ -322,6 +321,10 @@ app.get('/join.css', function(req, res) {
 
 app.get('/wait.css', function(req, res) {
     res.sendfile("wait.css");
+});
+
+app.get('/ranking.css', function(req, res) {
+    res.sendfile("ranking.css");
 });
 
 app.get('/noty/lib/noty.css', function(req, res) {
