@@ -17,7 +17,7 @@
 }
 
 .ranking {
-    height: 100px;
+    height: calc(100% - 2em);
     color: #C9C9C9;
     position: relative;
     margin: 0 0 6vh;
@@ -32,7 +32,6 @@
     position: relative;
     align-items: center;
     color: white;
-    height: calc(100% - 2em);
     width: 100%;
     margin: 0.5em 0 0.5em 0;
     padding: 0.5em 0 0.5em 0;
@@ -51,6 +50,9 @@ table {
     border: 1px solid black;
     background-color: rgba(85,66,89,0.7);
     color: #DF0101;
+}
+.ranktable tr {
+    height: 2vw;
 }
 .ranktable td {
     border: 1px solid black;
