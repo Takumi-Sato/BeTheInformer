@@ -33,6 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!--
                 <tr class="prize"><td><i class="fa fa-trophy" aria-hidden="true"></i></td><td>つぼ</td><td>5</td><td>0</td></tr>
                 <tr class="prize"><td>2</td><td>つぼぼああ</td><td>4</td><td>0</td></tr>
                 <tr class="prize"><td>3</td><td>つぼぼああ</td><td>4</td><td>0</td></tr>
@@ -48,6 +49,7 @@
                 <tr><td>2</td><td>つぼぼああ</td><td>4</td><td>0</td></tr>
                 <tr><td>2</td><td>つぼぼああ</td><td>4</td><td>0</td></tr>
                 <tr><td>2</td><td>つぼぼああ</td><td>4</td><td>0</td></tr>
+                -->
                 </tbody>
             </table>
         </div>
@@ -80,21 +82,22 @@
     function Result(res) {
         var rank = res.ranking
         $.each(rank, function(index, value) {
-            /*
+            
             if (index < 3) {
                 if (index == 0) {
                     var top = "<h2>優勝は<span> " + value.name + " </span>さんです</h2>";
                     $(".top_user").append(top);
-                    var dom = "<tr class="prize"><td><i class="fa fa-trophy" aria-hidden="true"></i>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
+                    var dom = "<tr class='prize'><td><i class='fa fa-trophy' aria-hidden='true'></i>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
                 } else {
-                    var dom = "<tr class="prize"><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
+                    var dom = "<tr class='prize'><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
                 }
             } else {
                 var dom = "<tr><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>"
             }
-            */
-            var dom = "<tr><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>"
+            
             /*
+            var dom = "<tr><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>"
+            
             var dom = "<tr><td><font color='white'>" + (index + 1) + "</font></td><td><font color='white'>" + value.name + "</font></td><td><font color='white'>" + value.number_of_inform + "</font></td><td><font color='white'>" + value.zombie_points + "</font></td></tr>"
             */
             $(".ranktable").append(dom);
