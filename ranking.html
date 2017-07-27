@@ -20,7 +20,7 @@
             <h2>R A N K I N G</h2>
         </div>
         <div class="top_user">
-            <h2>優勝は <span>つぼ</span> さんです！</h2>
+            <!--<h2>優勝は <span>つぼ</span> さんです！</h2>-->
         </div>
         <div class="ranking">
             <table class="ranktable">
@@ -87,7 +87,7 @@
                 if (index == 0) {
                     var top = "<h2>優勝は<span> " + value.name + " </span>さんです</h2>";
                     $(".top_user").append(top);
-                    var dom = "<tr class='prize'><td><i class='fa fa-trophy' aria-hidden='true'></i>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
+                    var dom = "<tr class='prize'><td><i class='fa fa-trophy' aria-hidden='true'></i></td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
                 } else {
                     var dom = "<tr class='prize'><td>" + (index + 1) + "</td><td>" + value.name + "</td><td>" + value.number_of_inform + "</td><td>" + value.zombie_points + "</td></tr>";
                 }

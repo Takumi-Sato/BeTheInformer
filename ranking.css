@@ -50,13 +50,11 @@ table {
 .ranktable th {
     border: 1px solid black;
     background-color: rgba(85,66,89,0.7);
-    padding: 5px;
     color: #DF0101;
 }
 .ranktable td {
     border: 1px solid black;
     background-color: rgba(109,109,109,0.3);
-    padding: 5px;
 }
 .prize {
     background-color: rgba(223,1,1,0.5);
