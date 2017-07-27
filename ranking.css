@@ -2,23 +2,78 @@
   color: white;
 }
 
+.top_user {
+    margin: 0;
+}
+
+.top_user h2 {
+    padding: 3vh 0 1vh 0;
+    font-size: 6vw;
+    margin: 0;
+}
+
+.top_user h2 span {
+    color: #DF0101;
+}
+
 .ranking {
+    height: 40%;
     color: #C9C9C9;
     position: relative;
-    margin: 2em 0 6vh;
-    padding: 0.5em 1em;
+    margin: 0 0 6vh;
+    padding: 0.5em;
     border: solid 2px #DF0101;
     border-radius: 8px;
-    width: calc(100% - 60px);
+    width: calc(100% - 50px);
+    overflow: auto;
+}
+
+.ranking .ranktable {
+    position: relative;
+    align-items: center;
+    color: white;
+    height: calc(100% - 2em);
+    width: 100%;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0 0.5em 0;
+    font-size: 4vw;
+}
+
+.ranktable ::-webkit-scrollbar {
+    display: none;
 }
 
 table {
-    *border-collapse: collapse;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.ranktable th {
+    border: 1px solid black;
+    background-color: rgba(85,66,89,0.7);
+    padding: 5px;
+    color: #DF0101;
+}
+.ranktable td {
+    border: 1px solid black;
+    background-color: rgba(109,109,109,0.3);
+    padding: 5px;
+}
+.prize {
+    background-color: rgba(223,1,1,0.5);
+}
+
+.ranking .ranktable .fa-trophy {
+    font-size: 6vw;
+    color: #F7FF00;
+}
+
+table {
+    border-collapse: collapse;
     /* IE7 and lower */
     border-spacing: 10;
     border: 1.0px;
 }
-
+/*
 th:first-child {
     -moz-border-radius: 6px 0 0 0;
     -webkit-border-radius: 6px 0 0 0;
@@ -48,6 +103,7 @@ th:last-child {
     -ms-transition: all 0.1s ease-in-out;
     transition: all 0.1s ease-in-out;
 }
+*/
 /*
 .zebra tbody tr:nth-child(even) {
 background: #f5f5f5;
@@ -63,3 +119,23 @@ background: #f5f5f5;
 box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
 }
 */
+@media screen and (max-width:480px) {
+    /*スマホを480px以下と定義してスマホ対応デザインにする*/
+    #all {
+        width: 80%;
+        font-size: 80%;
+    }
+}
+
+@media screen and (min-width:480px) {
+    #all {
+        margin: 0 auto;
+    }
+    .contents .title img{
+        width: 65%;
+    }
+    .topic h2 {
+        font-size: 2vw;
+    }
+
+}
