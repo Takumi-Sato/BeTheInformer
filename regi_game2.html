@@ -21,7 +21,7 @@
         <div class="userName">
             <h2>Name</h2>
             <form class="regi" name="regi" method="get">
-                    <label class="user_label">入力してください：</label>
+                    <label class="user_label">5文字以内で入力してください：</label>
                     <input type="text" class="user_name" name="user_name" placeholder=" UserName" ontouchstart="">
             </form>
         </div>
@@ -125,6 +125,8 @@
     function ajaxDoSubmit() {
         if (formCheck() == 1) {
             window.alert("入力が足りていません。");
+        } else if(formCheck() == 2) {
+            window.alert("五文字以内で入力してください。");
         } else {
             var user_name = document.forms.regi.user_name.value;
             localStorage.user_name = user_name; //ローカルストレージに保存しておく(ユーザー名)
@@ -161,6 +163,8 @@
         /* ユーザー名が入力されていないとき */
         if (document.forms.regi.user_name.value == "") {
             flag = 1;
+        } else if(document.forms.regi.user_name.value.length > 4) {
+            flag = 2;
         }
         return flag;
     }
