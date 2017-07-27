@@ -1,8 +1,6 @@
 var express = require("express");
-// FileStream.  fs.readFile(filePath, encode, callback) でファイルの読み込み.
-var port = process.env.PORT || 5000;
 
-//var router = express.Router();
+var port = process.env.PORT || 5000;
 
 var app = express();
 
@@ -15,14 +13,14 @@ var dt_default = new Date(0);
 var start_dt = dt_default;
 var end_dt = dt_default;
 
-var nearDistance = 150; // 「近い」と判断する距離
+var nearDistance = 30; // 「近い」と判断する距離
 var players = []; // 参加プレイヤーのリスト
 
 var game_end_check_timer;
 
 function isGameEnd() {
     if (game_state === "play" && !(end_dt === dt_default)) {
-        console.log("nowPlaying. check isGameEnd()");
+        //console.log("nowPlaying. check isGameEnd()");
         var now = new Date();
         if (end_dt.getTime() - now.getTime() < 0) {
             console.log("Game Over");
@@ -215,7 +213,7 @@ app.get('/ranking.html', function(req, res) {
 app.get('/wait_guest.html', function(req, res) {
     res.sendfile("wait_guest.html");
 });
-
+/*
 app.get('/player_icon.png', function(req, res) {
     res.sendfile("player_icon.png");
 });
@@ -248,6 +246,63 @@ app.get('/icon/attribute_icon_zonbi.png', function(req, res) {
     res.sendfile("./icon/attribute_icon_zonbi.png");
 })
 
+app.get('/icon/zonbi_character_turn.png', function(req, res) {
+    res.sendfile("icon/zonbi_character_turn.png");
+});
+
+app.get('/icon/informer_character.png', function(req, res) {
+    res.sendfile("icon/informer_character.png");
+});
+
+app.get('/icon/zonbi_icon_blue.png', function(req, res) {
+    res.sendfile("icon/zonbi_icon_blue.png");
+});
+*/
+
+app.get('/player_icon.png', function(req, res) {
+    res.sendfile("player_icon.png");
+});
+
+app.get('/zonbi_icon.png', function(req, res) {
+    res.sendfile("zonbi_icon.png");
+})
+
+app.get('/icon/small/title_02.png', function(req, res) {
+    res.sendfile("./icon/small/title_02.png");
+})
+
+app.get('/icon/small/top_background.png', function(req, res) {
+    res.sendfile("./icon/small/top_background.png");
+})
+
+app.get('/icon/small/back_normal.png', function(req, res) {
+    res.sendfile("./icon/small/back_normal.png");
+})
+
+app.get('/icon/small/back_zonbi.png', function(req, res) {
+    res.sendfile("./icon/small/back_zonbi.png");
+})
+
+app.get('/icon/small/attribute_icon_informer.png', function(req, res) {
+    res.sendfile("./icon/small/attribute_icon_informer.png");
+})
+
+app.get('/icon/small/attribute_icon_zonbi.png', function(req, res) {
+    res.sendfile("./icon/small/attribute_icon_zonbi.png");
+})
+
+app.get('/icon/small/zonbi_character_turn.png', function(req, res) {
+    res.sendfile("icon/small/zonbi_character_turn.png");
+});
+
+app.get('/icon/small/informer_character.png', function(req, res) {
+    res.sendfile("icon/small/informer_character.png");
+});
+
+app.get('/icon/small/zonbi_icon_blue.png', function(req, res) {
+    res.sendfile("icon/small/zonbi_icon_blue.png");
+});
+
 app.get('/style.css', function(req, res) {
     res.sendfile("style.css");
 });
@@ -268,6 +323,10 @@ app.get('/wait.css', function(req, res) {
     res.sendfile("wait.css");
 });
 
+app.get('/ranking.css', function(req, res) {
+    res.sendfile("ranking.css");
+});
+
 app.get('/noty/lib/noty.css', function(req, res) {
     res.sendfile("noty/lib/noty.css");
 });
@@ -276,17 +335,6 @@ app.get('/noty/lib/noty.js', function(req, res) {
     res.sendfile("noty/lib/noty.js");
 });
 
-app.get('/icon/zonbi_character_turn.png', function(req, res) {
-    res.sendfile("icon/zonbi_character_turn.png");
-});
-
-app.get('/icon/informer_character.png', function(req, res) {
-    res.sendfile("icon/informer_character.png");
-});
-
-app.get('/icon/zonbi_icon_blue.png', function(req, res) {
-    res.sendfile("icon/zonbi_icon_blue.png");
-});
 
 
 
