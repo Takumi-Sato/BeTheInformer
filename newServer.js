@@ -284,6 +284,11 @@ app.get('/icon/informer_character.png', function(req, res) {
     res.sendfile("icon/informer_character.png");
 });
 
+app.get('/icon/zonbi_icon_blue.png', function(req, res) {
+    res.sendfile("icon/zonbi_icon_blue.png");
+});
+
+
 
 /*
 app.post("/receiveJson", function(req, res) {
