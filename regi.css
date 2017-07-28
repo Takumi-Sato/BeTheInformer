@@ -51,9 +51,9 @@
     width: calc(100% - 60px);
 }
 
-.member_list ::-webkit-scrollbar {
+.group_member ::-webkit-scrollbar {
     display: none;
-  }
+}
 
 .member_list h2 {
     position: absolute;
