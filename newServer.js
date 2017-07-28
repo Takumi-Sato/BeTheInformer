@@ -157,6 +157,9 @@ function getZombies() {
             zombies.push({ "lat": players[i].lat, "lng": players[i].lng });
         }
     }
+    if(zombies.length === players.length){
+        game_state = "finish";
+    }
     return zombies;
 }
 
