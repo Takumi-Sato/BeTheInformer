@@ -6,7 +6,7 @@ var app = express();
 
 var game_state = "wait"; // ゲーム状態, wait/play/finish のいずれか
 var game_start_time = "";
-var game_play_time = 15;
+var game_play_time = 1;
 var game_end_time = "";
 
 var dt_default = new Date(0);
