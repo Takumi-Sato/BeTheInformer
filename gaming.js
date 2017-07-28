@@ -670,7 +670,6 @@ function Display(res) {
             }
             $(".mikkoku_name").append(dom);
         }
-
     }
     $(".points").empty();
     if (res.status == "alive") {
